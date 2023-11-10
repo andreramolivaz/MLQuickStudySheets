@@ -1,0 +1,7 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: 0-Data Manipulation- file: 1-KNN.ipynb- file: 3-Decision Trees.ipynb- file: 4-Linear Regression.ipynb- file: 5-Logistic Regression & SVM.ipynb- file: 6-Ensemble Methods.ipynb- file: 7-Random Forest.ipynb- file: 8-Feature Engineering & Classifier Evaluation.ipynb- file: 9-Text Processing and Naive Bayes.ipynb- file: 10-Web Search & Ranking.ipynb- file: 11-ANN Part I.ipynb- file: 12-ANN  Part II.ipynb
