@@ -1,2 +1,2 @@
 # MLQuickStudySheets
-A concise, easy-to-navigate collection of cheat sheets and notes offering quick insights on data and web mining concepts and ML models.
+A collection of notes offering quick insights on data and web mining concepts and ML models trough jupyter book.
