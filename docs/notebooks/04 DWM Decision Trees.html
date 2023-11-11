@@ -1,0 +1,2025 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Decision Trees &#8212; MLQuickStudySheets</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/04 DWM Decision Trees';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Supervised Learning: Linear regression" href="05a%20DWM%20Supervised%20Learning%20-%20Linear%20Regression.html" />
+    <link rel="prev" title="Welcome to MLQuickStudySheets" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="MLQuickStudySheets - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="MLQuickStudySheets - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to MLQuickStudySheets
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Decision Trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a%20DWM%20Supervised%20Learning%20-%20Linear%20Regression.html">Supervised Learning: Linear regression</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html">Binary Classification: Logistic regression</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07%20DWM%20Ensemble%20Methods.html">Ensemble Methods: Bagging and Boosting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20DWM%20Random%20Forest.html">Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_DWM_Feature_Engineering_and_Classifier_Evaluation.html">Feature Engineering and Classifier Evaluation</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20Text%20Processing%20and%20Naive%20Bayes.html">Text Processing and Naive Bayes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="12%20DWM%20Web%20Search%20and%20Ranking.html">Web Search and Ranking</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets/issues/new?title=Issue%20on%20page%20%2Fnotebooks/04 DWM Decision Trees.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/04 DWM Decision Trees.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Decision Trees</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-non-linearly-separable-dataset">A non linearly separable dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-a-decision-tree">What’s a decision tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wine-dataset">Wine dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-build-a-tree">Let’s build a  tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Decision Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-focus-on-binary-decision-tree-for-classification">Let’s focus on <em>binary</em> decision tree for <em>classification</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-sketch">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#driving-factor">Driving Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaf-node">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-node">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-make-an-example">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#information-gain">Information Gain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3-iterative-dichotomiser">( ID3 - Iterative Dichotomiser )</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gain-ratio">Gain Ratio</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4-5-algorithm">( C4.5 Algorithm )</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gini-index">GINI Index</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">( CART - Classification and Regression Trees)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-compare-gini-vs-information-gain-on-a-train-test-split">Exercise: Compare gini vs. information gain on a train/test split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-on-multiple-classes">Decision tree on multiple classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria-max-leaf-nodes">Stopping Criteria: max leaf nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria-maximum-depth">Stopping Criteria: maximum depth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning-of-the-tree">Tuning of the tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-problem">Regression Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-overfitting">Model Overfitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reasons-for-model-overfitting">Reasons for model overfitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-comparison-procedure">Multiple comparison procedure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">Model Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-learn-implementation-breiman-at-al">Scikit-learn implementation (Breiman at. al)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-trees-implementation">Decision Trees Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Driving Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="decision-trees">
+<h1>Decision Trees<a class="headerlink" href="#decision-trees" title="Permalink to this heading">#</a></h1>
+<section id="a-non-linearly-separable-dataset">
+<h2>A non linearly separable dataset<a class="headerlink" href="#a-non-linearly-separable-dataset" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+
+<span class="c1"># create a (quasi)random dataset</span>
+<span class="n">N_SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">N_CENTERS</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span>
+                  <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">y</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">y</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="c1"># plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/536340c4ec29c434210b597023c7d8e1672497ebe3930f95ee9945976974ab0d.png" src="../_images/536340c4ec29c434210b597023c7d8e1672497ebe3930f95ee9945976974ab0d.png" />
+</div>
+</div>
+</section>
+<section id="what-s-a-decision-tree">
+<h2>What’s a decision tree<a class="headerlink" href="#what-s-a-decision-tree" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>see see: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-1 {color: black;}#sk-container-id-1 pre{padding: 0;}#sk-container-id-1 div.sk-toggleable {background-color: white;}#sk-container-id-1 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-1 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-1 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-1 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-1 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-1 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-1 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-1 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-1 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-1 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-1 div.sk-item {position: relative;z-index: 1;}#sk-container-id-1 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-1 div.sk-item::before, #sk-container-id-1 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-1 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-1 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-1 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-1 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-1 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-1 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-1 div.sk-label-container {text-align: center;}#sk-container-id-1 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-1 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier()</pre></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
+
+<span class="n">f_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Feature 1&quot;</span><span class="p">,</span> <span class="s2">&quot;Feature 2&quot;</span><span class="p">]</span>
+<span class="n">c_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Class 0&quot;</span><span class="p">,</span><span class="s2">&quot;Class 1&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+         <span class="n">feature_names</span><span class="o">=</span><span class="n">f_names</span><span class="p">,</span> <span class="n">class_names</span><span class="o">=</span><span class="n">c_names</span><span class="p">,</span>
+                                <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/55aa0ed43c59de5b33d40c53243cf62adf75e029c5f09d1f0f7600c2b2e104f8.png" src="../_images/55aa0ed43c59de5b33d40c53243cf62adf75e029c5f09d1f0f7600c2b2e104f8.png" />
+</div>
+</div>
+</section>
+<section id="wine-dataset">
+<h2>Wine dataset<a class="headerlink" href="#wine-dataset" title="Permalink to this heading">#</a></h2>
+<p>Url: <a class="reference external" href="http://archive.ics.uci.edu/ml/datasets/Wine?ref=datanews.io">http://archive.ics.uci.edu/ml/datasets/Wine?ref=datanews.io</a></p>
+<p>These data are the results of a chemical analysis of wines grown in the same region in Italy but derived from three different cultivars. The analysis determined the quantities of 13 constituents found in each of the three types of wines.</p>
+<p>The attributes are:</p>
+<ol class="arabic simple" start="0">
+<li><p>Quality (1-3)</p></li>
+<li><p>Alcohol</p></li>
+<li><p>Malic acid</p></li>
+<li><p>Ash</p></li>
+<li><p>Alcalinity of ash</p></li>
+<li><p>Magnesium</p></li>
+<li><p>Total phenols</p></li>
+<li><p>Flavanoids</p></li>
+<li><p>Nonflavanoid phenols</p></li>
+<li><p>Proanthocyanins</p></li>
+<li><p>Color intensity</p></li>
+<li><p>Hue</p></li>
+<li><p>OD280/OD315 of diluted wines</p></li>
+<li><p>Proline</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data preparation</span>
+<span class="c1"># convert to float to have precise and homogenoues computation</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dataset shape&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># get features by removing id and class</span>
+<span class="c1"># remove id</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X shape&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># get class label</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y shape&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dataset shape (178, 14)
+X shape (178, 13)
+y shape (178,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="let-s-build-a-tree">
+<h2>Let’s build a  tree<a class="headerlink" href="#let-s-build-a-tree" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>#sk-container-id-2 {color: black;}#sk-container-id-2 pre{padding: 0;}#sk-container-id-2 div.sk-toggleable {background-color: white;}#sk-container-id-2 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-2 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-2 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-2 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-2 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-2 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-2 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-2 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-2 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-2 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-2 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-2 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-2 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-2 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-2 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-2 div.sk-item {position: relative;z-index: 1;}#sk-container-id-2 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-2 div.sk-item::before, #sk-container-id-2 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-2 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-2 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-2 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-2 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-2 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-2 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-2 div.sk-label-container {text-align: center;}#sk-container-id-2 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-2 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-2" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>DecisionTreeClassifier()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-2" type="checkbox" checked><label for="sk-estimator-id-2" class="sk-toggleable__label sk-toggleable__label-arrow">DecisionTreeClassifier</label><div class="sk-toggleable__content"><pre>DecisionTreeClassifier()</pre></div></div></div></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">plot_tree</span>
+
+<span class="n">f_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Alcohol&quot;</span><span class="p">,</span><span class="s2">&quot;Malic acid&quot;</span><span class="p">,</span> <span class="s2">&quot;Ash&quot;</span><span class="p">,</span> <span class="s2">&quot;Alcalinity&quot;</span><span class="p">,</span> <span class="s2">&quot;Magnesium&quot;</span><span class="p">,</span> <span class="s2">&quot;Phenols&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Flavanoids&quot;</span><span class="p">,</span> <span class="s2">&quot;Nonflavanoid&quot;</span><span class="p">,</span> <span class="s2">&quot;Proanthocyanins&quot;</span><span class="p">,</span> <span class="s2">&quot;Color&quot;</span><span class="p">,</span> <span class="s2">&quot;Hue&quot;</span><span class="p">,</span> <span class="s2">&quot;ODs&quot;</span><span class="p">,</span> <span class="s2">&quot;Proline&quot;</span><span class="p">]</span>
+
+<span class="n">c_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Quality 1&quot;</span><span class="p">,</span><span class="s2">&quot;Quality 2&quot;</span><span class="p">,</span><span class="s2">&quot;Quality 3&quot;</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plot_tree</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+         <span class="n">feature_names</span><span class="o">=</span><span class="n">f_names</span><span class="p">,</span> <span class="n">class_names</span><span class="o">=</span><span class="n">c_names</span><span class="p">,</span>
+                                <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7fde419a6b04abc3fd90d383176ea48df22815a788bd8ba0558ff00f7ea1aad8.png" src="../_images/7fde419a6b04abc3fd90d383176ea48df22815a788bd8ba0558ff00f7ea1aad8.png" />
+</div>
+</div>
+</section>
+<section id="id1">
+<h2>Decision Trees<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Recursive Algorithm</p></li>
+<li><p>Select the best split and partition the dataset</p></li>
+<li><p>Partitioning Scenarios: <strong>k-ary tree, binary tree, categorical, ordinal, numerical</strong></p></li>
+<li><p>Recursion ends when a node is pure or no further splitting is possible</p>
+<ul>
+<li><p>other constraints can be enforced</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="let-s-focus-on-binary-decision-tree-for-classification">
+<h2>Let’s focus on <em>binary</em> decision tree for <em>classification</em><a class="headerlink" href="#let-s-focus-on-binary-decision-tree-for-classification" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="algorithm-sketch">
+<h2>Algorithm Sketch<a class="headerlink" href="#algorithm-sketch" title="Permalink to this heading">#</a></h2>
+<div class="alert alert-info">
+<p><strong>BuildTree</strong>(<span class="math notranslate nohighlight">\({\cal D}\)</span>):</p>
+<ol class="arabic simple">
+<li><p><em>BestSplit</em>, <em>BestGain</em> = <em>None</em></p></li>
+<li><p><strong>For each</strong> feature <span class="math notranslate nohighlight">\(f\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <strong>For each</strong> threshold <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\quad\)</span> <em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\quad\)</span> <strong>If</strong> Gain&gt;=BestGain:</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\quad\quad\)</span> <em>BestGain</em> <span class="math notranslate nohighlight">\(\gets\)</span> <em>Gain</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\quad\quad\)</span> BestSplit* <span class="math notranslate nohighlight">\(\gets\)</span> <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><strong>If</strong> <em>BestGain</em><span class="math notranslate nohighlight">\(=0\)</span> or <em>other stopping criterion is met</em>:</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(\mu \gets\)</span> the best prediction for <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <strong>Return</strong> <span class="math notranslate nohighlight">\(Leaf(\mu)\)</span></p></li>
+<li><p>Let <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(t\)</span> be those of BestSplit = <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\({\cal D}_L \gets \{x \in {\cal D} ~|~ x_f\leq t\}\)</span> <em>(Left Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(L \gets\)</span>  <strong>BuildTree</strong>(<span class="math notranslate nohighlight">\({\cal D}_L\)</span>) <em>(Left Child)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\({\cal D}_R \gets \{x \in {\cal D} ~|~ x_f &gt; t\}\)</span> <em>(Right Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(R \gets\)</span>  <strong>BuildTree</strong>(<span class="math notranslate nohighlight">\({\cal D}_R\)</span>) <em>(Right Child)</em></p></li>
+<li><p><strong>Return</strong> <span class="math notranslate nohighlight">\(Node(L,R)\)</span></p></li>
+</ol>
+</div>
+<p>It is a greedy algorithm (without backtracking, i.e., decisions are not changed) that maximizes the Gain at every step.</p>
+</section>
+<section id="driving-factor">
+<h2>Driving Factor<a class="headerlink" href="#driving-factor" title="Permalink to this heading">#</a></h2>
+<p>We let the design of our algorithm be driven by the quality measure adopted.</p>
+<p>For classification, we adopt <strong>error</strong> <span class="math notranslate nohighlight">\(E\)</span>, that is the fraction of misclassified instances.</p>
+</section>
+<section id="leaf-node">
+<h2>Leaf Node<a class="headerlink" href="#leaf-node" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given a dataset <span class="math notranslate nohighlight">\({\cal D}\)</span> what is the best prediction we can have?</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mu = \arg\min\limits_{\mu} Error({\cal D}, \mu)= \arg\min\limits_{\mu} \frac{1}{|{\cal D}|} \sum\limits_{(x,y) \in {\cal D}} E(y, \mu)\]</div>
+<ul class="simple">
+<li><p>where <span class="math notranslate nohighlight">\( E(y, \mu)\)</span> is 0 if <span class="math notranslate nohighlight">\(\mu=y\)</span> and 1 otherwise</p></li>
+<li><p>for the classification task, it holds that <span class="math notranslate nohighlight">\(\mu\)</span> must be the most frequent label in <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p>if we denote with <span class="math notranslate nohighlight">\(p_i\)</span> the frequency of label <span class="math notranslate nohighlight">\(l_i\)</span> in <span class="math notranslate nohighlight">\({\cal D}\)</span>, we can write that total error
+on the dataset is:
+$<span class="math notranslate nohighlight">\(
+Error({\cal D}) = 1 - \max_i p_i
+\)</span>$</p>
+<ul>
+<li><p>Maximum: <span class="math notranslate nohighlight">\((1 - 1/m)\)</span>, where <span class="math notranslate nohighlight">\(m\)</span> is the number of classes, when records are equally distributed among all classes, implying least interesting information</p></li>
+<li><p>Minimum: (0.0) when all records belong to one class, implying most interesting information (<em>pure leaf</em>)</p></li>
+</ul>
+</li>
+<li><p>Hereinafter we denote with <span class="math notranslate nohighlight">\(Error({\cal D})\)</span> the error of the best prediction <span class="math notranslate nohighlight">\(\mu\)</span> for dataset <span class="math notranslate nohighlight">\({\cal D}\)</span>.</p></li>
+</ul>
+</section>
+<section id="internal-node">
+<h2>Internal Node<a class="headerlink" href="#internal-node" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given the pair <span class="math notranslate nohighlight">\(f \leq t\)</span>, we must determine the quality of this split.</p></li>
+<li><p>In general, assuming <span class="math notranslate nohighlight">\(Error\)</span> is an average measure, we denote the gain of a split as the error reduction with respect to not splitting the node.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = Error({\cal D}) - \left(\frac{|{\cal D}_L|}{|{\cal D}|} Error({\cal D}_L) + \frac{|{\cal D}_R|}{|{\cal D}|} Error({\cal D}_R) \right)
+\]</div>
+<ul class="simple">
+<li><p>We would like Gain&gt;0, note that Gain cannot decrease.</p></li>
+</ul>
+</section>
+<section id="let-s-make-an-example">
+<h2>Let’s make an example<a class="headerlink" href="#let-s-make-an-example" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\({\cal D}\)</span></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Class 0</p></td>
+<td><p>Class 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>400</p></td>
+<td><p>400</p></td>
+</tr>
+</tbody>
+</table>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Splitting A</p></th>
+<th class="head"><p>                 </p></th>
+<th class="head"><p>                 </p></th>
+<th class="head"><p>                 </p></th>
+<th class="head"><p>vs.</p></th>
+<th class="head"><p>Splitting B</p></th>
+<th class="head"><p>                 </p></th>
+<th class="head"><p>                 </p></th>
+<th class="head"><p>                 </p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\({\cal D}_L\)</span></p></td>
+<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\({\cal D}_R\)</span></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\({\cal D}_L\)</span></p></td>
+<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\({\cal D}_R\)</span></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>Class 0</p></td>
+<td><p>Class 1</p></td>
+<td><p>Class 0</p></td>
+<td><p>Class 1</p></td>
+<td><p></p></td>
+<td><p>Class 0</p></td>
+<td><p>Class 1</p></td>
+<td><p>Class 0</p></td>
+<td><p>Class 1</p></td>
+</tr>
+<tr class="row-even"><td><p>300</p></td>
+<td><p>100</p></td>
+<td><p>100</p></td>
+<td><p>300</p></td>
+<td><p></p></td>
+<td><p>200</p></td>
+<td><p>400</p></td>
+<td><p>200</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(p_0=3/4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\({p_1=1/4}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_0=1/4\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_1=3/4\)</span></p></td>
+<td><p></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_0= 1/3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_1= 2/3\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_0= 1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(p_1= 0\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>Suppose <span class="math notranslate nohighlight">\(|{\cal D}|\)</span> has 400 instances in class 0 and 400 instances in class 1, denoted with <span class="math notranslate nohighlight">\({\cal D}=(400,400)\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Error({\cal D}) = 0.5\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(A=(f_1, t_1)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(300,100)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(100,300)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(A|~{\cal D}) = 0.5 - 400/800 * (1- 3/4) - 400/800 *(1-3/4) = 0.25\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(B=(f_2, t_2)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(200,400)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(200,000)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(B|~{\cal D}) = 0.5 - 600/800 * (1- 2/3) - 200/800 *(1-1) = 0.25\)</span></p></li>
+</ul>
+</li>
+<li><p>The two splits are equally good, one of them is picked at random</p></li>
+<li><p>Indeed, we would like to consistently prefer <span class="math notranslate nohighlight">\(B\)</span> as it produces one <em>pure</em> child, i.e., a set of instances with perfect prediction that needs not to be processed recursively.</p></li>
+</ul>
+</section>
+<section id="information-gain">
+<h2>Information Gain<a class="headerlink" href="#information-gain" title="Permalink to this heading">#</a></h2>
+<section id="id3-iterative-dichotomiser">
+<h3>( ID3 - Iterative Dichotomiser )<a class="headerlink" href="#id3-iterative-dichotomiser" title="Permalink to this heading">#</a></h3>
+<p>The error of a dataset is measured as the entropy of its labels distributions</p>
+<div class="math notranslate nohighlight">
+\[
+Error({\cal D}) = Info({\cal D}) = -\sum\limits_i p_i\log_2 ( p_i )
+\]</div>
+<ul class="simple">
+<li><p>where <span class="math notranslate nohighlight">\(p_i\)</span> is the probability/frequency of label <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p>This is indeed the <strong>entropy</strong>, i.e., a measure of the randomness of the labels</p></li>
+<li><p>Maximum: <span class="math notranslate nohighlight">\(\log m\)</span>, where <span class="math notranslate nohighlight">\(m\)</span> is the number of classes, when records are equally distributed among all classes implying least information</p></li>
+<li><p>Minimum: 0.0 when all records belong to one class, implying most information (assume <span class="math notranslate nohighlight">\(0\log 0=0\)</span>)</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>Let’s make an example<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Suppose <span class="math notranslate nohighlight">\(|{\cal D}|\)</span> has 400 instances in class 0 and 400 instances in class 1, denote with <span class="math notranslate nohighlight">\({\cal D}=(400,400)\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Error({\cal D}) = - 1/2 \log(1/2) - 1/2 \log(1/2) = \log(2) = 1\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(A=(f_1, t_1)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(300,100)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(100,300)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(A|~{\cal D}) = 1 - 400/800 * ( - 3/4 \log(3/4) - 1/4 \log(1/4)) - 400/800 *( - 1/4 \log(1/4) - 3/4 \log(3/4)) \approx 0.19\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(B=(f_2, t_2)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(200,400)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(200,000)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(B|~{\cal D}) = 1 - 600/800 * (- 1/3 \log(1/3) -2/3 \log(2/3)) - 200/800 *(- 1 \log(1) -0 \log(0)) \approx 0.31\)</span></p></li>
+</ul>
+</li>
+<li><p>Largest Gain is for split B!</p></li>
+</ul>
+</section>
+<section id="gain-ratio">
+<h2>Gain Ratio<a class="headerlink" href="#gain-ratio" title="Permalink to this heading">#</a></h2>
+<section id="c4-5-algorithm">
+<h3>( C4.5 Algorithm )<a class="headerlink" href="#c4-5-algorithm" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>For k-ary decision trees (instead of binary), Information Gain favors splits with several small partitions</p>
+<ul>
+<li><p>they are more likely to be pure</p></li>
+</ul>
+</li>
+<li><p>Gain Ration normalizes the Information Gain by the SplitInfo of a k-way splitting:
+$<span class="math notranslate nohighlight">\(
+SplitInfo({\cal D}) =  -\sum\limits_{i=1}^k \frac{|{\cal D}_i|}{|{\cal D}|} \log \left(\frac{|{\cal D}_i|}{|{\cal D}|}\right)
+\)</span>$</p>
+<ul>
+<li><p>this is analogous to the information gain, but related to the partitioning instead of the labels</p></li>
+<li><p>large values of <span class="math notranslate nohighlight">\(k\)</span> (complex partitionings) receive a large score</p></li>
+</ul>
+</li>
+<li><p>The Gain Ratio is formalized as:
+$<span class="math notranslate nohighlight">\(
+Error({\cal D}) = GainRatio({\cal D}) = \frac{Info({\cal D})}{SplitInfo({\cal D})}
+\)</span>$</p></li>
+</ul>
+</section>
+</section>
+<section id="gini-index">
+<h2>GINI Index<a class="headerlink" href="#gini-index" title="Permalink to this heading">#</a></h2>
+<section id="cart-classification-and-regression-trees">
+<h3>( CART - Classification and Regression Trees)<a class="headerlink" href="#cart-classification-and-regression-trees" title="Permalink to this heading">#</a></h3>
+<p>GINI is a measure of statistical dispersion developed by the Italian statistician and sociologist Corrado Gini (the index was published in 1912).</p>
+<div class="math notranslate nohighlight">
+\[
+Error({\cal D}) = Gini({\cal D}) = 1-\sum\limits_i p_i^2
+\]</div>
+<ul class="simple">
+<li><p>Maximum: <span class="math notranslate nohighlight">\((1 - 1/m)\)</span> when records are equally distributed among all classes, implying least interesting information</p></li>
+<li><p>Minimum: (0.0) when all records belong to one class, implying most interesting information</p></li>
+</ul>
+</section>
+</section>
+<section id="id3">
+<h2>Let’s make an example<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Suppose <span class="math notranslate nohighlight">\(|{\cal D}|\)</span> has 400 instances in class 0 and 400 instances in class 1, denote with <span class="math notranslate nohighlight">\({\cal D}=(400,400)\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Error({\cal D}) = 1 - (1/2)^2 - (1/2)^2 = 0.5\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(A=(f_1, t_1)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(300,100)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(100,300)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(A|~{\cal D}) = 0.5 - 400/800 * ( 1 - (3/4)^2 - (1/4)^2) - 400/800 *(1- (1/4)^2 - (3/4)^2) = 0.125\)</span></p></li>
+</ul>
+</li>
+<li><p>Suppose Splitting <span class="math notranslate nohighlight">\(B=(f_2, t_2)\)</span> produces <span class="math notranslate nohighlight">\({\cal D}_L=(200,400)\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R=(200,000)\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(Gain(B|~{\cal D}) =  0.5 - 600/800 * ( 1 - (1/3)^2 - (2/3)^2) - 200/800 *(1- (1)^2 - (0)^2) \approx 0.167\)</span></p></li>
+</ul>
+</li>
+<li><p>Largest Gain is for split B!</p></li>
+</ul>
+</section>
+<section id="exercise-compare-gini-vs-information-gain-on-a-train-test-split">
+<h2>Exercise: Compare gini vs. information gain on a train/test split<a class="headerlink" href="#exercise-compare-gini-vs-information-gain-on-a-train-test-split" title="Permalink to this heading">#</a></h2>
+<p>See documentation for the <code class="docutils literal notranslate"><span class="pre">criterion</span></code> parameter:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier">https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier</a></p></li>
+</ul>
+</section>
+<section id="decision-tree-on-multiple-classes">
+<h2>Decision tree on multiple classes<a class="headerlink" href="#decision-tree-on-multiple-classes" title="Permalink to this heading">#</a></h2>
+<p>Try a different number of clusters and leaves</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+<span class="c1"># create a (quasi)random dataset</span>
+<span class="n">N_SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">N_CENTERS</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="n">N_SAMPLES</span><span class="p">,</span>
+                  <span class="n">centers</span><span class="o">=</span><span class="n">N_CENTERS</span><span class="p">,</span>
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># train and predict</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> <span class="c1"># change this!</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># compute Accuracy</span>
+<span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">test_acc</span>  <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Accuracy: </span><span class="si">{:.3f}</span><span class="s2"> - Test Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_acc</span><span class="p">,</span><span class="n">test_acc</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="c1">#model_decision_boundary(dt, X_test, y_test)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;pcolormesh&#39;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Accuracy: 0.997 - Test Accuracy: 0.982
+</pre></div>
+</div>
+<img alt="../_images/34f80484b216c7da4b0aacf5a92e82aff252d2681532ecae6888be9ec867d789.png" src="../_images/34f80484b216c7da4b0aacf5a92e82aff252d2681532ecae6888be9ec867d789.png" />
+</div>
+</div>
+</section>
+<section id="stopping-criteria-max-leaf-nodes">
+<h2>Stopping Criteria: max leaf nodes<a class="headerlink" href="#stopping-criteria-max-leaf-nodes" title="Permalink to this heading">#</a></h2>
+<p>The number of leaves affects the model expressiveness.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># train and predict</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># change this!</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;pcolormesh&#39;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1f5d1c67a3c226a50538b20e05742cf87e5243d9fdd2b28a8a883a739a2ba77e.png" src="../_images/1f5d1c67a3c226a50538b20e05742cf87e5243d9fdd2b28a8a883a739a2ba77e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_moons</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">max_leaves</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">50</span><span class="p">):</span>
+    <span class="c1"># train and predict</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">max_leaves</span><span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span>  <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Accuracy: </span><span class="si">{:.3f}</span><span class="s2"> - Test Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_acc</span><span class="p">,</span><span class="n">test_acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Accuracy: 0.867 - Test Accuracy: 0.812
+Train Accuracy: 0.912 - Test Accuracy: 0.861
+Train Accuracy: 0.931 - Test Accuracy: 0.894
+Train Accuracy: 0.931 - Test Accuracy: 0.894
+Train Accuracy: 0.931 - Test Accuracy: 0.894
+Train Accuracy: 0.972 - Test Accuracy: 0.964
+Train Accuracy: 0.972 - Test Accuracy: 0.964
+Train Accuracy: 0.972 - Test Accuracy: 0.964
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+Train Accuracy: 1.000 - Test Accuracy: 0.991
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="stopping-criteria-maximum-depth">
+<h2>Stopping Criteria: maximum depth<a class="headerlink" href="#stopping-criteria-maximum-depth" title="Permalink to this heading">#</a></h2>
+<p>The number of leaves affects the model expressiveness.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># train and predict</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># change this!</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">plot_method</span><span class="o">=</span><span class="s1">&#39;pcolormesh&#39;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/867eda08bffe59c7cc29579685b4d4ee1d3d6f60703dcb312966291e687c8b9c.png" src="../_images/867eda08bffe59c7cc29579685b4d4ee1d3d6f60703dcb312966291e687c8b9c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_moons</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">max_depth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
+    <span class="c1"># train and predict</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span>  <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Accuracy: </span><span class="si">{:.3f}</span><span class="s2"> - Test Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_acc</span><span class="p">,</span><span class="n">test_acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Accuracy: 0.843 - Test Accuracy: 0.827
+Train Accuracy: 0.924 - Test Accuracy: 0.912
+Train Accuracy: 0.924 - Test Accuracy: 0.912
+Train Accuracy: 0.925 - Test Accuracy: 0.912
+Train Accuracy: 0.997 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+Train Accuracy: 1.000 - Test Accuracy: 0.979
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tuning-of-the-tree">
+<h2>Tuning of the tree<a class="headerlink" href="#tuning-of-the-tree" title="Permalink to this heading">#</a></h2>
+<p>The power of the tree can be tuned with the following constraints:</p>
+<ul class="simple">
+<li><p><strong>max_depth</strong>: The maximum depth of the tree.</p></li>
+<li><p><strong>min_samples_split</strong>: The minimum number of samples required to split an internal node</p></li>
+<li><p><strong>min_samples_leaf</strong>: The minimum number of samples required to be at a leaf node.</p></li>
+<li><p><strong>max_leaf_nodes</strong>: The maximum number of trees.</p></li>
+<li><p><strong>min_impurity_decrease</strong>: The minimum gain for allowing a split.</p></li>
+<li><p><strong>min_impurity_split</strong>: The minim error for allowing a split.</p></li>
+</ul>
+<p>In conjunction with the above constraints most implementations implement a smarter growing strategy.
+Indeed, if we are limited in the number of nodes, then growing order makes a difference.
+In this case, it is useful to evaluate the gain provided by splitting all of the tree leaves, and
+then split the leaf the provides the maximum gain.</p>
+</section>
+<section id="id4">
+<h2>Algorithm Sketch<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>Non-recursive, best split first</p>
+<div class="alert alert-info">
+<p>BuildTree(<span class="math notranslate nohighlight">\({\cal D}\)</span>):</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(Tree \gets \emptyset\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p><em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Queue \gets \langle gain,(f\leq t),{\cal D}\rangle\)</span></p></li>
+<li><p><strong>While</strong> <span class="math notranslate nohighlight">\(Queue \neq \emptyset\)</span> and <em>no other stopping criterion is met</em>:</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(\langle gain, (f \leq t), {\cal D}^*\rangle \gets Queue\)</span>.pop_max()</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> Add node <span class="math notranslate nohighlight">\((f \leq t)\)</span> to <span class="math notranslate nohighlight">\(Tree\)</span> at the leaf corresponding to <span class="math notranslate nohighlight">\({\cal D}^*\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>(Left Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\({\cal D}_L \gets \{x \in {\cal D} ~|~ x_f\leq t\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}_L\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(Queue\)</span>.push( <span class="math notranslate nohighlight">\(\langle gain,(f\leq t),{\cal D}_L\rangle\)</span> )</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>(Right Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\({\cal D}_R \gets \{x \in {\cal D} ~|~ x_f&gt; t\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}_R\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(Queue\)</span>.push( <span class="math notranslate nohighlight">\(\langle gain,(f\leq t),{\cal D}_R\rangle\)</span> )</p></li>
+<li><p><strong>Return</strong> <span class="math notranslate nohighlight">\(Tree\)</span></p></li>
+</ol>
+</div></section>
+<section id="regression">
+<h2>Regression<a class="headerlink" href="#regression" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Decision trees can be used also for regression problems.</p></li>
+<li><p>We must use the proper quality/cost function.</p></li>
+<li><p>For regression, the cost function is Mean Squared Error(MSE):</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Error(tree, {\cal D}) = MSE(tree, {\cal D}) =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} (tree(x)- y)^2
+\]</div>
+</section>
+<section id="id5">
+<h2>Leaf Node<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given a dataset <span class="math notranslate nohighlight">\({\cal D}\)</span> what is the best prediction we can have?</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu = \arg\min MSE(\mu, {\cal D})\quad \Rightarrow\quad \mu =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} y\)</span></p></li>
+<li><p>for the regression task, it holds that <span class="math notranslate nohighlight">\(\mu\)</span> must be the average value of the labels in <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p>Given <span class="math notranslate nohighlight">\(\mu\)</span>, we can write that total error on the dataset is:
+$<span class="math notranslate nohighlight">\(
+Error({\cal D}) =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} (\mu - y)^2
+\)</span>$</p></li>
+<li><p>Hereinafter we denote with <span class="math notranslate nohighlight">\(Error({\cal D})\)</span> the error of the best prediction for dataset <span class="math notranslate nohighlight">\({\cal D}\)</span>.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>Internal Node<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given the pair <span class="math notranslate nohighlight">\(f \leq t\)</span>, we must determine the quality of this split.</p></li>
+<li><p>In general, assuming <span class="math notranslate nohighlight">\(Error\)</span> is an average measure, we denote the gain of a split as the error reduction w.r.t. to not splitting the node.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = Error({\cal D}) - \frac{|{\cal D}_L|}{|{\cal D}|} Error({\cal D}_L) - \frac{|{\cal D}_R|}{|{\cal D}|} Error({\cal D}_R)
+\]</div>
+<ul class="simple">
+<li><p>We would like Gain&gt;0, note that Gain cannot decrease.</p></li>
+</ul>
+</section>
+<section id="regression-problem">
+<h2>Regression Problem<a class="headerlink" href="#regression-problem" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_boston</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+Cell In[14], line 1
+----&gt; 1 from sklearn.datasets import load_boston
+      2 data = load_boston()
+
+File /Library/Python/3.9/site-packages/sklearn/datasets/__init__.py:157, in __getattr__(name)
+    108 if name == &quot;load_boston&quot;:
+    109     msg = textwrap.dedent(&quot;&quot;&quot;
+    110         `load_boston` has been removed from scikit-learn since version 1.2.
+    111 
+   (...)
+    155         &lt;https://www.researchgate.net/publication/4974606_Hedonic_housing_prices_and_the_demand_for_clean_air&gt;
+    156         &quot;&quot;&quot;)
+--&gt; 157     raise ImportError(msg)
+    158 try:
+    159     return globals()[name]
+
+ImportError: 
+`load_boston` has been removed from scikit-learn since version 1.2.
+
+The Boston housing prices dataset has an ethical problem: as
+investigated in [1], the authors of this dataset engineered a
+non-invertible variable &quot;B&quot; assuming that racial self-segregation had a
+positive impact on house prices [2]. Furthermore the goal of the
+research that led to the creation of this dataset was to study the
+impact of air quality but it did not give adequate demonstration of the
+validity of this assumption.
+
+The scikit-learn maintainers therefore strongly discourage the use of
+this dataset unless the purpose of the code is to study and educate
+about ethical issues in data science and machine learning.
+
+In this special case, you can fetch the dataset from the original
+source::
+
+    import pandas as pd
+    import numpy as np
+
+    data_url = &quot;http://lib.stat.cmu.edu/datasets/boston&quot;
+    raw_df = pd.read_csv(data_url, sep=&quot;\s+&quot;, skiprows=22, header=None)
+    data = np.hstack([raw_df.values[::2, :], raw_df.values[1::2, :2]])
+    target = raw_df.values[1::2, 2]
+
+Alternative datasets include the California housing dataset and the
+Ames housing dataset. You can load the datasets as follows::
+
+    from sklearn.datasets import fetch_california_housing
+    housing = fetch_california_housing()
+
+for the California housing dataset and::
+
+    from sklearn.datasets import fetch_openml
+    housing = fetch_openml(name=&quot;house_prices&quot;, as_frame=True)
+
+for the Ames housing dataset.
+
+[1] M Carlisle.
+&quot;Racist data destruction?&quot;
+&lt;https://medium.com/@docintangible/racist-data-destruction-113e3eff54a8&gt;
+
+[2] Harrison Jr, David, and Daniel L. Rubinfeld.
+&quot;Hedonic housing prices and the demand for clean air.&quot;
+Journal of environmental economics and management 5.1 (1978): 81-102.
+&lt;https://www.researchgate.net/publication/4974606_Hedonic_housing_prices_and_the_demand_for_clean_air&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;DESCR&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">max_leaves</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+    <span class="c1"># train and predict</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">max_leaves</span><span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span>  <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+
+    <span class="n">errors</span> <span class="o">+=</span> <span class="p">[</span> <span class="p">[</span><span class="n">max_leaves</span><span class="p">,</span> <span class="n">train_acc</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">]</span> <span class="p">]</span>
+
+<span class="n">errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">errors</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;x:&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">errors</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;MSE&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Number of Leaves&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train a linear regression</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">reg_train_err</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="n">reg_test_err</span>  <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span><span class="o">=</span><span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Comparison plot</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">errors</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;x:&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;DT Train&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">errors</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">errors</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;o-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;DT Test&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">reg_train_err</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reg Train&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">reg_test_err</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reg Test&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;MSE&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-overfitting">
+<h2>Model Overfitting<a class="headerlink" href="#model-overfitting" title="Permalink to this heading">#</a></h2>
+<p>Breast_Cancer dataset: <a class="reference external" href="https://scikit-learn.org/stable/datasets/toy_dataset.html#breast-cancer-dataset">https://scikit-learn.org/stable/datasets/toy_dataset.html#breast-cancer-dataset</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">uniq_vals</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">uniq_vals</span><span class="p">,</span> <span class="n">counts</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">max_leaves</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">20</span><span class="p">):</span>
+    <span class="c1"># train and predict</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">max_leaves</span><span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">train_acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+    <span class="n">test_acc</span>  <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span> <span class="sa">f</span><span class="s2">&quot;Num. Leaves </span><span class="si">{</span><span class="n">max_leaves</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> - &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Train Accuracy: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> - Test Accuracy: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="reasons-for-model-overfitting">
+<h3>Reasons for model overfitting<a class="headerlink" href="#reasons-for-model-overfitting" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Low data quality</p>
+<ul class="simple">
+<li><p>presence of noise</p></li>
+<li><p>lack of representative samples</p></li>
+</ul>
+</li>
+<li><p>High model complexity</p>
+<ul class="simple">
+<li><p>multiple comparison procedure</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="multiple-comparison-procedure">
+<h3>Multiple comparison procedure<a class="headerlink" href="#multiple-comparison-procedure" title="Permalink to this heading">#</a></h3>
+<p>Consider the task of predicting whether stock market will rise/fall in the next 10 trading days</p>
+<p>Assume that with random guessing:
+$<span class="math notranslate nohighlight">\(P(correct) = 0.5\)</span>$</p>
+<p>Make 10 random guesses in a row:
+$<span class="math notranslate nohighlight">\(P(\#correct \geq 8 ) = \frac{{10 \choose 8} + {10 \choose 9} + {10 \choose 10}}{2^{10}} \approx 0.05\)</span>$</p>
+<p>Approach:</p>
+<ul class="simple">
+<li><p>take 50 analysts</p></li>
+<li><p>each makes 10 random guesses</p></li>
+<li><p>select the most accurate analyst</p></li>
+</ul>
+<p>Probability that at least one analyst makes 8 or more correct predictions:
+$<span class="math notranslate nohighlight">\(P(\#correct \geq 8 ) = 1-(1-0.05)^{50} \approx 0.94\)</span>$</p>
+<p>Most algorithms perform training steps (e.g., adding a node to a tree) by selecting the among several alternatives (e.g., feature-threshold pairs). The performance we see might be due to random guessing.</p>
+<p>Random guessing is not going to work on the test set!</p>
+</section>
+<section id="model-selection">
+<h3>Model Selection<a class="headerlink" href="#model-selection" title="Permalink to this heading">#</a></h3>
+<p>How to choose among different models?</p>
+<ul class="simple">
+<li><p>Estimate the error on the test set (generalization error)</p></li>
+<li><p>using the error on the training set is an optimistic measure</p></li>
+<li><p>wait for it</p></li>
+</ul>
+<p><strong>Intuition: the model does not need to be overly complex</strong>.</p>
+<p><strong>Occam’s Razor</strong>: Given two models with the same generalization errors, the simpler model is preferred over the more complex model.</p>
+<p><strong>Pre-pruning vs. post-pruning</strong> methods:</p>
+<ul class="simple">
+<li><p>pre-pruning: early stopping criteria (we have already seen a few)</p></li>
+<li><p>post-pruning: grow completely then prune sub-trees</p></li>
+</ul>
+<p>Post allows to take decision by “analyzing a larger pool of nodes”.</p>
+<p><strong>Intuition: include the model complexity in the cost being optimized</strong>.</p>
+<p>The error of a model <span class="math notranslate nohighlight">\({\cal M}\)</span> (e.g., a decision tree) is:</p>
+<div class="math notranslate nohighlight">
+\[Error({\cal D}, {\cal M})= \frac{1}{|{\cal D}|} \sum\limits_{(x,y) \in {\cal D}} E(y, {\cal M}(x))\]</div>
+<p>The generalization error can be estimated as:</p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}, {\cal M}) = Error({\cal D}, {\cal M}) + \alpha\cdot Complexity ({\cal M})\]</div>
+<p>One common implementation is to measure the model complexity as the number of leaf nodes divided by the size of <span class="math notranslate nohighlight">\({\cal D}\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}, {\cal M}) = Error({\cal D}, {\cal M}) + \alpha\cdot \frac{\#leaves\ in\ |{\cal M}|}{|{\cal D}|}\]</div>
+<p>With <span class="math notranslate nohighlight">\(\alpha=1\)</span> this means that adding a leaf costs <span class="math notranslate nohighlight">\(1/|{\cal D}|\)</span></p>
+<ul class="simple">
+<li><p>adding a leaf is not convenient if <span class="math notranslate nohighlight">\(Error({\cal D}, {\cal M})\)</span> is not reduced (<span class="math notranslate nohighlight">\(Error_{gen}\)</span> increases)</p></li>
+<li><p>adding a leaf is not convenient if <span class="math notranslate nohighlight">\(Error({\cal D}, {\cal M})\)</span> is reduced by one instance (<span class="math notranslate nohighlight">\(Error_{gen}\)</span> does not change)</p></li>
+<li><p>adding a leaf is convenient if <span class="math notranslate nohighlight">\(Error({\cal D}, {\cal M})\)</span> is reduced by more than one instance (<span class="math notranslate nohighlight">\(Error_{gen}\)</span> decreases)</p></li>
+</ul>
+</section>
+<section id="scikit-learn-implementation-breiman-at-al">
+<h3>Scikit-learn implementation (Breiman at. al)<a class="headerlink" href="#scikit-learn-implementation-breiman-at-al" title="Permalink to this heading">#</a></h3>
+<p>see <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html">https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html</a></p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}, T) = Error({\cal D}, T) + \alpha\cdot |L(T)|\]</div>
+<ul class="simple">
+<li><p>where <span class="math notranslate nohighlight">\(T\)</span> is a decision tree, and <span class="math notranslate nohighlight">\(|L(T)|\)</span> is the number of leaves it includes.</p></li>
+</ul>
+<p>which we can write on the basis on the leaves’ errors:
+$<span class="math notranslate nohighlight">\( Error_{gen}({\cal D}, T) = \sum_{l \in L(T)} Error({\cal D}_{|l}, l) + \alpha\cdot |L(T)|\)</span>$</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\({\cal D}_{|l}\)</span> denote the instances falling into <span class="math notranslate nohighlight">\(l\)</span>.</p></li>
+</ul>
+<p>Similarly, if <span class="math notranslate nohighlight">\(t\)</span> is a subtree of <span class="math notranslate nohighlight">\(T\)</span>, in general it holds that:
+$<span class="math notranslate nohighlight">\( Error_{gen}({\cal D}_{|t}, t) = \sum_{l \in L(t)} Error({\cal D}_{|l}, l) + \alpha\cdot |L(t)|\)</span>$</p>
+<p>If we replace the subtree <span class="math notranslate nohighlight">\(t\)</span> with its root <span class="math notranslate nohighlight">\(r\)</span>, the corresponding generalization error would be:</p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}_{|t}, r) = Error({\cal D}_{|t}, r) + \alpha\]</div>
+<p>We ask when <span class="math notranslate nohighlight">\(t\)</span> is more useful than <span class="math notranslate nohighlight">\(n\)</span>, i.e., when</p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}_{|t}, t) &lt;  Error_{gen}({\cal D}_{|t}, r)\]</div>
+<p>In general it holds that:
+$<span class="math notranslate nohighlight">\( Error({\cal D}_{|t}, t) &lt;  Error({\cal D}_{|t}, r)\)</span>$</p>
+<p><strong>Example</strong>: if they are equal, it means that the sub-tree <span class="math notranslate nohighlight">\(t\)</span> adds complexity to the model without reducing the error on the training set. Therefore we should remove <span class="math notranslate nohighlight">\(t\)</span>!</p>
+<p>But when adopting <span class="math notranslate nohighlight">\(Error_{gen}\)</span>, this depends on <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<p>We call effective alpha <span class="math notranslate nohighlight">\(\alpha_{eff}(t)\)</span> of a subtree <span class="math notranslate nohighlight">\(t\)</span> the value of <span class="math notranslate nohighlight">\(\alpha\)</span> such that the two error above are equal:</p>
+<div class="math notranslate nohighlight">
+\[ Error_{gen}({\cal D}_{|t}, t)\ =  Error_{gen}({\cal D}_{|t}, r)\]</div>
+<div class="math notranslate nohighlight">
+\[ \sum_{l \in L(t)} Error({\cal D}_{|l}, l) + \alpha\cdot |L(t)|\ =  Error({\cal D}_{|t}, r) + \alpha\]</div>
+<ul class="simple">
+<li><p>when <span class="math notranslate nohighlight">\(\alpha_{eff}(t)\)</span> is small, the gain is limited</p></li>
+<li><p>when <span class="math notranslate nohighlight">\(\alpha_{eff}(t)\)</span> is large, the gain is significant</p></li>
+</ul>
+<p><strong>Algorithm</strong>:</p>
+<ul class="simple">
+<li><p>grow a full/large tree.</p></li>
+<li><p>sort subtrees by increasing <span class="math notranslate nohighlight">\(\alpha_{eff}(t)\)</span>.</p></li>
+<li><p>prune all sub-trees <span class="math notranslate nohighlight">\(t\)</span> for which <span class="math notranslate nohighlight">\(\alpha_{eff}(t)\)</span> is smaller than a user defined threshold.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">cost_complexity_pruning_path</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">impurities</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">impurities</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ccp_alphas</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">impurities</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s2">&quot;steps-post&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;effective alpha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;total impurity of leaves&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Total Impurity vs effective alpha for training set&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># materialize all possible trees</span>
+<span class="n">ccp_alphas</span> <span class="o">=</span> <span class="n">ccp_alphas</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">dts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">ccp_alpha</span> <span class="ow">in</span> <span class="n">ccp_alphas</span><span class="p">:</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ccp_alpha</span><span class="o">=</span><span class="n">ccp_alpha</span><span class="p">)</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">dts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node_counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">node_count</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dts</span><span class="p">]</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">max_depth</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dts</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">node_counts</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s2">&quot;steps-post&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;number of nodes&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Number of nodes vs alpha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s2">&quot;steps-post&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;depth of tree&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Depth vs alpha&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dts</span><span class="p">]</span>
+<span class="n">test_scores</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">dts</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Accuracy vs alpha for training and testing sets&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">train_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s2">&quot;steps-post&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ccp_alphas</span><span class="p">,</span> <span class="n">test_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">drawstyle</span><span class="o">=</span><span class="s2">&quot;steps-post&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="decision-trees-implementation">
+<h2>Decision Trees Implementation<a class="headerlink" href="#decision-trees-implementation" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="id7">
+<h2>Algorithm Sketch<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<p>Non-recursive, best split first</p>
+<div class="alert alert-info">
+<p>BuildTree(<span class="math notranslate nohighlight">\({\cal D}\)</span>):</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(Tree \gets \emptyset\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p><em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Queue \gets \langle gain,(f\leq t),{\cal D}\rangle\)</span></p></li>
+<li><p><strong>While</strong> <span class="math notranslate nohighlight">\(Queue \neq \emptyset\)</span> and <em>no other stopping criterion is met</em>:</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(\langle gain, (f \leq t), {\cal D}^*\rangle \gets Queue\)</span>.pop_max()</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> Add node <span class="math notranslate nohighlight">\((f \leq t)\)</span> to <span class="math notranslate nohighlight">\(Tree\)</span> at the leaf corresponding to <span class="math notranslate nohighlight">\({\cal D}^*\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>(Left Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\({\cal D}_L \gets \{x \in {\cal D} ~|~ x_f\leq t\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}_L\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(Queue\)</span>.push( <span class="math notranslate nohighlight">\(\langle gain,(f\leq t),{\cal D}_L\rangle\)</span> )</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>(Right Partition)</em></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\({\cal D}_R \gets \{x \in {\cal D} ~|~ x_f&gt; t\}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\((f \leq t) \gets \)</span>  best split of <span class="math notranslate nohighlight">\({\cal D}_R\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <em>Gain</em> <span class="math notranslate nohighlight">\(\gets\)</span> goodness of the split <span class="math notranslate nohighlight">\((f \leq t)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> <span class="math notranslate nohighlight">\(Queue\)</span>.push( <span class="math notranslate nohighlight">\(\langle gain,(f\leq t),{\cal D}_R\rangle\)</span> )</p></li>
+<li><p><strong>Return</strong> <span class="math notranslate nohighlight">\(Tree\)</span></p></li>
+</ol>
+</div>
+<p>See for instance <a class="github reference external" href="https://github.com/microsoft/LightGBM">microsoft/LightGBM</a>, <a class="github reference external" href="https://github.com/dmlc/xgboost">dmlc/xgboost</a>, <a class="github reference external" href="https://github.com/catboost/catboost">catboost/catboost</a>.</p>
+</section>
+<section id="id8">
+<h2>Driving Factor<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<p>We let the design of our algorithm be driven by the quality measure adopted.</p>
+<p>For classification, we can adopt <strong>error</strong> <span class="math notranslate nohighlight">\(E\)</span>, that is the fraction of misclassified instances.</p>
+</section>
+<section id="id9">
+<h2>Regression<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Decision trees can be used also for regression problems.</p></li>
+<li><p>We must use the proper quality/cost function.</p></li>
+<li><p>For regression, the cost function is Mean Squared Error(MSE):</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Error(tree, {\cal D}) = MSE(tree, {\cal D}) =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} (tree(x)- y)^2
+\]</div>
+</section>
+<section id="id10">
+<h2>Leaf Node<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given a dataset <span class="math notranslate nohighlight">\({\cal D}\)</span> what is the best prediction we can have?</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu = \arg\min MSE(\mu, {\cal D})\quad \Rightarrow\quad \mu =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} y\)</span></p></li>
+<li><p>for the regression task, it holds that <span class="math notranslate nohighlight">\(\mu\)</span> must be the average value of the labels in <span class="math notranslate nohighlight">\({\cal D}\)</span></p></li>
+<li><p>Given <span class="math notranslate nohighlight">\(\mu\)</span>, we can write that total error on the dataset is:
+$<span class="math notranslate nohighlight">\(
+Error({\cal D}) =  \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} (\mu - y)^2
+\)</span>$</p></li>
+<li><p>Hereinafter we denote with <span class="math notranslate nohighlight">\(Error({\cal D})\)</span> the error of the best prediction for dataset <span class="math notranslate nohighlight">\({\cal D}\)</span>.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h2>Internal Node<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Given the pair <span class="math notranslate nohighlight">\(f \leq t\)</span>, we must determine the quality of this split.</p></li>
+<li><p>In general, assuming <span class="math notranslate nohighlight">\(Error\)</span> is an average measure, we denote the gain of a split as the error reduction w.r.t. to not splitting the node.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = Error({\cal D}) - \frac{|{\cal D}_L|}{|{\cal D}|} Error({\cal D}_L) - \frac{|{\cal D}_R|}{|{\cal D}|} Error({\cal D}_R)
+\]</div>
+<ul class="simple">
+<li><p>We would like Gain&gt;0, note that Gain cannot decrease.</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) =
+     \frac{1}{|{\cal D}|} \sum\limits_{(x,y)\in {\cal D}} (\mu - y)^2 -
+     \frac{|{\cal D}_L|}{|{\cal D}|} \frac{1}{|{\cal D}_L|} \sum\limits_{(x,y)\in {\cal D}_L} (\mu_L - y)^2  -
+     \frac{|{\cal D}_R|}{|{\cal D}|} \frac{1}{|{\cal D}_R|} \sum\limits_{(x,y)\in {\cal D}_R} (\mu_R - y)^2  
+\]</div>
+<p>simplify</p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     \sum\limits_{(x,y)\in {\cal D}} (\mu - y)^2 -
+     \sum\limits_{(x,y)\in {\cal D}_L} (\mu_L - y)^2  -
+     \sum\limits_{(x,y)\in {\cal D}_R} (\mu_R - y)^2  
+     \right)
+\]</div>
+<p>compute squares</p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     \sum\limits_{(x,y)\in {\cal D}} (\mu^2 + y^2 - 2y\mu) -
+     \sum\limits_{(x,y)\in {\cal D}_L} (\mu_L^2 + y^2 - 2y\mu_L)  -
+     \sum\limits_{(x,y)\in {\cal D}_R}(\mu_R^2 + y^2 - 2y\mu_R)
+     \right)
+\]</div>
+<p>simplify <span class="math notranslate nohighlight">\(y^2\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     \sum\limits_{(x,y)\in {\cal D}} (\mu^2 - 2y\mu) -
+     \sum\limits_{(x,y)\in {\cal D}_L} (\mu_L^2 - 2y\mu_L)  -
+     \sum\limits_{(x,y)\in {\cal D}_R}(\mu_R^2 - 2y\mu_R)
+     \right)
+\]</div>
+<p>compute sums:</p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     |{\cal D}|\mu^2 - 2\mu \sum\limits_{(x,y)\in {\cal D}} y \quad -
+     |{\cal D}_L|\mu_L^2 + 2\mu_L \sum\limits_{(x,y)\in {\cal D}_L} y \quad  -
+     |{\cal D}_R|\mu_R^2 + 2\mu_R \sum\limits_{(x,y)\in {\cal D}_R} y
+     \right)
+\]</div>
+<p>rewrite sum as mean multiplied by the number of elements</p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     |{\cal D}|\mu^2 - 2\mu  |{\cal D}|\mu \quad -
+     |{\cal D}_L|\mu_L^2 + 2\mu_L |{\cal D}_L| \mu_L\quad  -
+     |{\cal D}_R|\mu_R^2 + 2\mu_R  |{\cal D}_R| \mu_R
+     \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) = \frac{1}{|{\cal D}|} \left(
+     - |{\cal D}|\mu^2 + |{\cal D}_L|\mu_L^2 + |{\cal D}_R|\mu_R^2
+     \right)
+\]</div>
+<p>if we are interested in maximizing the Gain rather than computing its exact value, we can simplify multiplicative factors and constants independent of <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(t\)</span></p>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) \propto
+    |{\cal D}_L|\mu_L^2 +|{\cal D}_R|\mu_R^2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+Gain(f,t~|~{\cal D}) \propto \frac{\left(\sum_{(x,y)\in {\cal D}_L} y\right)^2}{|{\cal D}_L|}
++ \frac{\left(\sum_{(x,y)\in {\cal D}_R} y\right)^2}{|{\cal D}_R|}
+\]</div>
+<p>The best split is found by maximizing the above Gain.</p>
+</section>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+<p>Given <span class="math notranslate nohighlight">\(f\)</span>, computing the Gain for each possible threshold <span class="math notranslate nohighlight">\(t\)</span> can be done efficiently as follows.</p>
+<p>Suppose we have the following single-feature dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">X_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">y</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Feature values can be sorted beforehand. Below we just get the sorting indices.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">X_f</span><span class="p">)</span>
+
+<span class="c1"># print (sorted_idx)</span>
+<span class="nb">print</span> <span class="p">(</span> <span class="n">X_f</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span> <span class="n">y</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point it is easy to identify <span class="math notranslate nohighlight">\({\cal D}_L\)</span> and <span class="math notranslate nohighlight">\({\cal D}_R\)</span> for every possible threshold.</p>
+<p>We can easily compute <span class="math notranslate nohighlight">\(\sum_{(x,y)\in {\cal D}_L} y\)</span> for every possible split as below.</p>
+<p>While <span class="math notranslate nohighlight">\(\sum_{(x,y)\in {\cal D}_R} y\)</span> can be computed by difference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sum_y_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span> <span class="n">y</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span> <span class="p">)</span>
+<span class="n">sum_y_R</span> <span class="o">=</span> <span class="n">sum_y_L</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">sum_y_L</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sum_y_L</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">sum_y_R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">count_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">count_R</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">count_L</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">count_L</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">count_R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is now easy to compute all the gains.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gains</span> <span class="o">=</span> <span class="n">sum_y_L</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">count_L</span> <span class="o">+</span> <span class="n">sum_y_R</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="n">count_R</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">gains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>yes, the last point is not a real split.</p>
+<p><strong>Note</strong> that gain does not have a regular behavior, and therefore we cannot apply smart search strategies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_split</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">gains</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;best split pos = &quot;</span><span class="p">,</span> <span class="n">best_split</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;best threhold = &quot;</span><span class="p">,</span> <span class="n">X_f</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">][</span><span class="n">best_split</span><span class="p">])</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;best split is X_f &lt;=&quot;</span><span class="p">,</span> <span class="n">X_f</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">][</span><span class="n">best_split</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Typically, to improve robustness to noise, the actual threshold used in the tree is computed as follows.</p>
+<p>As our goal is to separate <span class="math notranslate nohighlight">\({\cal D}_L\)</span> from <span class="math notranslate nohighlight">\({\cal D}_R\)</span>, we can chose a threshold in the middle of the two.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_split_threshold</span> <span class="o">=</span> <span class="p">(</span> <span class="n">X_f</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">][</span><span class="n">best_split</span><span class="p">]</span> <span class="o">+</span> <span class="n">X_f</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">][</span><span class="n">best_split</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;best split is X_f &lt;=&quot;</span><span class="p">,</span> <span class="n">best_split_threshold</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Introduction to Data Mining (Second Edition)</strong>. , Kumar et al.</p>
+<ul>
+<li><p>Chapter 4: Classification: Basic Concepts, Decision Trees, and Model Evaluation</p>
+<ul>
+<li><p>until 4.5 included</p></li>
+</ul>
+</li>
+<li><p>Section 5.2: Nearest-Neighbor classifiers</p></li>
+</ul>
+</li>
+<li><p><strong>Python Data Science Handbook</strong>. O’Reilly. 2016</p>
+<ul>
+<li><p>Chapter 5: Machine Learning - Introducing Scikit-Learn</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to MLQuickStudySheets</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05a%20DWM%20Supervised%20Learning%20-%20Linear%20Regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Supervised Learning: Linear regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-non-linearly-separable-dataset">A non linearly separable dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-a-decision-tree">What’s a decision tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wine-dataset">Wine dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-build-a-tree">Let’s build a  tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Decision Trees</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-focus-on-binary-decision-tree-for-classification">Let’s focus on <em>binary</em> decision tree for <em>classification</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm-sketch">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#driving-factor">Driving Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaf-node">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-node">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-make-an-example">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#information-gain">Information Gain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3-iterative-dichotomiser">( ID3 - Iterative Dichotomiser )</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gain-ratio">Gain Ratio</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4-5-algorithm">( C4.5 Algorithm )</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gini-index">GINI Index</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">( CART - Classification and Regression Trees)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Let’s make an example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-compare-gini-vs-information-gain-on-a-train-test-split">Exercise: Compare gini vs. information gain on a train/test split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-tree-on-multiple-classes">Decision tree on multiple classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria-max-leaf-nodes">Stopping Criteria: max leaf nodes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stopping-criteria-maximum-depth">Stopping Criteria: maximum depth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning-of-the-tree">Tuning of the tree</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression">Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-problem">Regression Problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-overfitting">Model Overfitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reasons-for-model-overfitting">Reasons for model overfitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-comparison-procedure">Multiple comparison procedure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection">Model Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scikit-learn-implementation-breiman-at-al">Scikit-learn implementation (Breiman at. al)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-trees-implementation">Decision Trees Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Algorithm Sketch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Driving Factor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Leaf Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Internal Node</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By André Ramolivaz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

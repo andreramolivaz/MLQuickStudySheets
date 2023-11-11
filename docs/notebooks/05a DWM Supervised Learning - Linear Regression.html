@@ -1,0 +1,1571 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Supervised Learning: Linear regression &#8212; MLQuickStudySheets</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/05a DWM Supervised Learning - Linear Regression';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Binary Classification: Logistic regression" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html" />
+    <link rel="prev" title="Decision Trees" href="04%20DWM%20Decision%20Trees.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="MLQuickStudySheets - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="MLQuickStudySheets - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to MLQuickStudySheets
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04%20DWM%20Decision%20Trees.html">Decision Trees</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Supervised Learning: Linear regression</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html">Binary Classification: Logistic regression</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07%20DWM%20Ensemble%20Methods.html">Ensemble Methods: Bagging and Boosting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20DWM%20Random%20Forest.html">Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_DWM_Feature_Engineering_and_Classifier_Evaluation.html">Feature Engineering and Classifier Evaluation</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20Text%20Processing%20and%20Naive%20Bayes.html">Text Processing and Naive Bayes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="12%20DWM%20Web%20Search%20and%20Ranking.html">Web Search and Ranking</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets/issues/new?title=Issue%20on%20page%20%2Fnotebooks/05a DWM Supervised Learning - Linear Regression.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/05a DWM Supervised Learning - Linear Regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Supervised Learning: Linear regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Supervised Learning: Linear regression</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-predict-next-bitcoin-exchange-rate">How to predict next Bitcoin Exchange rate ?</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-fits-a-linear-regression">Let’s fits a Linear Regression!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">Train-Test Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-linear-regression">Run Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error">Error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-details-about-the-regression">Some details about the regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-linear-enough">Is Linear enough ?</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-we-use-a-large-polynomial-degree">What if we use a large polynomial degree?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What if we use a large polynomial degree?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-model-is-not-working-at-all">Why this model is not working at all ???</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#we-need-a-better-feature-engineering">We need a better Feature Engineering !</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="supervised-learning-linear-regression">
+<h1>Supervised Learning: Linear regression<a class="headerlink" href="#supervised-learning-linear-regression" title="Permalink to this heading">#</a></h1>
+<section id="how-to-predict-next-bitcoin-exchange-rate">
+<h2>How to predict next Bitcoin Exchange rate ?<a class="headerlink" href="#how-to-predict-next-bitcoin-exchange-rate" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># https://coinmarketcap.com/currencies/bitcoin/</span>
+<span class="c1"># Last 12 months of the closing price from oldest to most recent</span>
+<span class="n">BTC</span> <span class="o">=</span> <span class="p">[</span><span class="mf">10923.63</span><span class="p">,</span> <span class="mf">10679.14</span><span class="p">,</span> <span class="mf">10621.66</span><span class="p">,</span> <span class="mf">10804.00</span><span class="p">,</span> <span class="mf">10684.43</span><span class="p">,</span> <span class="mf">10565.49</span><span class="p">,</span> <span class="mf">10585.16</span><span class="p">,</span> <span class="mf">10623.33</span><span class="p">,</span> <span class="mf">10787.62</span><span class="p">,</span> <span class="mf">10848.83</span><span class="p">,</span> <span class="mf">10721.33</span><span class="p">,</span> <span class="mf">10774.43</span><span class="p">,</span> <span class="mf">10754.44</span><span class="p">,</span> <span class="mf">10702.29</span><span class="p">,</span> <span class="mf">10745.55</span><span class="p">,</span> <span class="mf">10225.86</span><span class="p">,</span> <span class="mf">10538.46</span><span class="p">,</span> <span class="mf">10462.26</span><span class="p">,</span> <span class="mf">10938.27</span><span class="p">,</span> <span class="mf">11094.35</span><span class="p">,</span> <span class="mf">10944.59</span><span class="p">,</span> <span class="mf">10948.99</span><span class="p">,</span> <span class="mf">10974.90</span><span class="p">,</span> <span class="mf">10796.95</span><span class="p">,</span> <span class="mf">10680.84</span><span class="p">,</span> <span class="mf">10323.76</span><span class="p">,</span> <span class="mf">10442.17</span><span class="p">,</span> <span class="mf">10400.91</span><span class="p">,</span> <span class="mf">10363.14</span><span class="p">,</span> <span class="mf">10242.35</span><span class="p">,</span> <span class="mf">10131.52</span><span class="p">,</span> <span class="mf">10369.56</span><span class="p">,</span> <span class="mf">10280.35</span><span class="p">,</span> <span class="mf">10169.57</span><span class="p">,</span> <span class="mf">10511.81</span><span class="p">,</span> <span class="mf">10245.30</span><span class="p">,</span> <span class="mf">11414.03</span><span class="p">,</span> <span class="mf">11970.48</span><span class="p">,</span> <span class="mf">11680.82</span><span class="p">,</span> <span class="mf">11711.51</span><span class="p">,</span> <span class="mf">11506.87</span><span class="p">,</span> <span class="mf">11542.50</span><span class="p">,</span> <span class="mf">11323.40</span><span class="p">,</span> <span class="mf">11488.36</span><span class="p">,</span> <span class="mf">11366.14</span><span class="p">,</span> <span class="mf">11774.60</span><span class="p">,</span> <span class="mf">11664.85</span><span class="p">,</span> <span class="mf">11681.83</span><span class="p">,</span> <span class="mf">11592.49</span><span class="p">,</span> <span class="mf">11878.37</span><span class="p">,</span> <span class="mf">11758.28</span><span class="p">,</span> <span class="mf">11991.23</span><span class="p">,</span> <span class="mf">12254.40</span><span class="p">,</span> <span class="mf">11892.80</span><span class="p">,</span> <span class="mf">11865.70</span><span class="p">,</span> <span class="mf">11768.87</span><span class="p">,</span> <span class="mf">11784.14</span><span class="p">,</span> <span class="mf">11584.93</span><span class="p">,</span> <span class="mf">11410.53</span><span class="p">,</span> <span class="mf">11878.11</span><span class="p">,</span> <span class="mf">11675.74</span><span class="p">,</span> <span class="mf">11754.05</span><span class="p">,</span> <span class="mf">11601.47</span><span class="p">,</span> <span class="mf">11779.77</span><span class="p">,</span> <span class="mf">11747.02</span><span class="p">,</span> <span class="mf">11205.89</span><span class="p">,</span> <span class="mf">11246.35</span><span class="p">,</span> <span class="mf">11053.61</span><span class="p">,</span> <span class="mf">11759.59</span><span class="p">,</span> <span class="mf">11323.47</span><span class="p">,</span> <span class="mf">11111.21</span><span class="p">,</span> <span class="mf">11100.47</span><span class="p">,</span> <span class="mf">10912.82</span><span class="p">,</span> <span class="mf">10990.87</span><span class="p">,</span> <span class="mf">9905.17</span><span class="p">,</span> <span class="mf">9677.11</span><span class="p">,</span> <span class="mf">9536.89</span><span class="p">,</span> <span class="mf">9581.07</span><span class="p">,</span> <span class="mf">9525.36</span><span class="p">,</span> <span class="mf">9374.89</span><span class="p">,</span> <span class="mf">9164.23</span><span class="p">,</span> <span class="mf">9185.82</span><span class="p">,</span> <span class="mf">9159.04</span><span class="p">,</span> <span class="mf">9151.39</span><span class="p">,</span> <span class="mf">9132.23</span><span class="p">,</span> <span class="mf">9192.84</span><span class="p">,</span> <span class="mf">9243.21</span><span class="p">,</span> <span class="mf">9243.61</span><span class="p">,</span> <span class="mf">9276.50</span><span class="p">,</span> <span class="mf">9240.35</span><span class="p">,</span> <span class="mf">9278.81</span><span class="p">,</span> <span class="mf">9277.97</span><span class="p">,</span> <span class="mf">9428.33</span><span class="p">,</span> <span class="mf">9252.28</span><span class="p">,</span> <span class="mf">9375.47</span><span class="p">,</span> <span class="mf">9073.94</span><span class="p">,</span> <span class="mf">9132.49</span><span class="p">,</span> <span class="mf">9087.30</span><span class="p">,</span> <span class="mf">9123.41</span><span class="p">,</span> <span class="mf">9228.33</span><span class="p">,</span> <span class="mf">9137.99</span><span class="p">,</span> <span class="mf">9190.85</span><span class="p">,</span> <span class="mf">9143.58</span><span class="p">,</span> <span class="mf">9045.39</span><span class="p">,</span> <span class="mf">9162.92</span><span class="p">,</span> <span class="mf">9264.81</span><span class="p">,</span> <span class="mf">9313.61</span><span class="p">,</span> <span class="mf">9629.66</span><span class="p">,</span> <span class="mf">9648.72</span><span class="p">,</span> <span class="mf">9303.63</span><span class="p">,</span> <span class="mf">9332.34</span><span class="p">,</span> <span class="mf">9288.02</span><span class="p">,</span> <span class="mf">9411.84</span><span class="p">,</span> <span class="mf">9480.26</span><span class="p">,</span> <span class="mf">9538.02</span><span class="p">,</span> <span class="mf">9450.70</span><span class="p">,</span> <span class="mf">9386.79</span><span class="p">,</span> <span class="mf">9475.28</span><span class="p">,</span> <span class="mf">9480.84</span><span class="p">,</span> <span class="mf">9321.78</span><span class="p">,</span> <span class="mf">9870.09</span><span class="p">,</span> <span class="mf">9795.70</span><span class="p">,</span> <span class="mf">9771.49</span><span class="p">,</span> <span class="mf">9758.85</span><span class="p">,</span> <span class="mf">9653.68</span><span class="p">,</span> <span class="mf">9665.53</span><span class="p">,</span> <span class="mf">9800.64</span><span class="p">,</span> <span class="mf">9656.72</span><span class="p">,</span> <span class="mf">9529.80</span><span class="p">,</span> <span class="mf">10167.27</span><span class="p">,</span> <span class="mf">9461.06</span><span class="p">,</span> <span class="mf">9700.41</span><span class="p">,</span> <span class="mf">9439.12</span><span class="p">,</span> <span class="mf">9525.75</span><span class="p">,</span> <span class="mf">9181.02</span><span class="p">,</span> <span class="mf">8835.05</span><span class="p">,</span> <span class="mf">8906.93</span><span class="p">,</span> <span class="mf">8790.37</span><span class="p">,</span> <span class="mf">9209.29</span><span class="p">,</span> <span class="mf">9182.58</span><span class="p">,</span> <span class="mf">9081.76</span><span class="p">,</span> <span class="mf">9522.98</span><span class="p">,</span> <span class="mf">9729.04</span><span class="p">,</span> <span class="mf">9726.57</span><span class="p">,</span> <span class="mf">9670.74</span><span class="p">,</span> <span class="mf">9377.01</span><span class="p">,</span> <span class="mf">9328.20</span><span class="p">,</span> <span class="mf">9733.72</span><span class="p">,</span> <span class="mf">9269.99</span><span class="p">,</span> <span class="mf">8804.48</span><span class="p">,</span> <span class="mf">8601.80</span><span class="p">,</span> <span class="mf">8756.43</span><span class="p">,</span> <span class="mf">9593.90</span><span class="p">,</span> <span class="mf">9842.67</span><span class="p">,</span> <span class="mf">9951.52</span><span class="p">,</span> <span class="mf">9268.76</span><span class="p">,</span> <span class="mf">9003.07</span><span class="p">,</span> <span class="mf">8912.65</span><span class="p">,</span> <span class="mf">8897.47</span><span class="p">,</span> <span class="mf">8988.60</span><span class="p">,</span> <span class="mf">8864.77</span><span class="p">,</span> <span class="mf">8658.55</span><span class="p">,</span> <span class="mf">8801.04</span><span class="p">,</span> <span class="mf">7807.06</span><span class="p">,</span> <span class="mf">7795.60</span><span class="p">,</span> <span class="mf">7679.87</span><span class="p">,</span> <span class="mf">7569.94</span><span class="p">,</span> <span class="mf">7550.90</span><span class="p">,</span> <span class="mf">7429.72</span><span class="p">,</span> <span class="mf">7117.21</span><span class="p">,</span> <span class="mf">6880.32</span><span class="p">,</span> <span class="mf">6881.96</span><span class="p">,</span> <span class="mf">7189.42</span><span class="p">,</span> <span class="mf">7257.66</span><span class="p">,</span> <span class="mf">7096.18</span><span class="p">,</span> <span class="mf">7116.80</span><span class="p">,</span> <span class="mf">6642.11</span><span class="p">,</span> <span class="mf">6842.43</span><span class="p">,</span> <span class="mf">6845.04</span><span class="p">,</span> <span class="mf">6971.09</span><span class="p">,</span> <span class="mf">6859.08</span><span class="p">,</span> <span class="mf">6865.49</span><span class="p">,</span> <span class="mf">7302.09</span><span class="p">,</span> <span class="mf">7334.10</span><span class="p">,</span> <span class="mf">7176.41</span><span class="p">,</span> <span class="mf">7271.78</span><span class="p">,</span> <span class="mf">6791.13</span><span class="p">,</span> <span class="mf">6867.53</span><span class="p">,</span> <span class="mf">6733.39</span><span class="p">,</span> <span class="mf">6793.62</span><span class="p">,</span> <span class="mf">6606.78</span><span class="p">,</span> <span class="mf">6438.64</span><span class="p">,</span> <span class="mf">6429.84</span><span class="p">,</span> <span class="mf">5922.04</span><span class="p">,</span> <span class="mf">6242.19</span><span class="p">,</span> <span class="mf">6469.80</span><span class="p">,</span> <span class="mf">6716.44</span><span class="p">,</span> <span class="mf">6681.06</span><span class="p">,</span> <span class="mf">6734.80</span><span class="p">,</span> <span class="mf">6416.31</span><span class="p">,</span> <span class="mf">5830.25</span><span class="p">,</span> <span class="mf">6185.07</span><span class="p">,</span> <span class="mf">6198.78</span><span class="p">,</span> <span class="mf">6191.19</span><span class="p">,</span> <span class="mf">5238.44</span><span class="p">,</span> <span class="mf">5225.63</span><span class="p">,</span> <span class="mf">5014.48</span><span class="p">,</span> <span class="mf">5392.31</span><span class="p">,</span> <span class="mf">5200.37</span><span class="p">,</span> <span class="mf">5563.71</span><span class="p">,</span> <span class="mf">4970.79</span><span class="p">,</span> <span class="mf">7911.43</span><span class="p">,</span> <span class="mf">7909.73</span><span class="p">,</span> <span class="mf">7923.64</span><span class="p">,</span> <span class="mf">8108.12</span><span class="p">,</span> <span class="mf">8909.95</span><span class="p">,</span> <span class="mf">9122.55</span><span class="p">,</span> <span class="mf">9078.76</span><span class="p">,</span> <span class="mf">8755.25</span><span class="p">,</span> <span class="mf">8787.79</span><span class="p">,</span> <span class="mf">8869.67</span><span class="p">,</span> <span class="mf">8562.45</span><span class="p">,</span> <span class="mf">8599.51</span><span class="p">,</span> <span class="mf">8672.46</span><span class="p">,</span> <span class="mf">8784.49</span><span class="p">,</span> <span class="mf">8820.52</span><span class="p">,</span> <span class="mf">9341.71</span><span class="p">,</span> <span class="mf">9650.17</span><span class="p">,</span> <span class="mf">9924.52</span><span class="p">,</span> <span class="mf">9663.18</span><span class="p">,</span> <span class="mf">9686.44</span><span class="p">,</span> <span class="mf">9608.48</span><span class="p">,</span> <span class="mf">9633.39</span><span class="p">,</span> <span class="mf">10142.00</span><span class="p">,</span> <span class="mf">9690.14</span><span class="p">,</span> <span class="mf">9934.43</span><span class="p">,</span> <span class="mf">9889.42</span><span class="p">,</span> <span class="mf">10312.12</span><span class="p">,</span> <span class="mf">10214.38</span><span class="p">,</span> <span class="mf">10326.05</span><span class="p">,</span> <span class="mf">10208.24</span><span class="p">,</span> <span class="mf">9856.61</span><span class="p">,</span> <span class="mf">10116.67</span><span class="p">,</span> <span class="mf">9865.12</span><span class="p">,</span> <span class="mf">9795.94</span><span class="p">,</span> <span class="mf">9729.80</span><span class="p">,</span> <span class="mf">9613.42</span><span class="p">,</span> <span class="mf">9180.96</span><span class="p">,</span> <span class="mf">9293.52</span><span class="p">,</span> <span class="mf">9344.37</span><span class="p">,</span> <span class="mf">9392.88</span><span class="p">,</span> <span class="mf">9350.53</span><span class="p">,</span> <span class="mf">9508.99</span><span class="p">,</span> <span class="mf">9316.63</span><span class="p">,</span> <span class="mf">9358.59</span><span class="p">,</span> <span class="mf">8909.82</span><span class="p">,</span> <span class="mf">8596.83</span><span class="p">,</span> <span class="mf">8367.85</span><span class="p">,</span> <span class="mf">8445.43</span><span class="p">,</span> <span class="mf">8406.52</span><span class="p">,</span> <span class="mf">8680.88</span><span class="p">,</span> <span class="mf">8745.89</span><span class="p">,</span> <span class="mf">8657.64</span><span class="p">,</span> <span class="mf">8706.25</span><span class="p">,</span> <span class="mf">8942.81</span><span class="p">,</span> <span class="mf">8929.04</span><span class="p">,</span> <span class="mf">8723.79</span><span class="p">,</span> <span class="mf">8807.01</span><span class="p">,</span> <span class="mf">8827.76</span><span class="p">,</span> <span class="mf">8144.19</span><span class="p">,</span> <span class="mf">8192.49</span><span class="p">,</span> <span class="mf">8037.54</span><span class="p">,</span> <span class="mf">8166.55</span><span class="p">,</span> <span class="mf">7879.07</span><span class="p">,</span> <span class="mf">8079.86</span><span class="p">,</span> <span class="mf">8163.69</span><span class="p">,</span> <span class="mf">7769.22</span><span class="p">,</span> <span class="mf">7411.32</span><span class="p">,</span> <span class="mf">7410.66</span><span class="p">,</span> <span class="mf">7344.88</span><span class="p">,</span> <span class="mf">6985.47</span><span class="p">,</span> <span class="mf">7200.17</span><span class="p">,</span> <span class="mf">7193.60</span><span class="p">,</span> <span class="mf">7293.00</span><span class="p">,</span> <span class="mf">7422.65</span><span class="p">,</span> <span class="mf">7317.99</span><span class="p">,</span> <span class="mf">7290.09</span><span class="p">,</span> <span class="mf">7238.97</span><span class="p">,</span> <span class="mf">7275.16</span><span class="p">,</span> <span class="mf">7322.53</span><span class="p">,</span> <span class="mf">7355.63</span><span class="p">,</span> <span class="mf">7511.59</span><span class="p">,</span> <span class="mf">7191.16</span><span class="p">,</span> <span class="mf">7218.82</span><span class="p">,</span> <span class="mf">7202.84</span><span class="p">,</span> <span class="mf">7276.80</span><span class="p">,</span> <span class="mf">6640.52</span><span class="p">,</span> <span class="mf">6932.48</span><span class="p">,</span> <span class="mf">7152.30</span><span class="p">,</span> <span class="mf">7124.67</span><span class="p">,</span> <span class="mf">7269.68</span><span class="p">,</span> <span class="mf">7243.13</span><span class="p">,</span> <span class="mf">7217.43</span><span class="p">,</span> <span class="mf">7278.12</span><span class="p">,</span> <span class="mf">7400.90</span><span class="p">,</span> <span class="mf">7564.35</span><span class="p">,</span> <span class="mf">7556.24</span><span class="p">,</span> <span class="mf">7547.00</span><span class="p">,</span> <span class="mf">7448.31</span><span class="p">,</span> <span class="mf">7252.03</span><span class="p">,</span> <span class="mf">7320.15</span><span class="p">,</span> <span class="mf">7321.99</span><span class="p">,</span> <span class="mf">7424.29</span><span class="p">,</span> <span class="mf">7569.63</span><span class="p">,</span> <span class="mf">7761.24</span><span class="p">,</span> <span class="mf">7463.11</span><span class="p">,</span> <span class="mf">7531.66</span><span class="p">,</span> <span class="mf">7218.37</span><span class="p">,</span> <span class="mf">7146.13</span><span class="p">,</span> <span class="mf">7047.92</span><span class="p">,</span> <span class="mf">7397.80</span><span class="p">,</span> <span class="mf">7296.58</span><span class="p">,</span> <span class="mf">7642.75</span><span class="p">,</span> <span class="mf">8027.27</span><span class="p">,</span> <span class="mf">8206.15</span><span class="p">,</span> <span class="mf">8309.29</span><span class="p">,</span> <span class="mf">8577.98</span><span class="p">,</span> <span class="mf">8550.76</span><span class="p">,</span> <span class="mf">8491.99</span><span class="p">,</span> <span class="mf">8708.10</span><span class="p">,</span> <span class="mf">8808.26</span><span class="p">,</span> <span class="mf">8815.66</span><span class="p">,</span> <span class="mf">8757.79</span><span class="p">,</span> <span class="mf">9055.53</span><span class="p">,</span> <span class="mf">8813.58</span><span class="p">,</span> <span class="mf">8804.88</span><span class="p">,</span> <span class="mf">9267.56</span><span class="p">,</span> <span class="mf">9360.88</span><span class="p">,</span> <span class="mf">9342.53</span><span class="p">,</span> <span class="mf">9412.61</span><span class="p">,</span> <span class="mf">9235.35</span><span class="p">,</span> <span class="mf">9324.72</span><span class="p">,</span> <span class="mf">9261.10</span><span class="p">,</span> <span class="mf">9199.58</span><span class="p">,</span> <span class="mf">9205.73</span><span class="p">,</span> <span class="mf">9427.69</span><span class="p">,</span> <span class="mf">9256.15</span><span class="p">,</span> <span class="mf">9551.71</span><span class="p">,</span> <span class="mf">9244.97</span><span class="p">,</span> <span class="mf">8660.70</span><span class="p">,</span> <span class="mf">7493.49</span><span class="p">,</span> <span class="mf">7514.67</span><span class="p">,</span> <span class="mf">8078.20</span><span class="p">,</span> <span class="mf">8243.72</span><span class="p">,</span> <span class="mf">8222.08</span><span class="p">,</span> <span class="mf">7988.56</span><span class="p">,</span> <span class="mf">7973.21</span><span class="p">,</span> <span class="mf">8103.91</span><span class="p">,</span> <span class="mf">8047.53</span><span class="p">,</span> <span class="mf">8205.37</span><span class="p">,</span> <span class="mf">8374.69</span><span class="p">,</span> <span class="mf">8321.01</span><span class="p">,</span> <span class="mf">8336.56</span><span class="p">,</span> <span class="mf">8321.76</span><span class="p">,</span> <span class="mf">8586.47</span><span class="p">,</span> <span class="mf">8595.74</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">BTC</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/92aa4193789cdab7ecbfd7bcef1027c68c6b3987869c9b757fe92d87265176ee.png" src="../_images/92aa4193789cdab7ecbfd7bcef1027c68c6b3987869c9b757fe92d87265176ee.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Since we want to predict a real value, this can be considered as a regression task.</p></li>
+<li><p>Given a day, predict the Exchange rate in USD.</p></li>
+<li><p>Let’s split in train and test and see how far we can go</p></li>
+<li><p><em>Disclaimer</em>: there are more specific tools for time-series analysis</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="let-s-fits-a-linear-regression">
+<h1>Let’s fits a Linear Regression!<a class="headerlink" href="#let-s-fits-a-linear-regression" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>see: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html</a></p></li>
+</ul>
+<p><img alt="image.png" src="notebooks/attachment:image.png" /></p>
+<div class="math notranslate nohighlight">
+\[y = b_0 + b_1x\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+              <span class="c1"># numpy equivalent of range</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">BTC</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">BTC</span><span class="p">)</span> 
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">BTC</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(366,) (366,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.        , 0.00273224, 0.00546448, 0.00819672, 0.01092896,
+       0.0136612 , 0.01639344, 0.01912568, 0.02185792, 0.02459016,
+       0.0273224 , 0.03005464, 0.03278689, 0.03551913, 0.03825137,
+       0.04098361, 0.04371585, 0.04644809, 0.04918033, 0.05191257,
+       0.05464481, 0.05737705, 0.06010929, 0.06284153, 0.06557377,
+       0.06830601, 0.07103825, 0.07377049, 0.07650273, 0.07923497,
+       0.08196721, 0.08469945, 0.08743169, 0.09016393, 0.09289617,
+       0.09562842, 0.09836066, 0.1010929 , 0.10382514, 0.10655738,
+       0.10928962, 0.11202186, 0.1147541 , 0.11748634, 0.12021858,
+       0.12295082, 0.12568306, 0.1284153 , 0.13114754, 0.13387978,
+       0.13661202, 0.13934426, 0.1420765 , 0.14480874, 0.14754098,
+       0.15027322, 0.15300546, 0.1557377 , 0.15846995, 0.16120219,
+       0.16393443, 0.16666667, 0.16939891, 0.17213115, 0.17486339,
+       0.17759563, 0.18032787, 0.18306011, 0.18579235, 0.18852459,
+       0.19125683, 0.19398907, 0.19672131, 0.19945355, 0.20218579,
+       0.20491803, 0.20765027, 0.21038251, 0.21311475, 0.21584699,
+       0.21857923, 0.22131148, 0.22404372, 0.22677596, 0.2295082 ,
+       0.23224044, 0.23497268, 0.23770492, 0.24043716, 0.2431694 ,
+       0.24590164, 0.24863388, 0.25136612, 0.25409836, 0.2568306 ,
+       0.25956284, 0.26229508, 0.26502732, 0.26775956, 0.2704918 ,
+       0.27322404, 0.27595628, 0.27868852, 0.28142077, 0.28415301,
+       0.28688525, 0.28961749, 0.29234973, 0.29508197, 0.29781421,
+       0.30054645, 0.30327869, 0.30601093, 0.30874317, 0.31147541,
+       0.31420765, 0.31693989, 0.31967213, 0.32240437, 0.32513661,
+       0.32786885, 0.33060109, 0.33333333, 0.33606557, 0.33879781,
+       0.34153005, 0.3442623 , 0.34699454, 0.34972678, 0.35245902,
+       0.35519126, 0.3579235 , 0.36065574, 0.36338798, 0.36612022,
+       0.36885246, 0.3715847 , 0.37431694, 0.37704918, 0.37978142,
+       0.38251366, 0.3852459 , 0.38797814, 0.39071038, 0.39344262,
+       0.39617486, 0.3989071 , 0.40163934, 0.40437158, 0.40710383,
+       0.40983607, 0.41256831, 0.41530055, 0.41803279, 0.42076503,
+       0.42349727, 0.42622951, 0.42896175, 0.43169399, 0.43442623,
+       0.43715847, 0.43989071, 0.44262295, 0.44535519, 0.44808743,
+       0.45081967, 0.45355191, 0.45628415, 0.45901639, 0.46174863,
+       0.46448087, 0.46721311, 0.46994536, 0.4726776 , 0.47540984,
+       0.47814208, 0.48087432, 0.48360656, 0.4863388 , 0.48907104,
+       0.49180328, 0.49453552, 0.49726776, 0.5       , 0.50273224,
+       0.50546448, 0.50819672, 0.51092896, 0.5136612 , 0.51639344,
+       0.51912568, 0.52185792, 0.52459016, 0.5273224 , 0.53005464,
+       0.53278689, 0.53551913, 0.53825137, 0.54098361, 0.54371585,
+       0.54644809, 0.54918033, 0.55191257, 0.55464481, 0.55737705,
+       0.56010929, 0.56284153, 0.56557377, 0.56830601, 0.57103825,
+       0.57377049, 0.57650273, 0.57923497, 0.58196721, 0.58469945,
+       0.58743169, 0.59016393, 0.59289617, 0.59562842, 0.59836066,
+       0.6010929 , 0.60382514, 0.60655738, 0.60928962, 0.61202186,
+       0.6147541 , 0.61748634, 0.62021858, 0.62295082, 0.62568306,
+       0.6284153 , 0.63114754, 0.63387978, 0.63661202, 0.63934426,
+       0.6420765 , 0.64480874, 0.64754098, 0.65027322, 0.65300546,
+       0.6557377 , 0.65846995, 0.66120219, 0.66393443, 0.66666667,
+       0.66939891, 0.67213115, 0.67486339, 0.67759563, 0.68032787,
+       0.68306011, 0.68579235, 0.68852459, 0.69125683, 0.69398907,
+       0.69672131, 0.69945355, 0.70218579, 0.70491803, 0.70765027,
+       0.71038251, 0.71311475, 0.71584699, 0.71857923, 0.72131148,
+       0.72404372, 0.72677596, 0.7295082 , 0.73224044, 0.73497268,
+       0.73770492, 0.74043716, 0.7431694 , 0.74590164, 0.74863388,
+       0.75136612, 0.75409836, 0.7568306 , 0.75956284, 0.76229508,
+       0.76502732, 0.76775956, 0.7704918 , 0.77322404, 0.77595628,
+       0.77868852, 0.78142077, 0.78415301, 0.78688525, 0.78961749,
+       0.79234973, 0.79508197, 0.79781421, 0.80054645, 0.80327869,
+       0.80601093, 0.80874317, 0.81147541, 0.81420765, 0.81693989,
+       0.81967213, 0.82240437, 0.82513661, 0.82786885, 0.83060109,
+       0.83333333, 0.83606557, 0.83879781, 0.84153005, 0.8442623 ,
+       0.84699454, 0.84972678, 0.85245902, 0.85519126, 0.8579235 ,
+       0.86065574, 0.86338798, 0.86612022, 0.86885246, 0.8715847 ,
+       0.87431694, 0.87704918, 0.87978142, 0.88251366, 0.8852459 ,
+       0.88797814, 0.89071038, 0.89344262, 0.89617486, 0.8989071 ,
+       0.90163934, 0.90437158, 0.90710383, 0.90983607, 0.91256831,
+       0.91530055, 0.91803279, 0.92076503, 0.92349727, 0.92622951,
+       0.92896175, 0.93169399, 0.93442623, 0.93715847, 0.93989071,
+       0.94262295, 0.94535519, 0.94808743, 0.95081967, 0.95355191,
+       0.95628415, 0.95901639, 0.96174863, 0.96448087, 0.96721311,
+       0.96994536, 0.9726776 , 0.97540984, 0.97814208, 0.98087432,
+       0.98360656, 0.9863388 , 0.98907104, 0.99180328, 0.99453552,
+       0.99726776])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([10923.63, 10679.14, 10621.66, 10804.  , 10684.43, 10565.49,
+       10585.16, 10623.33, 10787.62, 10848.83, 10721.33, 10774.43,
+       10754.44, 10702.29, 10745.55, 10225.86, 10538.46, 10462.26,
+       10938.27, 11094.35, 10944.59, 10948.99, 10974.9 , 10796.95,
+       10680.84, 10323.76, 10442.17, 10400.91, 10363.14, 10242.35,
+       10131.52, 10369.56, 10280.35, 10169.57, 10511.81, 10245.3 ,
+       11414.03, 11970.48, 11680.82, 11711.51, 11506.87, 11542.5 ,
+       11323.4 , 11488.36, 11366.14, 11774.6 , 11664.85, 11681.83,
+       11592.49, 11878.37, 11758.28, 11991.23, 12254.4 , 11892.8 ,
+       11865.7 , 11768.87, 11784.14, 11584.93, 11410.53, 11878.11,
+       11675.74, 11754.05, 11601.47, 11779.77, 11747.02, 11205.89,
+       11246.35, 11053.61, 11759.59, 11323.47, 11111.21, 11100.47,
+       10912.82, 10990.87,  9905.17,  9677.11,  9536.89,  9581.07,
+        9525.36,  9374.89,  9164.23,  9185.82,  9159.04,  9151.39,
+        9132.23,  9192.84,  9243.21,  9243.61,  9276.5 ,  9240.35,
+        9278.81,  9277.97,  9428.33,  9252.28,  9375.47,  9073.94,
+        9132.49,  9087.3 ,  9123.41,  9228.33,  9137.99,  9190.85,
+        9143.58,  9045.39,  9162.92,  9264.81,  9313.61,  9629.66,
+        9648.72,  9303.63,  9332.34,  9288.02,  9411.84,  9480.26,
+        9538.02,  9450.7 ,  9386.79,  9475.28,  9480.84,  9321.78,
+        9870.09,  9795.7 ,  9771.49,  9758.85,  9653.68,  9665.53,
+        9800.64,  9656.72,  9529.8 , 10167.27,  9461.06,  9700.41,
+        9439.12,  9525.75,  9181.02,  8835.05,  8906.93,  8790.37,
+        9209.29,  9182.58,  9081.76,  9522.98,  9729.04,  9726.57,
+        9670.74,  9377.01,  9328.2 ,  9733.72,  9269.99,  8804.48,
+        8601.8 ,  8756.43,  9593.9 ,  9842.67,  9951.52,  9268.76,
+        9003.07,  8912.65,  8897.47,  8988.6 ,  8864.77,  8658.55,
+        8801.04,  7807.06,  7795.6 ,  7679.87,  7569.94,  7550.9 ,
+        7429.72,  7117.21,  6880.32,  6881.96,  7189.42,  7257.66,
+        7096.18,  7116.8 ,  6642.11,  6842.43,  6845.04,  6971.09,
+        6859.08,  6865.49,  7302.09,  7334.1 ,  7176.41,  7271.78,
+        6791.13,  6867.53,  6733.39,  6793.62,  6606.78,  6438.64,
+        6429.84,  5922.04,  6242.19,  6469.8 ,  6716.44,  6681.06,
+        6734.8 ,  6416.31,  5830.25,  6185.07,  6198.78,  6191.19,
+        5238.44,  5225.63,  5014.48,  5392.31,  5200.37,  5563.71,
+        4970.79,  7911.43,  7909.73,  7923.64,  8108.12,  8909.95,
+        9122.55,  9078.76,  8755.25,  8787.79,  8869.67,  8562.45,
+        8599.51,  8672.46,  8784.49,  8820.52,  9341.71,  9650.17,
+        9924.52,  9663.18,  9686.44,  9608.48,  9633.39, 10142.  ,
+        9690.14,  9934.43,  9889.42, 10312.12, 10214.38, 10326.05,
+       10208.24,  9856.61, 10116.67,  9865.12,  9795.94,  9729.8 ,
+        9613.42,  9180.96,  9293.52,  9344.37,  9392.88,  9350.53,
+        9508.99,  9316.63,  9358.59,  8909.82,  8596.83,  8367.85,
+        8445.43,  8406.52,  8680.88,  8745.89,  8657.64,  8706.25,
+        8942.81,  8929.04,  8723.79,  8807.01,  8827.76,  8144.19,
+        8192.49,  8037.54,  8166.55,  7879.07,  8079.86,  8163.69,
+        7769.22,  7411.32,  7410.66,  7344.88,  6985.47,  7200.17,
+        7193.6 ,  7293.  ,  7422.65,  7317.99,  7290.09,  7238.97,
+        7275.16,  7322.53,  7355.63,  7511.59,  7191.16,  7218.82,
+        7202.84,  7276.8 ,  6640.52,  6932.48,  7152.3 ,  7124.67,
+        7269.68,  7243.13,  7217.43,  7278.12,  7400.9 ,  7564.35,
+        7556.24,  7547.  ,  7448.31,  7252.03,  7320.15,  7321.99,
+        7424.29,  7569.63,  7761.24,  7463.11,  7531.66,  7218.37,
+        7146.13,  7047.92,  7397.8 ,  7296.58,  7642.75,  8027.27,
+        8206.15,  8309.29,  8577.98,  8550.76,  8491.99,  8708.1 ,
+        8808.26,  8815.66,  8757.79,  9055.53,  8813.58,  8804.88,
+        9267.56,  9360.88,  9342.53,  9412.61,  9235.35,  9324.72,
+        9261.1 ,  9199.58,  9205.73,  9427.69,  9256.15,  9551.71,
+        9244.97,  8660.7 ,  7493.49,  7514.67,  8078.2 ,  8243.72,
+        8222.08,  7988.56,  7973.21,  8103.91,  8047.53,  8205.37,
+        8374.69,  8321.01,  8336.56,  8321.76,  8586.47,  8595.74])
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-preparation">
+<h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>make sure <code class="docutils literal notranslate"><span class="pre">X</span></code> is a matrix</p></li>
+<li><p>make sure <code class="docutils literal notranslate"><span class="pre">y</span></code> is a column vector</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(366, 1) (366, 1)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train-test-split">
+<h2>Train-Test Split<a class="headerlink" href="#train-test-split" title="Permalink to this heading">#</a></h2>
+<p>We do not use random splitting as we wanto to take time into account.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">*</span><span class="mf">0.66</span><span class="p">)</span>
+<span class="n">test_size</span>  <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="n">train_size</span>
+<span class="nb">print</span> <span class="p">(</span><span class="n">train_size</span><span class="p">,</span> <span class="n">test_size</span><span class="p">)</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">X_test</span>  <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+<span class="n">y_test</span>  <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>241 125
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/49aef668e2b4cfa8c8591e25987172c9780ceee520a8c7c8bdd76b61dfff0fd4.png" src="../_images/49aef668e2b4cfa8c8591e25987172c9780ceee520a8c7c8bdd76b61dfff0fd4.png" />
+</div>
+</div>
+</section>
+<section id="run-linear-regression">
+<h2>Run Linear Regression<a class="headerlink" href="#run-linear-regression" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>see <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html">https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="c1"># note: predicting on both train and test</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;+:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/78e61b91e825f294eb006b86fb92ff683f4a48f4c2e97bd92f85e75a934050fd.png" src="../_images/78e61b91e825f294eb006b86fb92ff683f4a48f4c2e97bd92f85e75a934050fd.png" />
+</div>
+</div>
+</section>
+<section id="error">
+<h2>Error<a class="headerlink" href="#error" title="Permalink to this heading">#</a></h2>
+<p>In regression we typically use Mean Squared Error (MSE):
+$<span class="math notranslate nohighlight">\(
+MSE(y\_true, y\_pred) = \frac{\sum_i (y\_true[i]-y\_pred[i])^2 } {\# y\_true}
+\)</span>$</p>
+<p>This is both the measure we are willing to minimize and the measure optimized by the linear regression fitting algorithm. In general this might not be the case, for instance, there might be no existing algorithm able to optimize the measure we are interested in.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> 
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error : </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Error: 1349853.352
+Test Error : 4918281.222
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="some-details-about-the-regression">
+<h2>Some details about the regression<a class="headerlink" href="#some-details-about-the-regression" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Intercept: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>       <span class="c1"># b0</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Coefficients [slopes]:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span> <span class="c1"># b1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept:  [11355.44242584]
+Coefficients [slopes]: [[-6178.29811459]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="is-linear-enough">
+<h2>Is Linear enough ?<a class="headerlink" href="#is-linear-enough" title="Permalink to this heading">#</a></h2>
+<p>Linear model is not powerful enough to fit our data.</p>
+<p>What about fitting the following?</p>
+<div class="math notranslate nohighlight">
+\[y = b_0 + b_1x + b_2x^2 \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span> 
+<span class="c1"># see https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PolynomialFeatures.html</span>
+
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">poly</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="c1"># just computes the number of additional features</span>
+
+<span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.00000000e+00, 0.00000000e+00],
+       [2.73224044e-03, 7.46513781e-06],
+       [5.46448087e-03, 2.98605512e-05],
+       [8.19672131e-03, 6.71862403e-05],
+       [1.09289617e-02, 1.19442205e-04],
+       [1.36612022e-02, 1.86628445e-04],
+       [1.63934426e-02, 2.68744961e-04],
+       [1.91256831e-02, 3.65791753e-04],
+       [2.18579235e-02, 4.77768820e-04],
+       [2.45901639e-02, 6.04676162e-04],
+       [2.73224044e-02, 7.46513781e-04],
+       [3.00546448e-02, 9.03281675e-04],
+       [3.27868852e-02, 1.07497984e-03],
+       [3.55191257e-02, 1.26160829e-03],
+       [3.82513661e-02, 1.46316701e-03],
+       [4.09836066e-02, 1.67965601e-03],
+       [4.37158470e-02, 1.91107528e-03],
+       [4.64480874e-02, 2.15742483e-03],
+       [4.91803279e-02, 2.41870465e-03],
+       [5.19125683e-02, 2.69491475e-03],
+       [5.46448087e-02, 2.98605512e-03],
+       [5.73770492e-02, 3.29212577e-03],
+       [6.01092896e-02, 3.61312670e-03],
+       [6.28415301e-02, 3.94905790e-03],
+       [6.55737705e-02, 4.29991938e-03],
+       [6.83060109e-02, 4.66571113e-03],
+       [7.10382514e-02, 5.04643316e-03],
+       [7.37704918e-02, 5.44208546e-03],
+       [7.65027322e-02, 5.85266804e-03],
+       [7.92349727e-02, 6.27818090e-03],
+       [8.19672131e-02, 6.71862403e-03],
+       [8.46994536e-02, 7.17399743e-03],
+       [8.74316940e-02, 7.64430111e-03],
+       [9.01639344e-02, 8.12953507e-03],
+       [9.28961749e-02, 8.62969930e-03],
+       [9.56284153e-02, 9.14479381e-03],
+       [9.83606557e-02, 9.67481860e-03],
+       [1.01092896e-01, 1.02197737e-02],
+       [1.03825137e-01, 1.07796590e-02],
+       [1.06557377e-01, 1.13544746e-02],
+       [1.09289617e-01, 1.19442205e-02],
+       [1.12021858e-01, 1.25488967e-02],
+       [1.14754098e-01, 1.31685031e-02],
+       [1.17486339e-01, 1.38030398e-02],
+       [1.20218579e-01, 1.44525068e-02],
+       [1.22950820e-01, 1.51169041e-02],
+       [1.25683060e-01, 1.57962316e-02],
+       [1.28415301e-01, 1.64904894e-02],
+       [1.31147541e-01, 1.71996775e-02],
+       [1.33879781e-01, 1.79237959e-02],
+       [1.36612022e-01, 1.86628445e-02],
+       [1.39344262e-01, 1.94168234e-02],
+       [1.42076503e-01, 2.01857326e-02],
+       [1.44808743e-01, 2.09695721e-02],
+       [1.47540984e-01, 2.17683418e-02],
+       [1.50273224e-01, 2.25820419e-02],
+       [1.53005464e-01, 2.34106722e-02],
+       [1.55737705e-01, 2.42542327e-02],
+       [1.58469945e-01, 2.51127236e-02],
+       [1.61202186e-01, 2.59861447e-02],
+       [1.63934426e-01, 2.68744961e-02],
+       [1.66666667e-01, 2.77777778e-02],
+       [1.69398907e-01, 2.86959897e-02],
+       [1.72131148e-01, 2.96291320e-02],
+       [1.74863388e-01, 3.05772045e-02],
+       [1.77595628e-01, 3.15402072e-02],
+       [1.80327869e-01, 3.25181403e-02],
+       [1.83060109e-01, 3.35110036e-02],
+       [1.85792350e-01, 3.45187972e-02],
+       [1.88524590e-01, 3.55415211e-02],
+       [1.91256831e-01, 3.65791753e-02],
+       [1.93989071e-01, 3.76317597e-02],
+       [1.96721311e-01, 3.86992744e-02],
+       [1.99453552e-01, 3.97817194e-02],
+       [2.02185792e-01, 4.08790946e-02],
+       [2.04918033e-01, 4.19914002e-02],
+       [2.07650273e-01, 4.31186360e-02],
+       [2.10382514e-01, 4.42608021e-02],
+       [2.13114754e-01, 4.54178984e-02],
+       [2.15846995e-01, 4.65899251e-02],
+       [2.18579235e-01, 4.77768820e-02],
+       [2.21311475e-01, 4.89787691e-02],
+       [2.24043716e-01, 5.01955866e-02],
+       [2.26775956e-01, 5.14273343e-02],
+       [2.29508197e-01, 5.26740124e-02],
+       [2.32240437e-01, 5.39356207e-02],
+       [2.34972678e-01, 5.52121592e-02],
+       [2.37704918e-01, 5.65036281e-02],
+       [2.40437158e-01, 5.78100272e-02],
+       [2.43169399e-01, 5.91313566e-02],
+       [2.45901639e-01, 6.04676162e-02],
+       [2.48633880e-01, 6.18188062e-02],
+       [2.51366120e-01, 6.31849264e-02],
+       [2.54098361e-01, 6.45659769e-02],
+       [2.56830601e-01, 6.59619577e-02],
+       [2.59562842e-01, 6.73728687e-02],
+       [2.62295082e-01, 6.87987100e-02],
+       [2.65027322e-01, 7.02394816e-02],
+       [2.67759563e-01, 7.16951835e-02],
+       [2.70491803e-01, 7.31658156e-02],
+       [2.73224044e-01, 7.46513781e-02],
+       [2.75956284e-01, 7.61518708e-02],
+       [2.78688525e-01, 7.76672937e-02],
+       [2.81420765e-01, 7.91976470e-02],
+       [2.84153005e-01, 8.07429305e-02],
+       [2.86885246e-01, 8.23031443e-02],
+       [2.89617486e-01, 8.38782884e-02],
+       [2.92349727e-01, 8.54683627e-02],
+       [2.95081967e-01, 8.70733674e-02],
+       [2.97814208e-01, 8.86933023e-02],
+       [3.00546448e-01, 9.03281675e-02],
+       [3.03278689e-01, 9.19779629e-02],
+       [3.06010929e-01, 9.36426886e-02],
+       [3.08743169e-01, 9.53223447e-02],
+       [3.11475410e-01, 9.70169309e-02],
+       [3.14207650e-01, 9.87264475e-02],
+       [3.16939891e-01, 1.00450894e-01],
+       [3.19672131e-01, 1.02190271e-01],
+       [3.22404372e-01, 1.03944579e-01],
+       [3.25136612e-01, 1.05713816e-01],
+       [3.27868852e-01, 1.07497984e-01],
+       [3.30601093e-01, 1.09297083e-01],
+       [3.33333333e-01, 1.11111111e-01],
+       [3.36065574e-01, 1.12940070e-01],
+       [3.38797814e-01, 1.14783959e-01],
+       [3.41530055e-01, 1.16642778e-01],
+       [3.44262295e-01, 1.18516528e-01],
+       [3.46994536e-01, 1.20405208e-01],
+       [3.49726776e-01, 1.22308818e-01],
+       [3.52459016e-01, 1.24227358e-01],
+       [3.55191257e-01, 1.26160829e-01],
+       [3.57923497e-01, 1.28109230e-01],
+       [3.60655738e-01, 1.30072561e-01],
+       [3.63387978e-01, 1.32050823e-01],
+       [3.66120219e-01, 1.34044014e-01],
+       [3.68852459e-01, 1.36052137e-01],
+       [3.71584699e-01, 1.38075189e-01],
+       [3.74316940e-01, 1.40113171e-01],
+       [3.77049180e-01, 1.42166084e-01],
+       [3.79781421e-01, 1.44233928e-01],
+       [3.82513661e-01, 1.46316701e-01],
+       [3.85245902e-01, 1.48414405e-01],
+       [3.87978142e-01, 1.50527039e-01],
+       [3.90710383e-01, 1.52654603e-01],
+       [3.93442623e-01, 1.54797098e-01],
+       [3.96174863e-01, 1.56954522e-01],
+       [3.98907104e-01, 1.59126877e-01],
+       [4.01639344e-01, 1.61314163e-01],
+       [4.04371585e-01, 1.63516379e-01],
+       [4.07103825e-01, 1.65733524e-01],
+       [4.09836066e-01, 1.67965601e-01],
+       [4.12568306e-01, 1.70212607e-01],
+       [4.15300546e-01, 1.72474544e-01],
+       [4.18032787e-01, 1.74751411e-01],
+       [4.20765027e-01, 1.77043208e-01],
+       [4.23497268e-01, 1.79349936e-01],
+       [4.26229508e-01, 1.81671594e-01],
+       [4.28961749e-01, 1.84008182e-01],
+       [4.31693989e-01, 1.86359700e-01],
+       [4.34426230e-01, 1.88726149e-01],
+       [4.37158470e-01, 1.91107528e-01],
+       [4.39890710e-01, 1.93503837e-01],
+       [4.42622951e-01, 1.95915077e-01],
+       [4.45355191e-01, 1.98341246e-01],
+       [4.48087432e-01, 2.00782346e-01],
+       [4.50819672e-01, 2.03238377e-01],
+       [4.53551913e-01, 2.05709337e-01],
+       [4.56284153e-01, 2.08195228e-01],
+       [4.59016393e-01, 2.10696049e-01],
+       [4.61748634e-01, 2.13211801e-01],
+       [4.64480874e-01, 2.15742483e-01],
+       [4.67213115e-01, 2.18288095e-01],
+       [4.69945355e-01, 2.20848637e-01],
+       [4.72677596e-01, 2.23424109e-01],
+       [4.75409836e-01, 2.26014512e-01],
+       [4.78142077e-01, 2.28619845e-01],
+       [4.80874317e-01, 2.31240109e-01],
+       [4.83606557e-01, 2.33875302e-01],
+       [4.86338798e-01, 2.36525426e-01],
+       [4.89071038e-01, 2.39190480e-01],
+       [4.91803279e-01, 2.41870465e-01],
+       [4.94535519e-01, 2.44565380e-01],
+       [4.97267760e-01, 2.47275225e-01],
+       [5.00000000e-01, 2.50000000e-01],
+       [5.02732240e-01, 2.52739706e-01],
+       [5.05464481e-01, 2.55494341e-01],
+       [5.08196721e-01, 2.58263908e-01],
+       [5.10928962e-01, 2.61048404e-01],
+       [5.13661202e-01, 2.63847831e-01],
+       [5.16393443e-01, 2.66662188e-01],
+       [5.19125683e-01, 2.69491475e-01],
+       [5.21857923e-01, 2.72335692e-01],
+       [5.24590164e-01, 2.75194840e-01],
+       [5.27322404e-01, 2.78068918e-01],
+       [5.30054645e-01, 2.80957926e-01],
+       [5.32786885e-01, 2.83861865e-01],
+       [5.35519126e-01, 2.86780734e-01],
+       [5.38251366e-01, 2.89714533e-01],
+       [5.40983607e-01, 2.92663263e-01],
+       [5.43715847e-01, 2.95626922e-01],
+       [5.46448087e-01, 2.98605512e-01],
+       [5.49180328e-01, 3.01599033e-01],
+       [5.51912568e-01, 3.04607483e-01],
+       [5.54644809e-01, 3.07630864e-01],
+       [5.57377049e-01, 3.10669175e-01],
+       [5.60109290e-01, 3.13722416e-01],
+       [5.62841530e-01, 3.16790588e-01],
+       [5.65573770e-01, 3.19873690e-01],
+       [5.68306011e-01, 3.22971722e-01],
+       [5.71038251e-01, 3.26084685e-01],
+       [5.73770492e-01, 3.29212577e-01],
+       [5.76502732e-01, 3.32355400e-01],
+       [5.79234973e-01, 3.35513154e-01],
+       [5.81967213e-01, 3.38685837e-01],
+       [5.84699454e-01, 3.41873451e-01],
+       [5.87431694e-01, 3.45075995e-01],
+       [5.90163934e-01, 3.48293469e-01],
+       [5.92896175e-01, 3.51525874e-01],
+       [5.95628415e-01, 3.54773209e-01],
+       [5.98360656e-01, 3.58035474e-01],
+       [6.01092896e-01, 3.61312670e-01],
+       [6.03825137e-01, 3.64604796e-01],
+       [6.06557377e-01, 3.67911852e-01],
+       [6.09289617e-01, 3.71233838e-01],
+       [6.12021858e-01, 3.74570755e-01],
+       [6.14754098e-01, 3.77922601e-01],
+       [6.17486339e-01, 3.81289379e-01],
+       [6.20218579e-01, 3.84671086e-01],
+       [6.22950820e-01, 3.88067724e-01],
+       [6.25683060e-01, 3.91479292e-01],
+       [6.28415301e-01, 3.94905790e-01],
+       [6.31147541e-01, 3.98347218e-01],
+       [6.33879781e-01, 4.01803577e-01],
+       [6.36612022e-01, 4.05274866e-01],
+       [6.39344262e-01, 4.08761086e-01],
+       [6.42076503e-01, 4.12262235e-01],
+       [6.44808743e-01, 4.15778315e-01],
+       [6.47540984e-01, 4.19309325e-01],
+       [6.50273224e-01, 4.22855266e-01],
+       [6.53005464e-01, 4.26416137e-01],
+       [6.55737705e-01, 4.29991938e-01]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span> 
+
+<span class="c1"># prepare the data</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">poly</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="c1"># just computes the number of additional features</span>
+<span class="n">X_train_2</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;+:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6688e07d6c478d9673b959cadd732df02479b48d9524ca3950e7f29ba96bd32f.png" src="../_images/6688e07d6c478d9673b959cadd732df02479b48d9524ca3950e7f29ba96bd32f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Intercept: &quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Coefficients [slopes]:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">()</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> 
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error : </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Intercept:  [11837.56819358]
+Coefficients [slopes]: [[-10608.20684241   6755.61080993]]
+
+Train Error: 1302192.349
+Test Error : 894382.963
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="what-if-we-use-a-large-polynomial-degree">
+<h1>What if we use a large polynomial degree?<a class="headerlink" href="#what-if-we-use-a-large-polynomial-degree" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span> 
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">64</span><span class="p">,</span><span class="mi">100</span><span class="p">]:</span>
+    <span class="c1"># prepare the data</span>
+    <span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">poly</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">X_train_2</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+    <span class="c1"># train the model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Polynomial degree:&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> 
+                                              <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span> <span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error : </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>  
+                                              <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span> <span class="p">)</span>
+    <span class="nb">print</span> <span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Polynomial degree: 1
+Train Error: 1349853.352
+Test Error : 4918281.222
+
+Polynomial degree: 2
+Train Error: 1302192.349
+Test Error : 894382.963
+
+Polynomial degree: 4
+Train Error: 677937.984
+Test Error : 1906349444.749
+
+Polynomial degree: 8
+Train Error: 268879.070
+Test Error : 7632065537045.925
+
+Polynomial degree: 16
+Train Error: 175288.123
+Test Error : 1610622076277855617024.000
+
+Polynomial degree: 32
+Train Error: 129931.617
+Test Error : 32768747777663893746564988928.000
+
+Polynomial degree: 64
+Train Error: 119779.392
+Test Error : 16907655407260663402457067513970688.000
+
+Polynomial degree: 100
+Train Error: 119774.997
+Test Error : 18364577253839154192903313589010432.000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span> 
+
+<span class="c1"># prepare the data</span>
+<span class="n">poly</span> <span class="o">=</span> <span class="n">PolynomialFeatures</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">include_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">poly</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_train_2</span> <span class="o">=</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">poly</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error:&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">,</span> 
+                                          <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error:&quot;</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_test</span><span class="p">,</span>   
+                                         <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;+:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Error: 119774.99694814994
+Test Error: 1.8364577253839154e+34
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.0, 15000.0)
+</pre></div>
+</div>
+<img alt="../_images/b1a594ef2c1c0ea818a5d04e55164b7f6241884b5efb6585d968e68228f9bbfe.png" src="../_images/b1a594ef2c1c0ea818a5d04e55164b7f6241884b5efb6585d968e68228f9bbfe.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>What if we use a large polynomial degree?<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>You can fit any data if the polynomial degree equal to the number of points!</p>
+<ul class="simple">
+<li><p>unless you have rounding/computational errors</p></li>
+<li><p>see <code class="docutils literal notranslate"><span class="pre">numpy.polyfit</span></code> for a more robust polynomial fitting</p>
+<ul>
+<li><p><a class="reference external" href="https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.polyfit.html">https://docs.scipy.org/doc/numpy-1.15.0/reference/generated/numpy.polyfit.html</a></p></li>
+</ul>
+</li>
+</ul>
+<p>But the predictions are totally unstable outside the training dataset.</p>
+<p>This phenomenon is called <strong>overfitting</strong></p>
+<p><img alt="image.png" src="notebooks/attachment:image.png" /></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="why-this-model-is-not-working-at-all">
+<h1>Why this model is not working at all ???<a class="headerlink" href="#why-this-model-is-not-working-at-all" title="Permalink to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="we-need-a-better-feature-engineering">
+<h1>We need a better Feature Engineering !<a class="headerlink" href="#we-need-a-better-feature-engineering" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>We were predicting BTC value given a day (number)</p></li>
+<li><p>What about predicting on the basis of the most recent values ?</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">w</span><span class="p">):</span>
+    <span class="n">XX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="p">[</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">w</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">-</span><span class="n">w</span><span class="p">)</span> <span class="p">]</span> <span class="p">)</span>
+    <span class="n">YY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">y</span><span class="p">[</span><span class="n">w</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">XX</span><span class="p">,</span> <span class="n">YY</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">prepare</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((362, 4), (362, 1))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[10923.63],
+       [10679.14],
+       [10621.66],
+       [10804.  ],
+       [10684.43],
+       [10565.49],
+       [10585.16],
+       [10623.33],
+       [10787.62],
+       [10848.83]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[10923.63, 10679.14, 10621.66, 10804.  ],
+       [10679.14, 10621.66, 10804.  , 10684.43],
+       [10621.66, 10804.  , 10684.43, 10565.49],
+       [10804.  , 10684.43, 10565.49, 10585.16],
+       [10684.43, 10565.49, 10585.16, 10623.33],
+       [10565.49, 10585.16, 10623.33, 10787.62],
+       [10585.16, 10623.33, 10787.62, 10848.83],
+       [10623.33, 10787.62, 10848.83, 10721.33],
+       [10787.62, 10848.83, 10721.33, 10774.43],
+       [10848.83, 10721.33, 10774.43, 10754.44]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[10684.43],
+       [10565.49],
+       [10585.16],
+       [10623.33],
+       [10787.62],
+       [10848.83],
+       [10721.33],
+       [10774.43],
+       [10754.44],
+       [10702.29]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+
+<span class="c1"># feature engineering</span>
+<span class="n">X_seq</span><span class="p">,</span> <span class="n">y_seq</span> <span class="o">=</span> <span class="n">prepare</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="n">X_seq_train</span> <span class="o">=</span> <span class="n">X_seq</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">y_seq_train</span> <span class="o">=</span> <span class="n">y_seq</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">X_seq_test</span>  <span class="o">=</span> <span class="n">X_seq</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+<span class="n">y_seq_test</span>  <span class="o">=</span> <span class="n">y_seq</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+
+<span class="c1"># train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_seq_train</span><span class="p">,</span> <span class="n">y_seq_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">X_seq</span> <span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error: </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_seq_train</span><span class="p">,</span> 
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error : </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_seq_test</span><span class="p">,</span>  
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span> <span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">train_size</span><span class="p">),</span> <span class="n">y_seq_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">y_seq</span><span class="p">)),</span> <span class="n">y_seq_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;+:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;model coeff.&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Error: 107316.5562
+Test Error : 55806.8391
+model coeff. [[-0.07598557  0.14899797 -0.15170977  0.17687836  0.88077463]]
+</pre></div>
+</div>
+<img alt="../_images/b41f3c3e3d0378a45b1c737d96cd2fa03c91ac67b5711f3520b9355e77600844.png" src="../_images/b41f3c3e3d0378a45b1c737d96cd2fa03c91ac67b5711f3520b9355e77600844.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span> 
+
+<span class="c1"># feature engineering</span>
+<span class="c1"># try with a larger window</span>
+<span class="n">X_seq</span><span class="p">,</span> <span class="n">y_seq</span> <span class="o">=</span> <span class="n">prepare</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">X_seq_train</span> <span class="o">=</span> <span class="n">X_seq</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">y_seq_train</span> <span class="o">=</span> <span class="n">y_seq</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]</span>
+<span class="n">X_seq_test</span>  <span class="o">=</span> <span class="n">X_seq</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+<span class="n">y_seq_test</span>  <span class="o">=</span> <span class="n">y_seq</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]</span>
+
+<span class="c1"># train the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">(</span><span class="n">fit_intercept</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_seq_train</span><span class="p">,</span> <span class="n">y_seq_train</span><span class="p">)</span>
+
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">X_seq</span> <span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Train Error: </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_seq_train</span><span class="p">,</span> 
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[:</span><span class="n">train_size</span><span class="p">]))</span> <span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Test Error : </span><span class="si">{:.4f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_true</span> <span class="o">=</span> <span class="n">y_seq_test</span><span class="p">,</span>  
+                                          <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="p">[</span><span class="n">train_size</span><span class="p">:]))</span> <span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">train_size</span><span class="p">),</span> <span class="n">y_seq_train</span><span class="p">,</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">train_size</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">y_seq</span><span class="p">)),</span> <span class="n">y_seq_test</span><span class="p">,</span> <span class="s1">&#39;s:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;+:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;predicted&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Bitcoin Exchange Rate&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;days&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;model coeff.&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train Error: 105249.6589
+Test Error : 62029.2668
+model coeff. [[-0.04427384  0.08287761  0.05678508 -0.08067734 -0.12657576  0.02950194
+   0.14888631 -0.16822617  0.20957348  0.8699157 ]]
+</pre></div>
+</div>
+<img alt="../_images/cd7244b8c55667f418996142207fb8456347e8eab8df2d33883d851c9a1a3694.png" src="../_images/cd7244b8c55667f418996142207fb8456347e8eab8df2d33883d851c9a1a3694.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span> <span class="n">y_seq_test</span><span class="p">,</span>  <span class="n">y_pred</span> <span class="p">[</span><span class="n">train_size</span><span class="p">:],</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Linear regression&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Value&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;True Value&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b2c33c8de8c904239caf8a583115baa1abbf13ac506068524dc2a6d79a53a559.png" src="../_images/b2c33c8de8c904239caf8a583115baa1abbf13ac506068524dc2a6d79a53a559.png" />
+</div>
+</div>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Python Data Science Handbook</strong>. O’Reilly. 2016</p>
+<ul>
+<li><p>Chapter 5: Machine Learning - In Depth: Linear Regression</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04%20DWM%20Decision%20Trees.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Decision Trees</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Binary Classification: Logistic regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Supervised Learning: Linear regression</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-predict-next-bitcoin-exchange-rate">How to predict next Bitcoin Exchange rate ?</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#let-s-fits-a-linear-regression">Let’s fits a Linear Regression!</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split">Train-Test Split</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-linear-regression">Run Linear Regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error">Error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-details-about-the-regression">Some details about the regression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#is-linear-enough">Is Linear enough ?</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-we-use-a-large-polynomial-degree">What if we use a large polynomial degree?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">What if we use a large polynomial degree?</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-model-is-not-working-at-all">Why this model is not working at all ???</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#we-need-a-better-feature-engineering">We need a better Feature Engineering !</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By André Ramolivaz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

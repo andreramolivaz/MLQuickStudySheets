@@ -1,0 +1,1353 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Ensemble Methods: Bagging and Boosting &#8212; MLQuickStudySheets</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/07 DWM Ensemble Methods';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Random Forest" href="08%20DWM%20Random%20Forest.html" />
+    <link rel="prev" title="Binary Classification: Logistic regression" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="MLQuickStudySheets - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="MLQuickStudySheets - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to MLQuickStudySheets
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04%20DWM%20Decision%20Trees.html">Decision Trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a%20DWM%20Supervised%20Learning%20-%20Linear%20Regression.html">Supervised Learning: Linear regression</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html">Binary Classification: Logistic regression</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Ensemble Methods: Bagging and Boosting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20DWM%20Random%20Forest.html">Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_DWM_Feature_Engineering_and_Classifier_Evaluation.html">Feature Engineering and Classifier Evaluation</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20Text%20Processing%20and%20Naive%20Bayes.html">Text Processing and Naive Bayes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="12%20DWM%20Web%20Search%20and%20Ranking.html">Web Search and Ranking</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets/issues/new?title=Issue%20on%20page%20%2Fnotebooks/07 DWM Ensemble Methods.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/07 DWM Ensemble Methods.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Ensemble Methods: Bagging and Boosting</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-classifiers-accuracy">Improving classifiers accuracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-improve-the-accuracy-of-a-classifier">How can we improve the accuracy of a classifier ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-do-we-need-to-build-an-ensemble">What do we need to build an Ensemble ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagging-algorithm">Bagging Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting-and-adaboost">Boosting and AdaBoost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling">Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instance-weighting">Instance weighting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaboost">AdaBoost</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-apply-the-regression-versions-of-bagging-and-boosting-to-a-regression-dataset">Exercise: apply the regression versions of Bagging and Boosting to a regression dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance-decomposition">Bias-Variance Decomposition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-fully-grown-tree-has">- A fully grown tree has:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-fitting-versus-under-fitting">Over-fitting versus Under-fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-complexity-of-a-decision-tree-i-e-number-of-nodes">Increasing the complexity of a decision tree, i.e., number of nodes.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-number-of-kneighbours-of-a-k-nn-classifier">Increasing the number of kneighbours of a k-NN classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-amount-of-data-considered">Increasing the amount of data considered</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-bagging-to-reduce-variance">Using Bagging to reduce Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-boosting-to-reduce-bias">Using Boosting to reduce Bias</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ensemble-methods-bagging-and-boosting">
+<h1>Ensemble Methods: Bagging and Boosting<a class="headerlink" href="#ensemble-methods-bagging-and-boosting" title="Permalink to this heading">#</a></h1>
+<section id="improving-classifiers-accuracy">
+<h2>Improving classifiers accuracy<a class="headerlink" href="#improving-classifiers-accuracy" title="Permalink to this heading">#</a></h2>
+<p>We are usually in a situation where data is too “difficult” for our classifier.</p>
+<p>We simulate this by using a decision tree with a small number of leaves.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate some random data</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> 
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">transformation</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/57e71c591294236876ecd80903bd8d9b23c1165e914cdb16b2688b08124b29c2.png" src="../_images/57e71c591294236876ecd80903bd8d9b23c1165e914cdb16b2688b08124b29c2.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># train a decision tree classifier</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">dt</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">response_method</span> <span class="o">=</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> 
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.931
+</pre></div>
+</div>
+<img alt="../_images/7efe1d500d684341ca67f9709987375f65d8436f0f75bcd5e9e2991f231e133c.png" src="../_images/7efe1d500d684341ca67f9709987375f65d8436f0f75bcd5e9e2991f231e133c.png" />
+</div>
+</div>
+</section>
+<section id="how-can-we-improve-the-accuracy-of-a-classifier">
+<h2>How can we improve the accuracy of a classifier ?<a class="headerlink" href="#how-can-we-improve-the-accuracy-of-a-classifier" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Suppose we have 3 different classifiers, all with error rate 1/3.</p></li>
+<li><p>How can we exploit their predictions ?</p></li>
+<li><p>What is the probability that all of them are wrong ?</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\((1/3)^3 = 1/27\)</span></p></li>
+</ul>
+</li>
+<li><p>What is the probability that the majority of them is wrong ?</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(1/3\cdot1/3\cdot2/3 + 1/3\cdot2/3\cdot1/3 + 2/3\cdot1/3\cdot1/3 + 1/3\cdot1/3\cdot1/3 = \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( 3 \left( 1/3\cdot1/3\cdot2/3 \right) + 1/3\cdot1/3\cdot1/3 = 7/27 \approx 26\%\)</span></p></li>
+</ul>
+</li>
+<li><p>So what ?</p>
+<ul>
+<li><p>Each classifier has error rate 33% and accuracy 67%</p></li>
+<li><p>Their combination has error rate 26% and accuracy 74%</p></li>
+</ul>
+</li>
+<li><p>And it improves with the number of classifiers</p></li>
+<li><p>An <strong>Ensemble</strong> provides greater accuracy even if its <strong>weak learners</strong> are not very accurate</p></li>
+<li><p>Note:</p>
+<ul>
+<li><p>each classifier should do better than random</p></li>
+<li><p>we are assuming classifiers are independent one another</p>
+<ul>
+<li><p>Difficult given that they are trained on same/similar data</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="what-do-we-need-to-build-an-ensemble">
+<h2>What do we need to build an Ensemble ?<a class="headerlink" href="#what-do-we-need-to-build-an-ensemble" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Several different training datasets so to build different classifiers</p>
+<ul>
+<li><p>Splitting may result in too little data</p></li>
+<li><p><strong>Sampling</strong> is a better solution</p></li>
+</ul>
+</li>
+<li><p>A merging function to combine classifiers’ predictions</p>
+<ul>
+<li><p><strong>Majority</strong> voting for classification</p></li>
+<li><p><strong>Average</strong> for regression</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="bagging-algorithm">
+<h2>Bagging Algorithm<a class="headerlink" href="#bagging-algorithm" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Bootstrap aggregation</strong> works by combining the prediction of <span class="math notranslate nohighlight">\(k\)</span> models trained on a bootstrap sample of the given training dataset</p></li>
+<li><p>A bootstrap sample is obtained through <strong>sampling with replacement</strong></p></li>
+<li><p>A bootstrap sample has the same size of the original dataset</p></li>
+<li><p>Bootstrap samples are all different (with high probability), and therefore the learned models are also different</p>
+<ul>
+<li><p>an instance has ~63% probability of being part of the sample</p>
+<ul>
+<li><p>each sample has a probability <span class="math notranslate nohighlight">\(1-(1-1/N)^N\)</span>, with <span class="math notranslate nohighlight">\(N\)</span> being the size of the dataset, of being sampled</p></li>
+<li><p>with a large <span class="math notranslate nohighlight">\(N\)</span>, this converges to <span class="math notranslate nohighlight">\(1-1/e\approx 0.632\)</span></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Bagging Algorithm</strong></p>
+<ul>
+<li><p>For <span class="math notranslate nohighlight">\(i=1, ..., k\)</span></p>
+<ul>
+<li><p>Create a bootstrap sample <span class="math notranslate nohighlight">\(D_i\)</span> of <span class="math notranslate nohighlight">\(D\)</span></p></li>
+<li><p>Build a model <span class="math notranslate nohighlight">\(M_i\)</span> on <span class="math notranslate nohighlight">\(D_i\)</span></p></li>
+</ul>
+</li>
+<li><p>Prediction for instance <span class="math notranslate nohighlight">\(x\)</span> is the combination of all predictions <span class="math notranslate nohighlight">\(M_i(x)\)</span></p>
+<ul>
+<li><p>majority voting or average</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">bagged_dt</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">bagged_dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> 
+                                                 <span class="n">y_pred</span><span class="o">=</span><span class="n">bagged_dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+
+
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">bagged_dt</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">response_method</span> <span class="o">=</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> 
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.968
+</pre></div>
+</div>
+<img alt="../_images/113a32aa49c75d34a3e2e13fa72820b2fdf7f6da2a527e6856bf3c04a6c09e9c.png" src="../_images/113a32aa49c75d34a3e2e13fa72820b2fdf7f6da2a527e6856bf3c04a6c09e9c.png" />
+</div>
+</div>
+<ul class="simple">
+<li><p>Try increasing the number of trees</p></li>
+<li><p>Accuracy hardly gets to 100%</p></li>
+<li><p>One of the reasons is that generated trees are too similar one another</p></li>
+</ul>
+</section>
+<section id="boosting-and-adaboost">
+<h2>Boosting and AdaBoost<a class="headerlink" href="#boosting-and-adaboost" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Ideally we would like to fix those instances for which our prediction was not correct</p></li>
+<li><p>AdaBoost/Boosting is an improvement over bagging</p></li>
+<li><p>Instances are sampled with larger probability if their prediction is wrong</p></li>
+<li><p>Predictions by the weak learners of the ensemble are weighted depending on their accuracy</p></li>
+</ul>
+<section id="sampling">
+<h3>Sampling<a class="headerlink" href="#sampling" title="Permalink to this heading">#</a></h3>
+<p>Sampling is with replacement as for bagging.</p>
+<p>Sampling is not uniform. The probability of selecting an instance <span class="math notranslate nohighlight">\(x_j\)</span> at each step of the sampling process is given by its weight <span class="math notranslate nohighlight">\(w_j\)</span>.</p>
+<p>Initially every instance <span class="math notranslate nohighlight">\(x_j\)</span> has weight <span class="math notranslate nohighlight">\(w_j=1/N\)</span>, where <span class="math notranslate nohighlight">\(N\)</span> is the size of the dataset.</p>
+</section>
+<section id="instance-weighting">
+<h3>Instance weighting<a class="headerlink" href="#instance-weighting" title="Permalink to this heading">#</a></h3>
+<p>After training a new model <span class="math notranslate nohighlight">\(M_i\)</span> over a sample <span class="math notranslate nohighlight">\(D_i\)</span>, we measure its error rate on the initial dataset as:</p>
+<div class="math notranslate nohighlight">
+\[
+error(M_i) = \frac{1}{N}\sum_{(x_j,y_j) \in D} w_j \cdot \mathbb{1}[M_i(x_j)\neq y_j]
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbb{1}[condition]=1\)</span> if <span class="math notranslate nohighlight">\(condition\)</span> is true and 0 otherwise.</p>
+<p><span class="math notranslate nohighlight">\(error(M_i)\)</span> is large when predictions are not correct for instances with large weights.</p>
+<p><strong>Each learner is weighted according to its error/accuracy</strong>.</p>
+<p>The weight of <span class="math notranslate nohighlight">\(M_i\)</span> is <span class="math notranslate nohighlight">\(\alpha_i\)</span>:
+$<span class="math notranslate nohighlight">\(
+\alpha_i = \log\frac{1-error(M_i)}{error(M_i)}
+\)</span>$</p>
+<ul class="simple">
+<li><p>The above is also called <em>logit</em> or <em>log-odds</em> and it maps the odds of correct prediction into a real number in <span class="math notranslate nohighlight">\([-\infty,+\infty]\)</span>,</p></li>
+<li><p>Large errors are mapped into large negative values, and viceversa.</p></li>
+<li><p>Error equal to 0.5 is mapped to 0.0.</p></li>
+</ul>
+<p>The prediction is given by the class with the largest <em>weighted</em> majority voting.</p>
+<p>The error rate is used to <strong>update the weights of the instances</strong>.</p>
+<p>If an instance <span class="math notranslate nohighlight">\(x_j\in D\)</span> is <strong>correctly</strong> classified then its weight is updated as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+w_j = w_j e^{-\alpha_i}
+\]</div>
+<p>If an instance <span class="math notranslate nohighlight">\(x_j\in D\)</span> is <strong>incorrectly</strong> classified then its weight is updated as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+w_j = w_j e^{\alpha_i}
+\]</div>
+<p>This decreases the weight of correctly classified instances and increases the weights of incorrectly classified instances.</p>
+<p>After this, weights are are normalized so as to sum up to 1:</p>
+<div class="math notranslate nohighlight">
+\[
+w_j = \frac{w_j}{\sum_k w_k}
+\]</div>
+<p>The new weights are used for the next sampling.</p>
+</section>
+<section id="adaboost">
+<h3>AdaBoost<a class="headerlink" href="#adaboost" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>initialize the weight <span class="math notranslate nohighlight">\(w_j=1/n\)</span> for each instance <span class="math notranslate nohighlight">\(x_j\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(E = \emptyset\)</span></p></li>
+<li><p>for <span class="math notranslate nohighlight">\(i=1\)</span> to <span class="math notranslate nohighlight">\(k\)</span>:</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> get <span class="math notranslate nohighlight">\(D_i\)</span> by sampling <span class="math notranslate nohighlight">\(D\)</span> with replacement according weights <span class="math notranslate nohighlight">\(w_j\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> train a model <span class="math notranslate nohighlight">\(M_i\)</span> on <span class="math notranslate nohighlight">\(D_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> compute <span class="math notranslate nohighlight">\(error(M_i)\)</span> on <span class="math notranslate nohighlight">\(D\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> if <span class="math notranslate nohighlight">\(error(M_i) &gt; 0.5\)</span> then go step 4</p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> compute model’s importance <span class="math notranslate nohighlight">\(\alpha_i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> update weights of instances in <span class="math notranslate nohighlight">\(D\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\quad\)</span> add <span class="math notranslate nohighlight">\(\alpha M_i\)</span> to the final ensemble <span class="math notranslate nohighlight">\(E\)</span></p></li>
+<li><p>return <span class="math notranslate nohighlight">\(E\)</span></p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">adaboost</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">adaboost</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Accuracy: </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> 
+                                                 <span class="n">y_pred</span><span class="o">=</span><span class="n">adaboost</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+
+
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">adaboost</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">response_method</span> <span class="o">=</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> 
+    <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 1.000
+</pre></div>
+</div>
+<img alt="../_images/a8cb7dd1a8a3c0e96ddda38b19bf64ea0ed59a4ed8e9e4b479abf8a5d0305b26.png" src="../_images/a8cb7dd1a8a3c0e96ddda38b19bf64ea0ed59a4ed8e9e4b479abf8a5d0305b26.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-apply-the-regression-versions-of-bagging-and-boosting-to-a-regression-dataset">
+<h2>Exercise: apply the regression versions of Bagging and Boosting to a regression dataset<a class="headerlink" href="#exercise-apply-the-regression-versions-of-bagging-and-boosting-to-a-regression-dataset" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="bias-variance-decomposition">
+<h2>Bias-Variance Decomposition<a class="headerlink" href="#bias-variance-decomposition" title="Permalink to this heading">#</a></h2>
+<p>The error of a classifier can be decomposed in:</p>
+<ul class="simple">
+<li><p><strong>Bias</strong><span class="math notranslate nohighlight">\(^2\)</span></p>
+<ul>
+<li><p>The error of the average prediction for an instance <span class="math notranslate nohighlight">\(x\)</span></p></li>
+<li><p>The goodness of the algorithm for the specific problem</p>
+<ul>
+<li><p>Can you model non-linear relations with a linear model ?</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Variance</strong>:</p>
+<ul>
+<li><p>The variance of predictions for the same <span class="math notranslate nohighlight">\(x\)</span></p></li>
+<li><p>The sensitivity of the learning algorithm to the specific training set</p></li>
+</ul>
+</li>
+<li><p><strong>Irreducible Error/Noise</strong>:</p>
+<ul>
+<li><p>Errors in the dataset: wrong labels or wrong features</p></li>
+<li><p>This cannot be removed</p></li>
+</ul>
+</li>
+</ul>
+<p>For regression with mean squared error, error it is exactly the sum of the above.</p>
+<div class="math notranslate nohighlight">
+\[
+Error(M) = Bias^2 + Variance + Noise
+\]</div>
+<p><img alt="image.png" src="notebooks/attachment:image.png" /></p>
+<ul class="simple">
+<li><p>With finite data, it can be approximated by generating several models from different boostrap samples.</p>
+<ul>
+<li><p>see example: <a class="reference external" href="https://scikit-learn.org/stable/auto_examples/ensemble/plot_bias_variance.html#sphx-glr-auto-examples-ensemble-plot-bias-variance-py">https://scikit-learn.org/stable/auto_examples/ensemble/plot_bias_variance.html#sphx-glr-auto-examples-ensemble-plot-bias-variance-py</a></p></li>
+</ul>
+</li>
+</ul>
+<p>See also:</p>
+<ul class="simple">
+<li><p>see: <a class="reference external" href="http://scott.fortmann-roe.com/docs/BiasVariance.html">http://scott.fortmann-roe.com/docs/BiasVariance.html</a></p></li>
+</ul>
+<p><strong>Question</strong>:</p>
+<ul class="simple">
+<li><p>How is the bias variance of a decision tree classifier?</p></li>
+<li><p>What if we change the number of leaves?</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+<span class="c1"># generate some random data</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> 
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">transformation</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span>
+
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># plot data and decision map</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">N_TESTS</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+    <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.66</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">)</span>
+
+    <span class="c1"># train a decision tree classifier</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># change this!</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Sample vs. Global Accuracy: </span><span class="si">{:.3f}</span><span class="s2"> - </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> 
+           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">ys</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xs</span><span class="p">)),</span> 
+           <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+
+    <span class="n">disp</span> <span class="o">=</span> <span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+        <span class="n">dt</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">response_method</span> <span class="o">=</span> <span class="s2">&quot;predict&quot;</span><span class="p">,</span> 
+        <span class="n">grid_resolution</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample vs. Global Accuracy: 0.712 - 0.740
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample vs. Global Accuracy: 0.803 - 0.740
+Sample vs. Global Accuracy: 0.773 - 0.720
+</pre></div>
+</div>
+<img alt="../_images/071c690ccb19ff74959accd98208472eaec056ed6b2fa1ea4452c1f0f7ca1589.png" src="../_images/071c690ccb19ff74959accd98208472eaec056ed6b2fa1ea4452c1f0f7ca1589.png" />
+</div>
+</div>
+<section id="a-fully-grown-tree-has">
+<h3>- A fully grown tree has:<a class="headerlink" href="#a-fully-grown-tree-has" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>little bias, as it can fit any training input</p></li>
+<li><p>large variance, as its prediction varies significantly across different inputs</p></li>
+<li><p>A small tree has:</p>
+<ul>
+<li><p>large bias, as it does not fit well the training input</p></li>
+<li><p>low variance, as its prediction does not vary significantly across different inputs</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p><strong>Bagging</strong> reduces variance of a base classifier</p>
+<ul>
+<li><p>as predictions are averaged, the classifier gains “stability”</p></li>
+<li><p>by properties of variance, the variance of the mean of of <span class="math notranslate nohighlight">\(n\)</span> independent random variables all with variance <span class="math notranslate nohighlight">\(\sigma^2\)</span> equals to <span class="math notranslate nohighlight">\(\sigma^2/n\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Boosting</strong> reduces bias of a base classifier</p>
+<ul>
+<li><p>by retraining on the most difficult instances</p></li>
+</ul>
+</li>
+<li><p>Bagging should be applied to models with low bias and high variance</p></li>
+<li><p>Boosting should be applied to models with high bias and low variance</p></li>
+</ul>
+</section>
+</section>
+<section id="over-fitting-versus-under-fitting">
+<h2>Over-fitting versus Under-fitting<a class="headerlink" href="#over-fitting-versus-under-fitting" title="Permalink to this heading">#</a></h2>
+<p><img alt="image.png" src="notebooks/attachment:image.png" /></p>
+<section id="increasing-the-complexity-of-a-decision-tree-i-e-number-of-nodes">
+<h3>Increasing the complexity of a decision tree, i.e., number of nodes.<a class="headerlink" href="#increasing-the-complexity-of-a-decision-tree-i-e-number-of-nodes" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generate some ransom data</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> 
+                  <span class="n">cluster_std</span><span class="o">=</span><span class="mf">.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">transformation</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">n_leaves</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">n_leaves</span><span class="p">:</span>
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+        <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">)</span>
+
+        <span class="c1"># train a decision tree classifier</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span>  <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+
+    <span class="c1"># actual y vs. avg prediction</span>
+    <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="c1"># variance of predictions</span>
+    <span class="n">dt_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># MSE error (even if this is classification)</span>
+    <span class="n">dt_error</span>    <span class="o">=</span> <span class="p">(</span><span class="n">y_preds</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    
+    <span class="n">run_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dt_error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_bias</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_variance</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">stats</span><span class="p">,</span> <span class="n">run_stats</span><span class="p">])</span> <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">run_stats</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_leaves</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_leaves</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias$^2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_leaves</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of leaves&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Error/Bias/Variance at the last iteration:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.02065   0.0052225 0.0154275]
+</pre></div>
+</div>
+<img alt="../_images/3eb82c93c9acbe9a86214c2581a860a3cf28d9bccea8d461e5a19a336de7cc84.png" src="../_images/3eb82c93c9acbe9a86214c2581a860a3cf28d9bccea8d461e5a19a336de7cc84.png" />
+</div>
+</div>
+</section>
+<section id="increasing-the-number-of-kneighbours-of-a-k-nn-classifier">
+<h3>Increasing the number of kneighbours of a k-NN classifier<a class="headerlink" href="#increasing-the-number-of-kneighbours-of-a-k-nn-classifier" title="Permalink to this heading">#</a></h3>
+<p>Recall what happens when <span class="math notranslate nohighlight">\(k \rightarrow +\infty\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">n_neighs</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">n_neighs</span><span class="p">:</span>
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+        <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">)</span>
+
+        <span class="c1"># train a decision knn classifier</span>
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+
+    <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dt_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dt_error</span>    <span class="o">=</span> <span class="p">(</span><span class="n">y_preds</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    
+    <span class="n">run_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dt_error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_bias</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_variance</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">stats</span><span class="p">,</span> <span class="n">run_stats</span><span class="p">])</span> <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">run_stats</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_neighs</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_neighs</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias$^2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_neighs</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of kneighbours&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Error/Bias/Variance at the last iteration:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">20</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">20</span>     <span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/sklearn/neighbors/_classification.py:284,</span> in <span class="ni">KNeighborsClassifier.predict</span><span class="nt">(self, X)</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">classes_k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">classes_</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">283</span>     <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">284</span>         <span class="n">mode</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_mode</span><span class="p">(</span><span class="n">_y</span><span class="p">[</span><span class="n">neigh_ind</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">286</span>         <span class="n">mode</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">weighted_mode</span><span class="p">(</span><span class="n">_y</span><span class="p">[</span><span class="n">neigh_ind</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="n">weights</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/sklearn/utils/fixes.py:104,</span> in <span class="ni">_mode</span><span class="nt">(a, axis)</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span> <span class="k">def</span> <span class="nf">_mode</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">103</span>     <span class="k">if</span> <span class="n">sp_version</span> <span class="o">&gt;=</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;1.9.0&quot;</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">104</span>         <span class="n">mode</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">105</span>         <span class="k">if</span> <span class="n">sp_version</span> <span class="o">&gt;=</span> <span class="n">parse_version</span><span class="p">(</span><span class="s2">&quot;1.10.999&quot;</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span>             <span class="c1"># scipy.stats.mode has changed returned array shape with axis=None</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>             <span class="c1"># and keepdims=True, see https://github.com/scipy/scipy/pull/17561</span>
+<span class="g g-Whitespace">    </span><span class="mi">108</span>             <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_axis_nan_policy.py:591,</span> in <span class="ni">_axis_nan_policy_factory.&lt;locals&gt;.axis_nan_policy_decorator.&lt;locals&gt;.axis_nan_policy_wrapper</span><span class="nt">(***failed resolving arguments***)</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span>         <span class="k">return</span> <span class="n">result_to_tuple</span><span class="p">(</span><span class="n">hypotest_fun_out</span><span class="p">(</span><span class="o">*</span><span class="n">samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">590</span> <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">591</span> <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">hypotest_fun</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">arr</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">592</span> <span class="n">res</span> <span class="o">=</span> <span class="n">_add_reduced_axes</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">reduced_axes</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">593</span> <span class="k">return</span> <span class="n">tuple_to_result</span><span class="p">(</span><span class="o">*</span><span class="n">res</span><span class="p">)</span>
+
+<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/shape_base.py:402,</span> in <span class="ni">apply_along_axis</span><span class="nt">(func1d, axis, arr, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span> <span class="n">buff</span><span class="p">[</span><span class="n">ind0</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+<span class="g g-Whitespace">    </span><span class="mi">401</span> <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">inds</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">402</span>     <span class="n">buff</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">asanyarray</span><span class="p">(</span><span class="n">func1d</span><span class="p">(</span><span class="n">inarr_view</span><span class="p">[</span><span class="n">ind</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">404</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">405</span>     <span class="c1"># wrap the array, to preserve subclasses</span>
+<span class="g g-Whitespace">    </span><span class="mi">406</span>     <span class="n">buff</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__array_wrap__</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_axis_nan_policy.py:588,</span> in <span class="ni">_axis_nan_policy_factory.&lt;locals&gt;.axis_nan_policy_decorator.&lt;locals&gt;.axis_nan_policy_wrapper.&lt;locals&gt;.hypotest_fun</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="n">is_too_small</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">587</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">588</span> <span class="k">return</span> <span class="n">result_to_tuple</span><span class="p">(</span><span class="n">hypotest_fun_out</span><span class="p">(</span><span class="o">*</span><span class="n">samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">))</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_stats_py.py:517,</span> in <span class="ni">mode</span><span class="nt">(a, axis, nan_policy, keepdims)</span>
+<span class="g g-Whitespace">    </span><span class="mi">514</span>     <span class="n">NaN</span> <span class="o">=</span> <span class="n">_get_nan</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span>     <span class="k">return</span> <span class="n">ModeResult</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">NaN</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">517</span> <span class="n">vals</span><span class="p">,</span> <span class="n">cnts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">518</span> <span class="n">modes</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">cnts</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span> <span class="n">cnts</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">519</span> <span class="k">return</span> <span class="n">ModeResult</span><span class="p">(</span><span class="n">modes</span><span class="p">[()],</span> <span class="n">counts</span><span class="p">[()])</span>
+
+<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/arraysetops.py:274,</span> in <span class="ni">unique</span><span class="nt">(ar, return_index, return_inverse, return_counts, axis, equal_nan)</span>
+<span class="g g-Whitespace">    </span><span class="mi">272</span> <span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">274</span>     <span class="n">ret</span> <span class="o">=</span> <span class="n">_unique1d</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">return_index</span><span class="p">,</span> <span class="n">return_inverse</span><span class="p">,</span> <span class="n">return_counts</span><span class="p">,</span> 
+<span class="g g-Whitespace">    </span><span class="mi">275</span>                     <span class="n">equal_nan</span><span class="o">=</span><span class="n">equal_nan</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="k">return</span> <span class="n">_unpack_tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span> <span class="c1"># axis was specified and not None</span>
+
+<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/arraysetops.py:352,</span> in <span class="ni">_unique1d</span><span class="nt">(ar, return_index, return_inverse, return_counts, equal_nan)</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span>     <span class="n">mask</span><span class="p">[</span><span class="n">aux_firstnan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">352</span>     <span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">aux</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">aux</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span> <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">aux</span><span class="p">[</span><span class="n">mask</span><span class="p">],)</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span> <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="increasing-the-amount-of-data-considered">
+<h3>Increasing the amount of data considered<a class="headerlink" href="#increasing-the-amount-of-data-considered" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">n_inst</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">101</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">n_inst</span><span class="p">:</span>
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+        <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="c1"># train a decision tree classifier</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+
+    <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dt_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dt_error</span>    <span class="o">=</span> <span class="p">(</span><span class="n">y_preds</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    
+    <span class="n">run_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dt_error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_bias</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_variance</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">stats</span><span class="p">,</span> <span class="n">run_stats</span><span class="p">])</span> <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">run_stats</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_inst</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_inst</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias$^2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_inst</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of instances&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Error/Bias/Variance at the last iteration:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.0856   0.025615 0.059985]
+</pre></div>
+</div>
+<img alt="../_images/8922cc9c6b26a616b15f5bcbac3c44bd4b6685370923e809ba7cc05d7e01865b.png" src="../_images/8922cc9c6b26a616b15f5bcbac3c44bd4b6685370923e809ba7cc05d7e01865b.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="using-bagging-to-reduce-variance">
+<h2>Using Bagging to reduce Variance<a class="headerlink" href="#using-bagging-to-reduce-variance" title="Permalink to this heading">#</a></h2>
+<p>Vary the number of bagging rounds on a decision tree with 100 leaves</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span>
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">bags</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">bags</span><span class="p">:</span>
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+        <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">)</span>
+
+        <span class="c1"># train a decision tree classifier</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">bagged_dt</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">bagged_dt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">bagged_dt</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+
+    <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dt_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dt_error</span>    <span class="o">=</span> <span class="p">(</span><span class="n">y_preds</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    
+    <span class="n">run_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dt_error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_bias</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_variance</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">stats</span><span class="p">,</span> <span class="n">run_stats</span><span class="p">])</span> <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">run_stats</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bags</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bags</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias$^2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bags</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Bagging rounds&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Error/Bias/Variance at the last iteration:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.0177  0.00511 0.01259]
+</pre></div>
+</div>
+<img alt="../_images/a6f441853e7ea757c4db44311a14ae3a2902bad717ec752350c5c01ca4b79fc8.png" src="../_images/a6f441853e7ea757c4db44311a14ae3a2902bad717ec752350c5c01ca4b79fc8.png" />
+</div>
+</div>
+</section>
+<section id="using-boosting-to-reduce-bias">
+<h2>Using Boosting to reduce Bias<a class="headerlink" href="#using-boosting-to-reduce-bias" title="Permalink to this heading">#</a></h2>
+<p>Vary the number of bagging rounds on a decision tree with 2 leaves only</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+
+<span class="n">N_TESTS</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">boosts</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">51</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">boosts</span><span class="p">:</span>
+    <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_TESTS</span><span class="p">):</span>
+        <span class="n">Xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.67</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">)</span>
+
+        <span class="c1"># train a decision tree classifier</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">adaboost</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="n">l</span><span class="p">)</span>
+        <span class="n">adaboost</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xs</span><span class="p">,</span><span class="n">ys</span><span class="p">)</span>
+        
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">adaboost</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">y_preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">y_preds</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">]</span> <span class="p">)</span> <span class="k">if</span> <span class="n">y_preds</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">y_pred</span>
+
+    <span class="n">dt_bias</span>     <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dt_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">y_preds</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dt_error</span>    <span class="o">=</span> <span class="p">(</span><span class="n">y_preds</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    
+    <span class="n">run_stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dt_error</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_bias</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">dt_variance</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+    
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span> <span class="p">[</span><span class="n">stats</span><span class="p">,</span> <span class="n">run_stats</span><span class="p">])</span> <span class="k">if</span> <span class="n">stats</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">run_stats</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">boosts</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">boosts</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">1</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Bias$^2$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">boosts</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">2</span><span class="p">,:],</span> <span class="s1">&#39;o:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Variance&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Boosting rounds&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Error/Bias/Variance at the last iteration:&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.01655   0.0051675 0.0113825]
+</pre></div>
+</div>
+<img alt="../_images/2305628bbd2b7fe964cbd8c2b7ba21cd8f3982d79d37df1a1a95dd489fe2170c.png" src="../_images/2305628bbd2b7fe964cbd8c2b7ba21cd8f3982d79d37df1a1a95dd489fe2170c.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Binary Classification: Logistic regression</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="08%20DWM%20Random%20Forest.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Random Forest</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#improving-classifiers-accuracy">Improving classifiers accuracy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-can-we-improve-the-accuracy-of-a-classifier">How can we improve the accuracy of a classifier ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-do-we-need-to-build-an-ensemble">What do we need to build an Ensemble ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagging-algorithm">Bagging Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#boosting-and-adaboost">Boosting and AdaBoost</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sampling">Sampling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instance-weighting">Instance weighting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adaboost">AdaBoost</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-apply-the-regression-versions-of-bagging-and-boosting-to-a-regression-dataset">Exercise: apply the regression versions of Bagging and Boosting to a regression dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bias-variance-decomposition">Bias-Variance Decomposition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-fully-grown-tree-has">- A fully grown tree has:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#over-fitting-versus-under-fitting">Over-fitting versus Under-fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-complexity-of-a-decision-tree-i-e-number-of-nodes">Increasing the complexity of a decision tree, i.e., number of nodes.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-number-of-kneighbours-of-a-k-nn-classifier">Increasing the number of kneighbours of a k-NN classifier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#increasing-the-amount-of-data-considered">Increasing the amount of data considered</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-bagging-to-reduce-variance">Using Bagging to reduce Variance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-boosting-to-reduce-bias">Using Boosting to reduce Bias</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By André Ramolivaz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

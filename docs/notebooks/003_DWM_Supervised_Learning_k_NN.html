@@ -1,0 +1,1386 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>KNN Classifier &#8212; MLQuickStudySheets</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/003_DWM_Supervised_Learning_k_NN';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="MLQuickStudySheets - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="MLQuickStudySheets - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to MLQuickStudySheets
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04%20DWM%20Decision%20Trees.html">Decision Trees</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a%20DWM%20Supervised%20Learning%20-%20Linear%20Regression.html">Supervised Learning: Linear regression</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="05b%20DWM%20Supervised%20Learning%20-%20LogReg%20and%20SVM.html">Binary Classification: Logistic regression</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="07%20DWM%20Ensemble%20Methods.html">Ensemble Methods: Bagging and Boosting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="08%20DWM%20Random%20Forest.html">Random Forest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_DWM_Feature_Engineering_and_Classifier_Evaluation.html">Feature Engineering and Classifier Evaluation</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="10%20Text%20Processing%20and%20Naive%20Bayes.html">Text Processing and Naive Bayes</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="12%20DWM%20Web%20Search%20and%20Ranking.html">Web Search and Ranking</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/andreramolivaz/MLQuickStudySheets/issues/new?title=Issue%20on%20page%20%2Fnotebooks/003_DWM_Supervised_Learning_k_NN.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/003_DWM_Supervised_Learning_k_NN.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>KNN Classifier</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wine-dataset">Wine dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-vs-test">Train vs. Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor-classifier">k-Nearest-Neighbor Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-the-impact-of-k">What’s the impact of k?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-value-of-k">Choosing the value of K:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-this-sensible-to-distances">How is this sensible to distances?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#it-might-be-a-good-idea-to-weigh-features-according-to-some-domain-knowledge">It might be a good idea to weigh features according to some domain knowledge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-complexity">Computational Complexity</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="knn-classifier">
+<h1>KNN Classifier<a class="headerlink" href="#knn-classifier" title="Permalink to this heading">#</a></h1>
+<section id="wine-dataset">
+<h2>Wine dataset<a class="headerlink" href="#wine-dataset" title="Permalink to this heading">#</a></h2>
+<p>Url: <a class="reference external" href="http://archive.ics.uci.edu/ml/datasets/Wine">http://archive.ics.uci.edu/ml/datasets/Wine</a></p>
+<p>These data are the results of a chemical analysis of wines grown in the same region in Italy but derived from three different cultivars. The analysis determined the quantities of 13 constituents found in each of the three types of wines.</p>
+<p>The attributes are:</p>
+<ol class="arabic simple" start="0">
+<li><p>Quality (1-3)</p></li>
+<li><p>Alcohol</p></li>
+<li><p>Malic acid</p></li>
+<li><p>Ash</p></li>
+<li><p>Alcalinity of ash</p></li>
+<li><p>Magnesium</p></li>
+<li><p>Total phenols</p></li>
+<li><p>Flavanoids</p></li>
+<li><p>Nonflavanoid phenols</p></li>
+<li><p>Proanthocyanins</p></li>
+<li><p>Color intensity</p></li>
+<li><p>Hue</p></li>
+<li><p>OD280/OD315 of diluted wines</p></li>
+<li><p>Proline</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;http://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_url</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>13</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>14.23</td>
+      <td>1.71</td>
+      <td>2.43</td>
+      <td>15.6</td>
+      <td>127</td>
+      <td>2.80</td>
+      <td>3.06</td>
+      <td>0.28</td>
+      <td>2.29</td>
+      <td>5.64</td>
+      <td>1.04</td>
+      <td>3.92</td>
+      <td>1065</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>13.20</td>
+      <td>1.78</td>
+      <td>2.14</td>
+      <td>11.2</td>
+      <td>100</td>
+      <td>2.65</td>
+      <td>2.76</td>
+      <td>0.26</td>
+      <td>1.28</td>
+      <td>4.38</td>
+      <td>1.05</td>
+      <td>3.40</td>
+      <td>1050</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>13.16</td>
+      <td>2.36</td>
+      <td>2.67</td>
+      <td>18.6</td>
+      <td>101</td>
+      <td>2.80</td>
+      <td>3.24</td>
+      <td>0.30</td>
+      <td>2.81</td>
+      <td>5.68</td>
+      <td>1.03</td>
+      <td>3.17</td>
+      <td>1185</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>14.37</td>
+      <td>1.95</td>
+      <td>2.50</td>
+      <td>16.8</td>
+      <td>113</td>
+      <td>3.85</td>
+      <td>3.49</td>
+      <td>0.24</td>
+      <td>2.18</td>
+      <td>7.80</td>
+      <td>0.86</td>
+      <td>3.45</td>
+      <td>1480</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>13.24</td>
+      <td>2.59</td>
+      <td>2.87</td>
+      <td>21.0</td>
+      <td>118</td>
+      <td>2.80</td>
+      <td>2.69</td>
+      <td>0.39</td>
+      <td>1.82</td>
+      <td>4.32</td>
+      <td>1.04</td>
+      <td>2.93</td>
+      <td>735</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>178.0</td>
+      <td>1.938202</td>
+      <td>0.775035</td>
+      <td>1.00</td>
+      <td>1.0000</td>
+      <td>2.000</td>
+      <td>3.0000</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>178.0</td>
+      <td>13.000618</td>
+      <td>0.811827</td>
+      <td>11.03</td>
+      <td>12.3625</td>
+      <td>13.050</td>
+      <td>13.6775</td>
+      <td>14.83</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>178.0</td>
+      <td>2.336348</td>
+      <td>1.117146</td>
+      <td>0.74</td>
+      <td>1.6025</td>
+      <td>1.865</td>
+      <td>3.0825</td>
+      <td>5.80</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>178.0</td>
+      <td>2.366517</td>
+      <td>0.274344</td>
+      <td>1.36</td>
+      <td>2.2100</td>
+      <td>2.360</td>
+      <td>2.5575</td>
+      <td>3.23</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>178.0</td>
+      <td>19.494944</td>
+      <td>3.339564</td>
+      <td>10.60</td>
+      <td>17.2000</td>
+      <td>19.500</td>
+      <td>21.5000</td>
+      <td>30.00</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>178.0</td>
+      <td>99.741573</td>
+      <td>14.282484</td>
+      <td>70.00</td>
+      <td>88.0000</td>
+      <td>98.000</td>
+      <td>107.0000</td>
+      <td>162.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>178.0</td>
+      <td>2.295112</td>
+      <td>0.625851</td>
+      <td>0.98</td>
+      <td>1.7425</td>
+      <td>2.355</td>
+      <td>2.8000</td>
+      <td>3.88</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>178.0</td>
+      <td>2.029270</td>
+      <td>0.998859</td>
+      <td>0.34</td>
+      <td>1.2050</td>
+      <td>2.135</td>
+      <td>2.8750</td>
+      <td>5.08</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>178.0</td>
+      <td>0.361854</td>
+      <td>0.124453</td>
+      <td>0.13</td>
+      <td>0.2700</td>
+      <td>0.340</td>
+      <td>0.4375</td>
+      <td>0.66</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>178.0</td>
+      <td>1.590899</td>
+      <td>0.572359</td>
+      <td>0.41</td>
+      <td>1.2500</td>
+      <td>1.555</td>
+      <td>1.9500</td>
+      <td>3.58</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>178.0</td>
+      <td>5.058090</td>
+      <td>2.318286</td>
+      <td>1.28</td>
+      <td>3.2200</td>
+      <td>4.690</td>
+      <td>6.2000</td>
+      <td>13.00</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>178.0</td>
+      <td>0.957449</td>
+      <td>0.228572</td>
+      <td>0.48</td>
+      <td>0.7825</td>
+      <td>0.965</td>
+      <td>1.1200</td>
+      <td>1.71</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>178.0</td>
+      <td>2.611685</td>
+      <td>0.709990</td>
+      <td>1.27</td>
+      <td>1.9375</td>
+      <td>2.780</td>
+      <td>3.1700</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>178.0</td>
+      <td>746.893258</td>
+      <td>314.907474</td>
+      <td>278.00</td>
+      <td>500.5000</td>
+      <td>673.500</td>
+      <td>985.0000</td>
+      <td>1680.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 178 entries, 0 to 177
+Data columns (total 14 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   0       178 non-null    int64  
+ 1   1       178 non-null    float64
+ 2   2       178 non-null    float64
+ 3   3       178 non-null    float64
+ 4   4       178 non-null    float64
+ 5   5       178 non-null    int64  
+ 6   6       178 non-null    float64
+ 7   7       178 non-null    float64
+ 8   8       178 non-null    float64
+ 9   9       178 non-null    float64
+ 10  10      178 non-null    float64
+ 11  11      178 non-null    float64
+ 12  12      178 non-null    float64
+ 13  13      178 non-null    int64  
+dtypes: float64(11), int64(3)
+memory usage: 19.6 KB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># data preparation</span>
+<span class="c1"># convert to float to have precise and homogenoues computation</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dataset shape&quot;</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># get features by removing class label</span>
+<span class="c1"># remove id</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X shape&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># get class label</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y shape&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dataset shape (178, 14)
+X shape (178, 13)
+y shape (178,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+      <th>13</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14.23</td>
+      <td>1.71</td>
+      <td>2.43</td>
+      <td>15.6</td>
+      <td>127.0</td>
+      <td>2.80</td>
+      <td>3.06</td>
+      <td>0.28</td>
+      <td>2.29</td>
+      <td>5.64</td>
+      <td>1.04</td>
+      <td>3.92</td>
+      <td>1065.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13.20</td>
+      <td>1.78</td>
+      <td>2.14</td>
+      <td>11.2</td>
+      <td>100.0</td>
+      <td>2.65</td>
+      <td>2.76</td>
+      <td>0.26</td>
+      <td>1.28</td>
+      <td>4.38</td>
+      <td>1.05</td>
+      <td>3.40</td>
+      <td>1050.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>13.16</td>
+      <td>2.36</td>
+      <td>2.67</td>
+      <td>18.6</td>
+      <td>101.0</td>
+      <td>2.80</td>
+      <td>3.24</td>
+      <td>0.30</td>
+      <td>2.81</td>
+      <td>5.68</td>
+      <td>1.03</td>
+      <td>3.17</td>
+      <td>1185.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14.37</td>
+      <td>1.95</td>
+      <td>2.50</td>
+      <td>16.8</td>
+      <td>113.0</td>
+      <td>3.85</td>
+      <td>3.49</td>
+      <td>0.24</td>
+      <td>2.18</td>
+      <td>7.80</td>
+      <td>0.86</td>
+      <td>3.45</td>
+      <td>1480.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13.24</td>
+      <td>2.59</td>
+      <td>2.87</td>
+      <td>21.0</td>
+      <td>118.0</td>
+      <td>2.80</td>
+      <td>2.69</td>
+      <td>0.39</td>
+      <td>1.82</td>
+      <td>4.32</td>
+      <td>1.04</td>
+      <td>2.93</td>
+      <td>735.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1.0
+1    1.0
+2    1.0
+3    1.0
+4    1.0
+Name: 0, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train-vs-test">
+<h2>Train vs. Test<a class="headerlink" href="#train-vs-test" title="Permalink to this heading">#</a></h2>
+<p>We simulate novel/unknown instances by splitting the available data in to a <strong>training</strong> and a <strong>test</strong> set.</p>
+<p><img alt="image.png" src="data:image/png;base64,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" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(119, 13) (59, 13)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="k-nearest-neighbor-classifier">
+<h2>k-Nearest-Neighbor Classifier<a class="headerlink" href="#k-nearest-neighbor-classifier" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>lazy learner</p></li>
+<li><p>Nearest-neighbor classifiers are based on learning by analogy, that is, by comparing a given test tuple with training tuples that are similar to it.</p></li>
+<li><p>Scikit Learn:</p>
+<ul>
+<li><p>see <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier</a></p></li>
+<li><p>by default Euclidean distance is used</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Create the classifier</span>
+<span class="n">kNN</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Train the classifier</span>
+<span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Generate predictions</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># compute Accuracy</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy 0.695
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-s-the-impact-of-k">
+<h2>What’s the impact of k?<a class="headerlink" href="#what-s-the-impact-of-k" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+    <span class="n">kNN</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;k: </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> | Accuracy </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  1 | Accuracy 0.780
+k:  2 | Accuracy 0.695
+k:  3 | Accuracy 0.695
+k:  4 | Accuracy 0.644
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  5 | Accuracy 0.678
+k:  6 | Accuracy 0.678
+k:  7 | Accuracy 0.712
+k:  8 | Accuracy 0.678
+k:  9 | Accuracy 0.678
+k: 10 | Accuracy 0.695
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="choosing-the-value-of-k">
+<h2>Choosing the value of K:<a class="headerlink" href="#choosing-the-value-of-k" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If K too small, sensitive to noise points</p></li>
+<li><p>If K too large, it can be computationally expensive</p>
+<ul>
+<li><p>what if K is very large, e.g., <span class="math notranslate nohighlight">\(+\infty\)</span>?</p></li>
+</ul>
+</li>
+<li><p><strong>Distance weighting</strong>:</p>
+<ul>
+<li><p>weight factor, <span class="math notranslate nohighlight">\(w = 1/d^2\)</span></p></li>
+</ul>
+</li>
+<li><p><strong>Exercise: experiment distance weighting</strong></p>
+<ul>
+<li><p>see <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier">https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="how-is-this-sensible-to-distances">
+<h2>How is this sensible to distances?<a class="headerlink" href="#how-is-this-sensible-to-distances" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{:2d}</span><span class="s2"> -&gt; Scale: </span><span class="si">{:7.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">f</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Feature  1 -&gt; Scale:    3.80
+Feature  2 -&gt; Scale:    5.06
+Feature  3 -&gt; Scale:    1.87
+Feature  4 -&gt; Scale:   19.40
+Feature  5 -&gt; Scale:   92.00
+Feature  6 -&gt; Scale:    2.90
+Feature  7 -&gt; Scale:    4.74
+Feature  8 -&gt; Scale:    0.53
+Feature  9 -&gt; Scale:    3.17
+Feature 10 -&gt; Scale:   11.72
+Feature 11 -&gt; Scale:    1.23
+Feature 12 -&gt; Scale:    2.73
+Feature 13 -&gt; Scale: 1402.00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+
+    <span class="n">kNN</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">y_train</span> <span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;k: </span><span class="si">{:2d}</span><span class="s2"> | Accuracy </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  1 | Accuracy 0.966
+k:  2 | Accuracy 0.949
+k:  3 | Accuracy 0.983
+k:  4 | Accuracy 0.983
+k:  5 | Accuracy 0.983
+k:  6 | Accuracy 0.966
+k:  7 | Accuracy 0.966
+k:  8 | Accuracy 0.966
+k:  9 | Accuracy 0.983
+k: 10 | Accuracy 0.983
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+
+    <span class="n">kNN</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="c1"># compute Accuracy</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;k: </span><span class="si">{:2d}</span><span class="s2"> | Accuracy </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  1 | Accuracy 0.966
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  2 | Accuracy 0.949
+k:  3 | Accuracy 0.966
+k:  4 | Accuracy 0.966
+k:  5 | Accuracy 0.966
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  6 | Accuracy 0.949
+k:  7 | Accuracy 0.966
+k:  8 | Accuracy 0.949
+k:  9 | Accuracy 0.949
+k: 10 | Accuracy 0.932
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Best scaling depends on data</p>
+<ul>
+<li><p><strong>StandardScaler</strong> and <strong>MinMaxScaling</strong> are both sensitive to outliers</p></li>
+<li><p><strong>StandardScaler</strong> when we have a Gaussian distribution, e.g., age</p></li>
+<li><p><strong>MinMaxScaling</strong> when we do not have a Gaussian distribution, e.g., pixel colors in a image</p></li>
+</ul>
+</li>
+<li><p>Euclidean Distance assumes all features are equally important, and this is usually not the case</p></li>
+</ul>
+</section>
+<section id="it-might-be-a-good-idea-to-weigh-features-according-to-some-domain-knowledge">
+<h2>It might be a good idea to weigh features according to some domain knowledge<a class="headerlink" href="#it-might-be-a-good-idea-to-weigh-features-according-to-some-domain-knowledge" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.33</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">my_distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">10</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+
+    <span class="n">kNN</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span> <span class="o">=</span> <span class="n">k</span><span class="p">,</span>
+                                         <span class="n">metric</span> <span class="o">=</span> <span class="n">my_distance</span><span class="p">)</span>
+    <span class="n">kNN</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span> <span class="n">X_train</span> <span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">kNN</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span> <span class="n">X_test</span> <span class="p">)</span>
+
+    <span class="c1"># compute accuracy</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_true</span><span class="o">=</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="o">=</span><span class="n">y_pred</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;k: </span><span class="si">{:2d}</span><span class="s2"> | Accuracy </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  1 | Accuracy 0.729
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  2 | Accuracy 0.746
+k:  3 | Accuracy 0.729
+k:  4 | Accuracy 0.746
+k:  5 | Accuracy 0.780
+k:  6 | Accuracy 0.780
+k:  7 | Accuracy 0.780
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k:  8 | Accuracy 0.780
+k:  9 | Accuracy 0.814
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k: 10 | Accuracy 0.831
+</pre></div>
+</div>
+</div>
+</div>
+<div class="alert alert-warning" role="alert">
+</section>
+<section id="computational-complexity">
+<h2>Computational Complexity<a class="headerlink" href="#computational-complexity" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(O(k \log N)\)</span> with multi-dimensional search trees</p></li>
+<li><p>Additional speed-up with</p>
+<ul>
+<li><p>cluster-based pre-filtering</p></li>
+</ul>
+</li>
+</ul>
+</div>     
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wine-dataset">Wine dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-vs-test">Train vs. Test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k-nearest-neighbor-classifier">k-Nearest-Neighbor Classifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-the-impact-of-k">What’s the impact of k?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-value-of-k">Choosing the value of K:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-is-this-sensible-to-distances">How is this sensible to distances?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#it-might-be-a-good-idea-to-weigh-features-according-to-some-domain-knowledge">It might be a good idea to weigh features according to some domain knowledge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-complexity">Computational Complexity</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By André Ramolivaz
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
