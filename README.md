@@ -4,7 +4,7 @@
 [![Conda][conda-badge]][conda-link]
 
 A collection of notes offering insights on data and web mining concepts and ML models.
-
+The book is avaible [here](https://andreramolivaz.github.io/MLQuickStudySheets/intro.html).
 
 
 [pypi-badge]: https://img.shields.io/pypi/v/jupyter-book.svg
