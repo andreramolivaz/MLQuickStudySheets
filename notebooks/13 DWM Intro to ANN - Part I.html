@@ -201,6 +201,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="15a%20DWM%20ANN%20Convolutional%20Networks.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15b%20DWM%20ANN%20Overfitting.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="17%20DWM%20Clustering%20I.html">Cluster Analysis I</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="18%20DWM%20Clustering%20II.html">Cluster Analysis II</a></li>
 </ul>
 
     </div>
@@ -723,7 +730,7 @@ H = -\sum_{(x,y) \in {\cal D}} \left( T(y=1|x) \cdot \log( P(y=1|x) ) +  T(y=0|x
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-11-11 13:58:33.463258: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-11-25 17:32:02.167858: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 </pre></div>
 </div>
@@ -734,474 +741,494 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.6499 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.6723 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 487ms/step - loss: 0.6499 - acc: 0.7500
+1/1 [==============================] - 0s 485ms/step - loss: 0.6723 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5334 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5367 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.5334 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.5367 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5767 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5794 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.5767 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.5794 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5879 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5994 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.5879 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.5994 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5592 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5765 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.5592 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.5765 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5191 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5355 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.5191 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.5355 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4945 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5032 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.4945 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.5032 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4959 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4967 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4959 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.4967 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5046 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5073 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.5046 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.5073 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 10/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4962 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.5080 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.4962 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.5080 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 11/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4729 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4892 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 7ms/step - loss: 0.4729 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.4892 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 12/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4519 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4646 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4519 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.4646 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 13/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4424 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4490 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4424 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.4490 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 14/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4408 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4446 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.4408 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.4446 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 15/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4384 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4441 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4384 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.4441 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 16/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4300 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4399 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4300 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.4399 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 17/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4163 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4293 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.4163 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.4293 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 18/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4014 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4146 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.4014 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.4146 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 19/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3900 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.4004 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.3900 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.4004 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 20/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3837 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3907 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 6ms/step - loss: 0.3837 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3907 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 21/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3797 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3857 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3797 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3857 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 22/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3735 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3818 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.3735 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3818 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 23/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3636 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3749 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3636 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3749 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 24/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3524 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3646 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3524 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3646 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 25/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3430 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3536 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3430 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3536 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 26/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3366 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3449 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 6ms/step - loss: 0.3366 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3449 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 27/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3314 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3388 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3314 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.3388 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 28/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3257 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3339 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.3257 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3339 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 29/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3183 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3282 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.3183 - acc: 0.7500
+1/1 [==============================] - 0s 5ms/step - loss: 0.3282 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 30/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3100 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3208 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.3100 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3208 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 31/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3022 - acc: 0.7500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3126 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.3022 - acc: 0.7500
+1/1 [==============================] - 0s 4ms/step - loss: 0.3126 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 32/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2957 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.3049 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2957 - acc: 1.0000
+1/1 [==============================] - 0s 5ms/step - loss: 0.3049 - acc: 0.7500
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 33/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2905 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2987 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 5ms/step - loss: 0.2905 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2987 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 34/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2855 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2936 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2855 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2936 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 35/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2796 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2886 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2796 - acc: 1.0000
+1/1 [==============================] - 0s 5ms/step - loss: 0.2886 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 36/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2731 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2829 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2731 - acc: 1.0000
+1/1 [==============================] - 0s 5ms/step - loss: 0.2829 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 37/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2668 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2766 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2668 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2766 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 38/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2613 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2703 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2613 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2703 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 39/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2565 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2648 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2565 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2648 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 40/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2519 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2600 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2519 - acc: 1.0000
+1/1 [==============================] - 0s 5ms/step - loss: 0.2600 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 41/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2471 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2555 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2471 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2555 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 42/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2419 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2508 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2419 - acc: 1.0000
+1/1 [==============================] - 0s 5ms/step - loss: 0.2508 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 43/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2368 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2458 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2368 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2458 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 44/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2321 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2407 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2321 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2407 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 45/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2278 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2360 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2278 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2360 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 46/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2238 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2317 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2238 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2317 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 47/50
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2197 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2277 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2197 - acc: 1.0000
+1/1 [==============================] - 0s 4ms/step - loss: 0.2277 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 48/50
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2237 - acc: 1.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+1/1 [==============================] - 0s 4ms/step - loss: 0.2237 - acc: 1.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 49/50
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2196 - acc: 1.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+1/1 [==============================] - 0s 4ms/step - loss: 0.2196 - acc: 1.0000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 50/50
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2155 - acc: 1.0000
@@ -1209,26 +1236,6 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 1/1 [==============================] - 0s 4ms/step - loss: 0.2155 - acc: 1.0000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 49/50
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2113 - acc: 1.0000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2113 - acc: 1.0000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 50/50
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2073 - acc: 1.0000
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 4ms/step - loss: 0.2073 - acc: 1.0000
 </pre></div>
 </div>
 </div>
@@ -1242,17 +1249,14 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2037 - acc: 1.0000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s - loss: 0.2115 - acc: 1.0000
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 117ms/step - loss: 0.2037 - acc: 1.0000
+1/1 [==============================] - 0s 127ms/step - loss: 0.2115 - acc: 1.0000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.20365260541439056, 1.0]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.21146821975708008, 1.0]
 </pre></div>
 </div>
 </div>
@@ -1271,13 +1275,13 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 70ms/step
+1/1 [==============================] - 0s 63ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.36667225]
- [0.83927107]
- [0.8494537 ]
- [0.98072827]]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0.36718684]
+ [0.83464926]
+ [0.8315015 ]
+ [0.97723615]]
 (4, 1)
 </pre></div>
 </div>
@@ -1290,7 +1294,7 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.36667225, 0.83927107, 0.8494537 , 0.98072827], dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.36718684, 0.83464926, 0.8315015 , 0.97723615], dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1309,7 +1313,7 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8bdfcbe94723485d130fc988096e3e427dd5b21c223be1ad1a7f2b11b554b67d.png" src="../_images/8bdfcbe94723485d130fc988096e3e427dd5b21c223be1ad1a7f2b11b554b67d.png" />
+<img alt="../_images/9a0bb136deb5be15d8da4e8593560756834ba17434c0d8c542cfe3c74391708a.png" src="../_images/9a0bb136deb5be15d8da4e8593560756834ba17434c0d8c542cfe3c74391708a.png" />
 </div>
 </div>
 </section>
@@ -1398,17 +1402,100 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1/1 [==============================] - ETA: 0s
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">37</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span> <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span> <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="c1"># lr is the learning rate</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span>                <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span>                <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="c1"># train the network</span>
+<span class="ne">---&gt; </span><span class="mi">37</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span> <span class="n">x</span><span class="o">=</span><span class="n">train_X</span><span class="p">,</span> <span class="c1"># training examples</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>            <span class="n">y</span><span class="o">=</span><span class="n">train_y</span><span class="p">,</span> <span class="c1"># desired output</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>            <span class="n">epochs</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="c1"># number of training epochs </span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>            <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># you can change verbosity to 1</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="c1"># use the model to label training instances</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">pred_y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">train_X</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/utils/traceback_utils.py:65,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">65</span>     <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">66</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>     <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/engine/training.py:1806,</span> in <span class="ni">Model.fit</span><span class="nt">(self, x, y, batch_size, epochs, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch, steps_per_epoch, validation_steps, validation_batch_size, validation_freq, max_queue_size, workers, use_multiprocessing)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1795</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1796</span>         <span class="s2">&quot;Unexpected result of `train_function` &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1797</span>         <span class="s2">&quot;(Empty logs). This could be due to issues in input &quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1803</span>         <span class="s2">&quot;issue/bug to `tf.keras`.&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1804</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1805</span> <span class="c1"># Override with model metrics instead of last step logs</span>
+<span class="ne">-&gt; </span><span class="mi">1806</span> <span class="n">logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_and_get_metrics_result</span><span class="p">(</span><span class="n">logs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1807</span> <span class="n">epoch_logs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">logs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1809</span> <span class="c1"># Run validation.</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/engine/training.py:1278,</span> in <span class="ni">Model._validate_and_get_metrics_result</span><span class="nt">(self, logs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1274</span> <span class="n">PSS_WARN_MSG</span> <span class="o">=</span> <span class="s2">&quot;Could not get Model metric results. </span><span class="se">\</span>
+<span class="g g-Whitespace">   </span><span class="mi">1275</span><span class="s2"> Using the results of last step function could lead to incorrect </span><span class="se">\</span>
+<span class="g g-Whitespace">   </span><span class="mi">1276</span><span class="s2"> results when used with ParameterServerStrategy&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1277</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1278</span>     <span class="n">metric_logs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metrics_result</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1279</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1280</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cluster_coordinator</span><span class="p">:</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/engine/training.py:1242,</span> in <span class="ni">Model.get_metrics_result</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1240</span> <span class="n">return_metrics</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span> <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1242</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1243</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1244</span>         <span class="n">return_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/utils/metrics_utils.py:186,</span> in <span class="ni">result_wrapper.&lt;locals&gt;.decorated</span><span class="nt">(metric_obj, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>     <span class="n">result_t</span> <span class="o">=</span> <span class="n">replica_context</span><span class="o">.</span><span class="n">merge_call</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>         <span class="n">merge_fn_wrapper</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">result_fn</span><span class="p">,)</span> <span class="o">+</span> <span class="n">args</span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="c1"># We are saving the result op here to be used in train/test execution</span>
+<span class="g g-Whitespace">    </span><span class="mi">184</span> <span class="c1"># functions. This basically gives the result op that was generated with</span>
+<span class="g g-Whitespace">    </span><span class="mi">185</span> <span class="c1"># a control dep to the updates for these workflows.</span>
+<span class="ne">--&gt; </span><span class="mi">186</span> <span class="n">metric_obj</span><span class="o">.</span><span class="n">_call_result</span> <span class="o">=</span> <span class="n">result_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span> <span class="k">return</span> <span class="n">result_t</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/engine/base_layer.py:3238,</span> in <span class="ni">Layer.__setattr__</span><span class="nt">(self, name, value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3233</span>             <span class="n">value</span><span class="o">.</span><span class="n">_use_resource_variables</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">   </span><span class="mi">3235</span> <span class="c1"># Append value to list of trainable / non-trainable weights if relevant</span>
+<span class="g g-Whitespace">   </span><span class="mi">3236</span> <span class="c1"># TODO(b/125122625): This won&#39;t pick up on any variables added to a</span>
+<span class="g g-Whitespace">   </span><span class="mi">3237</span> <span class="c1"># list/dict after creation.</span>
+<span class="ne">-&gt; </span><span class="mi">3238</span> <span class="bp">self</span><span class="o">.</span><span class="n">_track_variables</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3240</span> <span class="c1"># TODO(b/180760306) Skip the auto trackable from tf.Module to keep</span>
+<span class="g g-Whitespace">   </span><span class="mi">3241</span> <span class="c1"># status quo. See the comment at __delattr__.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3242</span> <span class="nb">super</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">__internal__</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">AutoTrackable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3243</span>     <span class="n">name</span><span class="p">,</span> <span class="n">value</span>
+<span class="g g-Whitespace">   </span><span class="mi">3244</span> <span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/engine/base_layer.py:3259,</span> in <span class="ni">Layer._track_variables</span><span class="nt">(self, value, position)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3257</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3258</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_track_variable</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3259</span> <span class="k">elif</span> <span class="n">tf_utils</span><span class="o">.</span><span class="n">is_extension_type</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3260</span>     <span class="c1"># Manually expand extension types to track resource variables.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3261</span>     <span class="n">nested_vals</span> <span class="o">=</span> <span class="n">tf_utils</span><span class="o">.</span><span class="n">type_spec_from_value</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">_to_components</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3262</span>         <span class="n">val</span>
+<span class="g g-Whitespace">   </span><span class="mi">3263</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3264</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_track_variables</span><span class="p">(</span><span class="n">nested_vals</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">position</span><span class="p">)</span>
+
+<span class="nn">File /Library/Python/3.9/site-packages/keras/src/utils/tf_utils.py:401,</span> in <span class="ni">is_extension_type</span><span class="nt">(tensor)</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span> <span class="k">def</span> <span class="nf">is_extension_type</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Returns whether a tensor is of an ExtensionType.</span>
+<span class="g g-Whitespace">    </span><span class="mi">389</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">390</span><span class="sd">     github.com/tensorflow/community/pull/269</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">399</span><span class="sd">       True if the tensor is an extension type object, false if not.</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">401</span>     <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">__internal__</span><span class="o">.</span><span class="n">CompositeTensor</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-1/1 [==============================] - 0s 32ms/step
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[4.468055e-04 9.997794e-01 9.997883e-01 1.000000e+00]
-</pre></div>
-</div>
-<img alt="../_images/63fdcb97ba13f008835ff8022c9487b0efd286cd0e0ea6c60c511aec5d071807.png" src="../_images/63fdcb97ba13f008835ff8022c9487b0efd286cd0e0ea6c60c511aec5d071807.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1444,14 +1531,10 @@ To enable the following instructions: AVX2 FMA, in other operations, rebuild Ten
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 1/29 [&gt;.............................] - ETA: 0s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>29/29 [==============================] - 0s 1ms/step
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-29/29 [==============================] - 0s 873us/step
-</pre></div>
-</div>
-<img alt="../_images/7654381bd217b82857a3511c5e3a3d16a26fec5348646dbdd2ec0d8e9429607c.png" src="../_images/7654381bd217b82857a3511c5e3a3d16a26fec5348646dbdd2ec0d8e9429607c.png" />
+<img alt="../_images/1695dafc5dabc6f6733a226a1809f83a51a47960d2f239acac0e81dd3c6bd470.png" src="../_images/1695dafc5dabc6f6733a226a1809f83a51a47960d2f239acac0e81dd3c6bd470.png" />
 </div>
 </div>
 </section>
