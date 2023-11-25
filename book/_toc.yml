@@ -13,3 +13,4 @@ chapters:
 - file: notebooks/12 DWM Web Search and Ranking.ipynb
 - file: notebooks/13 DWM Intro to ANN - Part I.ipynb
 - file: notebooks/14 DWM Intro to ANN - Part II.ipynb
+- file: notebooks/15a DWM ANN Convolutional Networks.ipynb- file: notebooks/15b DWM ANN Overfitting.ipynb- file: notebooks/17 DWM Clustering I.ipynb- file: notebooks/18 DWM Clustering II.ipynb- file: notebooks/18 DWM SLINK example.ipynb
