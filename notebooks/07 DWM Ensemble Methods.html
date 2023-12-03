@@ -201,13 +201,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="15a%20DWM%20ANN%20Convolutional%20Networks.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
-<li class="toctree-l1"><a class="reference internal" href="15b%20DWM%20ANN%20Overfitting.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="17%20DWM%20Clustering%20I.html">Cluster Analysis I</a></li>
-
-
-<li class="toctree-l1"><a class="reference internal" href="18%20DWM%20Clustering%20II.html">Cluster Analysis II</a></li>
 </ul>
 
     </div>
@@ -609,10 +602,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.970
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.968
 </pre></div>
 </div>
-<img alt="../_images/e53292d195973c9eec4d30a3c9e6cdbeb1651520e64f06b8ca2c0530da560fdc.png" src="../_images/e53292d195973c9eec4d30a3c9e6cdbeb1651520e64f06b8ca2c0530da560fdc.png" />
+<img alt="../_images/113a32aa49c75d34a3e2e13fa72820b2fdf7f6da2a527e6856bf3c04a6c09e9c.png" src="../_images/113a32aa49c75d34a3e2e13fa72820b2fdf7f6da2a527e6856bf3c04a6c09e9c.png" />
 </div>
 </div>
 <ul class="simple">
@@ -811,12 +804,14 @@ Error(M) = Bias^2 + Variance + Noise
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample vs. Global Accuracy: 0.773 - 0.740
-Sample vs. Global Accuracy: 0.727 - 0.610
-Sample vs. Global Accuracy: 0.758 - 0.740
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample vs. Global Accuracy: 0.712 - 0.740
 </pre></div>
 </div>
-<img alt="../_images/b2873947558aa11908331b05841aa2c4875506ddf3c1eeb031311719ad74f238.png" src="../_images/b2873947558aa11908331b05841aa2c4875506ddf3c1eeb031311719ad74f238.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample vs. Global Accuracy: 0.803 - 0.740
+Sample vs. Global Accuracy: 0.773 - 0.720
+</pre></div>
+</div>
+<img alt="../_images/071c690ccb19ff74959accd98208472eaec056ed6b2fa1ea4452c1f0f7ca1589.png" src="../_images/071c690ccb19ff74959accd98208472eaec056ed6b2fa1ea4452c1f0f7ca1589.png" />
 </div>
 </div>
 <section id="a-fully-grown-tree-has">
@@ -914,10 +909,10 @@ Sample vs. Global Accuracy: 0.758 - 0.740
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.01805   0.0048225 0.0132275]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error/Bias/Variance at the last iteration: [0.02065   0.0052225 0.0154275]
 </pre></div>
 </div>
-<img alt="../_images/dacd35bb42fee8c4406f1baf1a4e1bec73a2120b990a618e35704f2a6b5091c1.png" src="../_images/dacd35bb42fee8c4406f1baf1a4e1bec73a2120b990a618e35704f2a6b5091c1.png" />
+<img alt="../_images/3eb82c93c9acbe9a86214c2581a860a3cf28d9bccea8d461e5a19a336de7cc84.png" src="../_images/3eb82c93c9acbe9a86214c2581a860a3cf28d9bccea8d461e5a19a336de7cc84.png" />
 </div>
 </div>
 </section>
@@ -1010,26 +1005,32 @@ Sample vs. Global Accuracy: 0.758 - 0.740
 <span class="g g-Whitespace">    </span><span class="mi">405</span>     <span class="c1"># wrap the array, to preserve subclasses</span>
 <span class="g g-Whitespace">    </span><span class="mi">406</span>     <span class="n">buff</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__array_wrap__</span><span class="p">(</span><span class="n">buff</span><span class="p">)</span>
 
-<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_axis_nan_policy.py:583,</span> in <span class="ni">_axis_nan_policy_factory.&lt;locals&gt;.axis_nan_policy_decorator.&lt;locals&gt;.axis_nan_policy_wrapper.&lt;locals&gt;.hypotest_fun</span><span class="nt">(x)</span>
-<span class="g g-Whitespace">    </span><span class="mi">582</span> <span class="k">def</span> <span class="nf">hypotest_fun</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">583</span>     <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">split_indices</span><span class="p">)[:</span><span class="n">n_samp</span><span class="o">+</span><span class="n">n_kwd_samp</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">584</span>     <span class="k">if</span> <span class="n">sentinel</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">585</span>         <span class="n">samples</span> <span class="o">=</span> <span class="n">_remove_sentinel</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">paired</span><span class="p">,</span> <span class="n">sentinel</span><span class="p">)</span>
+<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_axis_nan_policy.py:588,</span> in <span class="ni">_axis_nan_policy_factory.&lt;locals&gt;.axis_nan_policy_decorator.&lt;locals&gt;.axis_nan_policy_wrapper.&lt;locals&gt;.hypotest_fun</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="n">is_too_small</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">587</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_out</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">588</span> <span class="k">return</span> <span class="n">result_to_tuple</span><span class="p">(</span><span class="n">hypotest_fun_out</span><span class="p">(</span><span class="o">*</span><span class="n">samples</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">))</span>
 
-<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/shape_base.py:866,</span> in <span class="ni">split</span><span class="nt">(ary, indices_or_sections, axis)</span>
-<span class="g g-Whitespace">    </span><span class="mi">863</span>     <span class="k">if</span> <span class="n">N</span> <span class="o">%</span> <span class="n">sections</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">864</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">865</span>             <span class="s1">&#39;array split does not result in an equal division&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
-<span class="ne">--&gt; </span><span class="mi">866</span> <span class="k">return</span> <span class="n">array_split</span><span class="p">(</span><span class="n">ary</span><span class="p">,</span> <span class="n">indices_or_sections</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+<span class="nn">File /Library/Python/3.9/site-packages/scipy/stats/_stats_py.py:517,</span> in <span class="ni">mode</span><span class="nt">(a, axis, nan_policy, keepdims)</span>
+<span class="g g-Whitespace">    </span><span class="mi">514</span>     <span class="n">NaN</span> <span class="o">=</span> <span class="n">_get_nan</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span>     <span class="k">return</span> <span class="n">ModeResult</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">NaN</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">517</span> <span class="n">vals</span><span class="p">,</span> <span class="n">cnts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">518</span> <span class="n">modes</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">cnts</span><span class="o">.</span><span class="n">argmax</span><span class="p">()],</span> <span class="n">cnts</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">519</span> <span class="k">return</span> <span class="n">ModeResult</span><span class="p">(</span><span class="n">modes</span><span class="p">[()],</span> <span class="n">counts</span><span class="p">[()])</span>
 
-<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/shape_base.py:765,</span> in <span class="ni">array_split</span><span class="nt">(ary, indices_or_sections, axis)</span>
-<span class="g g-Whitespace">    </span><span class="mi">762</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">763</span>     <span class="c1"># handle array case.</span>
-<span class="g g-Whitespace">    </span><span class="mi">764</span>     <span class="n">Nsections</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices_or_sections</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="ne">--&gt; </span><span class="mi">765</span>     <span class="n">div_points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">indices_or_sections</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">Ntotal</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">766</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">767</span>     <span class="c1"># indices_or_sections is a scalar, not an array.</span>
-<span class="g g-Whitespace">    </span><span class="mi">768</span>     <span class="n">Nsections</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">indices_or_sections</span><span class="p">)</span>
+<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/arraysetops.py:274,</span> in <span class="ni">unique</span><span class="nt">(ar, return_index, return_inverse, return_counts, axis, equal_nan)</span>
+<span class="g g-Whitespace">    </span><span class="mi">272</span> <span class="n">ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">274</span>     <span class="n">ret</span> <span class="o">=</span> <span class="n">_unique1d</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">return_index</span><span class="p">,</span> <span class="n">return_inverse</span><span class="p">,</span> <span class="n">return_counts</span><span class="p">,</span> 
+<span class="g g-Whitespace">    </span><span class="mi">275</span>                     <span class="n">equal_nan</span><span class="o">=</span><span class="n">equal_nan</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="k">return</span> <span class="n">_unpack_tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span> <span class="c1"># axis was specified and not None</span>
+
+<span class="nn">File ~/Library/Python/3.9/lib/python/site-packages/numpy/lib/arraysetops.py:352,</span> in <span class="ni">_unique1d</span><span class="nt">(ar, return_index, return_inverse, return_counts, equal_nan)</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span>     <span class="n">mask</span><span class="p">[</span><span class="n">aux_firstnan</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">352</span>     <span class="n">mask</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">aux</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">!=</span> <span class="n">aux</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span> <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="n">aux</span><span class="p">[</span><span class="n">mask</span><span class="p">],)</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span> <span class="k">if</span> <span class="n">return_index</span><span class="p">:</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
