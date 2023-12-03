@@ -1,0 +1,53 @@
+Traceback (most recent call last):
+  File "/Users/andreramolivaz/Library/Python/3.9/lib/python/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/andreramolivaz/Library/Python/3.9/lib/python/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Library/Python/3.9/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/andreramolivaz/Library/Python/3.9/lib/python/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/Users/andreramolivaz/Library/Python/3.9/lib/python/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/andreramolivaz/Library/Python/3.9/lib/python/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+%matplotlib inline
+from sklearn.datasets import load_digits
+from sklearn.preprocessing import minmax_scale
+from matplotlib import pyplot as plt
+from fcmeans import FCM
+import numpy as np
+
+
+digits = load_digits()
+
+X = digits['data']
+X = minmax_scale(X,feature_range=(0,1))
+npixels = int(np.sqrt(X.shape[1]))
+
+labels = digits['target']
+
+images = digits['images']
+for i in range(1,101):
+    ax = plt.subplot(10,10,i)
+    ax.imshow(images[i],cmap='Greys')
+    ax.axes.xaxis.set_visible(False)
+    ax.axes.yaxis.set_visible(False)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[2], line 5[0m
+[1;32m      3[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpreprocessing[39;00m [38;5;28;01mimport[39;00m minmax_scale
+[1;32m      4[0m [38;5;28;01mfrom[39;00m [38;5;21;01mmatplotlib[39;00m [38;5;28;01mimport[39;00m pyplot [38;5;28;01mas[39;00m plt
+[0;32m----> 5[0m [38;5;28;01mfrom[39;00m [38;5;21;01mfcmeans[39;00m [38;5;28;01mimport[39;00m FCM
+[1;32m      6[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[1;32m      9[0m digits [38;5;241m=[39m load_digits()
+
+[0;31mModuleNotFoundError[0m: No module named 'fcmeans'
+

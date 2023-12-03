@@ -201,6 +201,17 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="15a%20DWM%20ANN%20Convolutional%20Networks.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15b%20DWM%20ANN%20Overfitting.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="17%20DWM%20Clustering%20I.html">Cluster Analysis I</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="18%20DWM%20Clustering%20II.html">Cluster Analysis II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20%20DWM%20Clustering%20IV.html">Cluster Analysis IV</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="19b%20DWM%20Clustering%20III.html">Cluster Analysis III</a></li>
 </ul>
 
     </div>
@@ -693,7 +704,7 @@ A large value of C pays more emphasis on minimizing the training error than maxi
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/17e4766f8e0eb9cc4c5a5aa23c4abfdac36ff5bbf341c3f615ecb00d8a670579.png" src="../_images/17e4766f8e0eb9cc4c5a5aa23c4abfdac36ff5bbf341c3f615ecb00d8a670579.png" />
+<img alt="../_images/d7220253c661a66debd08e24edbbcf6e87354eff5a88c6f941b9b188cf57dbdc.png" src="../_images/d7220253c661a66debd08e24edbbcf6e87354eff5a88c6f941b9b188cf57dbdc.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -723,13 +734,13 @@ A large value of C pays more emphasis on minimizing the training error than maxi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.879
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.876
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x130687c70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x125e1a5b0&gt;
 </pre></div>
 </div>
-<img alt="../_images/db1e1bfeefc34f28087c7900c4230fa16f3259fed3036d3d550aea6abddb33f2.png" src="../_images/db1e1bfeefc34f28087c7900c4230fa16f3259fed3036d3d550aea6abddb33f2.png" />
+<img alt="../_images/0ec8977c190ec15e877378cc0b8c76a69f7ba49633ca1d775a8832fb1ac93b42.png" src="../_images/0ec8977c190ec15e877378cc0b8c76a69f7ba49633ca1d775a8832fb1ac93b42.png" />
 </div>
 </div>
 </section>
@@ -768,10 +779,10 @@ A large value of C pays more emphasis on minimizing the training error than maxi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 1.000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.997
 </pre></div>
 </div>
-<img alt="../_images/ca7b67b5d1cfcddac6495c9a80d8b051a5643d2f79ce612e7aa0b8de1361a68e.png" src="../_images/ca7b67b5d1cfcddac6495c9a80d8b051a5643d2f79ce612e7aa0b8de1361a68e.png" />
+<img alt="../_images/fe9d3467dd946d56f718795a8fa9add0f3208dca06a47f54db2b0de780244b64.png" src="../_images/fe9d3467dd946d56f718795a8fa9add0f3208dca06a47f54db2b0de780244b64.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -806,10 +817,10 @@ A large value of C pays more emphasis on minimizing the training error than maxi
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.991
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.970
 </pre></div>
 </div>
-<img alt="../_images/d5c0feabbfa94856bbde764153c25909b1b734158d5ea74799029ff8ddf31880.png" src="../_images/d5c0feabbfa94856bbde764153c25909b1b734158d5ea74799029ff8ddf31880.png" />
+<img alt="../_images/8af71cb8eeca047838e4313f07bb4ebc2083d0f2e07a63e8d520e51a7adeee1d.png" src="../_images/8af71cb8eeca047838e4313f07bb4ebc2083d0f2e07a63e8d520e51a7adeee1d.png" />
 </div>
 </div>
 <section id="remarks">
@@ -1121,18 +1132,16 @@ C: 1000.000 - Train Accuracy: 0.956 - Test Accuracy: 0.956
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:    0.001 - Train Accuracy: 0.633 - Validation Accuracy: 0.614
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:    0.010 - Train Accuracy: 0.633 - Validation Accuracy: 0.614
+C:    0.010 - Train Accuracy: 0.633 - Validation Accuracy: 0.614
 C:    0.100 - Train Accuracy: 0.874 - Validation Accuracy: 0.877
 C:    1.000 - Train Accuracy: 0.912 - Validation Accuracy: 0.921
 C:   10.000 - Train Accuracy: 0.912 - Validation Accuracy: 0.930
-C:  100.000 - Train Accuracy: 0.918 - Validation Accuracy: 0.947
-C: 1000.000 - Train Accuracy: 0.956 - Validation Accuracy: 0.947
-Best C: 1000.0
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test Accuracy: 0.956
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:  100.000 - Train Accuracy: 0.918 - Validation Accuracy: 0.947
+C: 1000.000 - Train Accuracy: 0.956 - Validation Accuracy: 0.947
+Best C: 1000.0
+Test Accuracy: 0.956
 </pre></div>
 </div>
 </div>
@@ -1194,11 +1203,11 @@ C:    0.010 - Validation Accuracy: 0.699
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.87912088 0.84615385 0.94505495 0.83516484 0.85714286]
 C:    0.100 - Validation Accuracy: 0.873
+[0.92307692 0.87912088 0.96703297 0.86813187 0.87912088]
+C:    1.000 - Validation Accuracy: 0.903
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.92307692 0.87912088 0.96703297 0.86813187 0.87912088]
-C:    1.000 - Validation Accuracy: 0.903
-[0.97802198 0.87912088 0.95604396 0.85714286 0.9010989 ]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.97802198 0.87912088 0.95604396 0.85714286 0.9010989 ]
 C:   10.000 - Validation Accuracy: 0.914
 [0.98901099 0.87912088 0.95604396 0.89010989 0.91208791]
 C:  100.000 - Validation Accuracy: 0.925
@@ -1264,14 +1273,14 @@ Best Params:  {&#39;C&#39;: 1000.0}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00648561, 0.00595555, 0.00398746, 0.00324512, 0.00270457,
-        0.00416923, 0.00439839]),
- &#39;std_fit_time&#39;: array([0.00084209, 0.00029663, 0.00038298, 0.0003118 , 0.00017246,
-        0.00115141, 0.00104814]),
- &#39;mean_score_time&#39;: array([0.00343299, 0.00334144, 0.00212388, 0.00181203, 0.00140047,
-        0.00189638, 0.00173702]),
- &#39;std_score_time&#39;: array([0.00026825, 0.00017511, 0.00012138, 0.000178  , 0.00012496,
-        0.00084522, 0.00040928]),
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;mean_fit_time&#39;: array([0.00711012, 0.00698233, 0.0049088 , 0.00362406, 0.00323586,
+        0.00344105, 0.00409784]),
+ &#39;std_fit_time&#39;: array([0.00080233, 0.0002968 , 0.00036966, 0.0002156 , 0.00024384,
+        0.00030923, 0.00032456]),
+ &#39;mean_score_time&#39;: array([0.00371618, 0.00378728, 0.00249243, 0.00199857, 0.00177617,
+        0.00157404, 0.0015502 ]),
+ &#39;std_score_time&#39;: array([3.48132876e-04, 1.29164088e-04, 7.49402351e-05, 1.81670614e-04,
+        2.02879020e-04, 1.09772326e-04, 1.16269777e-04]),
  &#39;param_C&#39;: masked_array(data=[0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0],
               mask=[False, False, False, False, False, False, False],
         fill_value=&#39;?&#39;,
@@ -1346,10 +1355,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
   <tbody>
     <tr>
       <th>0</th>
-      <td>0.006486</td>
-      <td>0.000842</td>
-      <td>0.003433</td>
-      <td>0.000268</td>
+      <td>0.007110</td>
+      <td>0.000802</td>
+      <td>0.003716</td>
+      <td>0.000348</td>
       <td>0.001</td>
       <td>{'C': 0.001}</td>
       <td>0.637363</td>
@@ -1363,10 +1372,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>1</th>
-      <td>0.005956</td>
+      <td>0.006982</td>
       <td>0.000297</td>
-      <td>0.003341</td>
-      <td>0.000175</td>
+      <td>0.003787</td>
+      <td>0.000129</td>
       <td>0.01</td>
       <td>{'C': 0.01}</td>
       <td>0.736264</td>
@@ -1380,10 +1389,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>2</th>
-      <td>0.003987</td>
-      <td>0.000383</td>
-      <td>0.002124</td>
-      <td>0.000121</td>
+      <td>0.004909</td>
+      <td>0.000370</td>
+      <td>0.002492</td>
+      <td>0.000075</td>
       <td>0.1</td>
       <td>{'C': 0.1}</td>
       <td>0.879121</td>
@@ -1397,10 +1406,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>3</th>
-      <td>0.003245</td>
-      <td>0.000312</td>
-      <td>0.001812</td>
-      <td>0.000178</td>
+      <td>0.003624</td>
+      <td>0.000216</td>
+      <td>0.001999</td>
+      <td>0.000182</td>
       <td>1.0</td>
       <td>{'C': 1.0}</td>
       <td>0.923077</td>
@@ -1414,10 +1423,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>4</th>
-      <td>0.002705</td>
-      <td>0.000172</td>
-      <td>0.001400</td>
-      <td>0.000125</td>
+      <td>0.003236</td>
+      <td>0.000244</td>
+      <td>0.001776</td>
+      <td>0.000203</td>
       <td>10.0</td>
       <td>{'C': 10.0}</td>
       <td>0.978022</td>
@@ -1431,10 +1440,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>5</th>
-      <td>0.004169</td>
-      <td>0.001151</td>
-      <td>0.001896</td>
-      <td>0.000845</td>
+      <td>0.003441</td>
+      <td>0.000309</td>
+      <td>0.001574</td>
+      <td>0.000110</td>
       <td>100.0</td>
       <td>{'C': 100.0}</td>
       <td>0.989011</td>
@@ -1448,10 +1457,10 @@ Best Params:  {&#39;C&#39;: 1000.0}
     </tr>
     <tr>
       <th>6</th>
-      <td>0.004398</td>
-      <td>0.001048</td>
-      <td>0.001737</td>
-      <td>0.000409</td>
+      <td>0.004098</td>
+      <td>0.000325</td>
+      <td>0.001550</td>
+      <td>0.000116</td>
       <td>1000.0</td>
       <td>{'C': 1000.0}</td>
       <td>0.978022</td>

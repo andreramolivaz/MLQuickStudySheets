@@ -201,6 +201,17 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="13%20DWM%20Intro%20to%20ANN%20-%20Part%20I.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="14%20DWM%20Intro%20to%20ANN%20-%20Part%20II.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="15a%20DWM%20ANN%20Convolutional%20Networks.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15b%20DWM%20ANN%20Overfitting.html">Introduction to Artificial Neural Networks and Deep Learning</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="17%20DWM%20Clustering%20I.html">Cluster Analysis I</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="18%20DWM%20Clustering%20II.html">Cluster Analysis II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="20%20DWM%20Clustering%20IV.html">Cluster Analysis IV</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="19b%20DWM%20Clustering%20III.html">Cluster Analysis III</a></li>
 </ul>
 
     </div>
@@ -569,7 +580,7 @@ Name: count, dtype: int64
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline Accuracy: 86.72%
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/7l/9mpg_4kx7_zbbl179wmh30sc0000gn/T/ipykernel_13323/4171050648.py:1: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/7l/9mpg_4kx7_zbbl179wmh30sc0000gn/T/ipykernel_69484/4171050648.py:1: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
   baseline_acc = y_test.value_counts()[0] / len(y_test)
 </pre></div>
 </div>
@@ -599,11 +610,11 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>872     {experience, american, Its, problem..but, stil...
-831     {out, a, msg, Reply, U, secret, special., So, ...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>872     {little, voice..., Its, need, still, customer,...
+831     {To, thinks, special., 07821230901, secret, 09...
 1273                                              {Ok...}
-3314    {tt&#39;s, it..., juz, if, not, Hyde, in, ah,, Any...
-4929    {off, to, has, gone, Just, his, remember, up, ...
+3314    {tt&#39;s, juz, we, opps,, den, to, ah,, in, park,...
+4929    {gone, wasn‘t, and, his, up, sisters, off, hop...
 Name: text, dtype: object
 </pre></div>
 </div>
@@ -623,11 +634,11 @@ Name: text, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>872     {experience, american, problem..but, still, un...
-831     {r, reveal, call, out, stop., a, msg, cust, se...
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>872     {little, its, voice..., need, still, customer,...
+831     {thinks, special., reply, reveal, 07821230901,...
 1273                                              {ok...}
-3314    {tt&#39;s, it..., huh..., juz, if, not, in, hyde, ...
-4929    {off, to, has, gone, his, remember, up, pissed...
+3314    {tt&#39;s, juz, we, opps,, den, to, ah,, in, park,...
+4929    {gone, wasn‘t, and, his, up, sisters, off, hop...
 Name: text, dtype: object
 </pre></div>
 </div>
@@ -710,7 +721,7 @@ Name: text, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline Accuracy: 97.56%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline Accuracy: 97.27%
 </pre></div>
 </div>
 </div>
@@ -747,7 +758,7 @@ Name: text, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline Accuracy: 97.70%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Baseline Accuracy: 97.49%
 </pre></div>
 </div>
 </div>
@@ -799,7 +810,7 @@ idf(t) = \ln \frac{N_{docs}}{df(t)}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model Accuracy: 96.98%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model Accuracy: 96.70%
 </pre></div>
 </div>
 </div>
